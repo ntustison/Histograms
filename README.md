@@ -1,2 +1,2 @@
 # Histograms
-Histograms should not be used to segmentation functional lung MRI
+Histograms should not be used to segment functional lung MRI
