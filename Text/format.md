@@ -14,7 +14,7 @@ output:
     fig_caption: true
 bibliography:
   - references.bib
-csl: nature.csl
+csl: journal-of-magnetic-resonance-imaging.csl 
 longtable: true
 urlcolor: blue
 header-includes:

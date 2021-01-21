@@ -14,7 +14,7 @@ output:
     fig_caption: true
 bibliography:
   - references.bib
-csl: nature.csl
+csl: journal-of-magnetic-resonance-imaging.csl 
 longtable: true
 urlcolor: blue
 header-includes:
@@ -142,7 +142,7 @@ qualitative terms.
 
 Descriptions:
 
-* "$^{3}$He MRI depicts anatomical structures reliably" [Bachert:1996aa]
+* "$^{3}$He MRI depicts anatomical structures reliably" [@Bachert:1996aa]
 
 * "hypointense areas" [@Kauczor:1996aa]
 
@@ -169,13 +169,6 @@ Additional sophistication:
 * Gaussian mixture modeling with Markov Random Field prior-based smoothing
 
 
-
-
-, particularly with respect to so-called "ventilation defects."
-These regions were defined as:
-
-* "regions of the lung that would normally be ventilated, but in which helium
-  was likely absent." [@Altes]
 
 
 
