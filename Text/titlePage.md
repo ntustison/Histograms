@@ -13,7 +13,7 @@ $ $
 
 {\bf Histograms should not be used to segment functional lung MRI}
 
-\vspace{0.5 cm}
+\vspace{1.5 cm}
 
 \normalsize
 
@@ -34,7 +34,7 @@ $^{4}$Department of Radiology, University of Pennsylvania, Philadelphia, PA \\
 
 \end{centering}
 
-\vspace{4.5 cm}
+\vspace{9 cm}
 
 
 \scriptsize
