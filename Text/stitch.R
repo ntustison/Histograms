@@ -8,10 +8,10 @@ rmdFiles <- c( "format.md",
                "abstract.md",
               #  "notes.md",
                "intro.md",
+               "methods.md",
                "results.md",
                "discussion.md",
-               "methods.md",
-               "acknowledgments.md",
+              #  "acknowledgments.md",
                "references.md"
              )
 
