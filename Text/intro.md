@@ -122,24 +122,40 @@ k-means, this "distance" is the variance as optimizing based on the Euclidean
 distance is NP-hard.
 
 Histogram-based optimization is used in conjunction with spatial considerations
-in the approach detailed in [@Tustison:2011aa].  Based on a well-developed
+in the approach detailed in [@Tustison:2011aa].  Based on a well-established
 iterative approach originally used for NASA satellite image processing and
 subsequently appropriated for brain tissue segmentation in T1-weighted MRI
-[@Vannier:1985aa], a GMM is used to model the intensity clusters within the
+[@Vannier:1985aa], a GMM is used to model the intensity clusters of the
 histogram with class modulation in the form of probabilistic voxelwise label
-considerations within image neighborhoods.  Initialization for this particular
-application is in the form of k-means clustering which, itself, is initialized
-automatically using evenly spaced cluster centers---similar to linear
-binning without the reference distribution.  This has a number of advantages in
-that it accommodates MR intensity nonlinearities, like k-means, but in contrast
-to k-means and the other algorithms outlined, does not use hard intensity
-thresholds for distinguishing class labels.  However, as we will demonstrate,
-this algorithm is also flawed in that it implicitly assumes,
-incorrectly, that meaningful structure is found, and can be characterized,
-within the associated image histogram in order to optimize class labeling.
+considerations within image neighborhoods using the expectation-maximization
+algorithm.  Initialization for this particular application is in the form of
+k-means clustering which, itself, is initialized automatically using evenly
+spaced cluster centers---similar to linear binning without the reference
+distribution.  This has a number of advantages in that it accommodates MR
+intensity nonlinearities, like k-means, but in contrast to k-means and the other
+algorithms outlined, does not use hard intensity thresholds for distinguishing
+class labels.  However, as we will demonstrate, this algorithm is also flawed in
+that it implicitly assumes, incorrectly, that meaningful structure is found, and
+can be adequately characterized, within the associated image histogram in order
+to optimize class labeling.
 
-Finally, we point out that N4 bias correction is used in many of these
-algorithms which is also histogram-based.
+Many of these segmentation algorithms use the N4 bias correction preprocessing
+algorithm [@Tustison:2010ac] to mitigate MR intensity inhomogeneity artefacts.
+Interestingly, N4 also iteratively optimizes towards a final solution using
+information from both the histogram and image domains.  Based on the intuition
+that the bias field acts as a smoothing convolution operation on the original
+image intensity histogram, N4 optimizes a nonlinear intensity mapping, based on
+histogram deconvolution, which smoothly varies across the image.  This nonlinear
+mapping sharpens the histogram peaks which presumably correspond to tissue
+types. While such assumptions are appropriate for the domain in which N4 was
+developed (i.e., T1-weighted brain tissue segmentation) and while it is assumed
+that the enforcement of low-frequency modulation of the intensity mapping prevents
+new image features from being generated, it is not clear what effects N4 parameter
+choice has on the final segmentation solution, particularly for those algorithms
+that are limited to intensity-only considerations.
+
+
+
 
 It should be noted that we are not claiming that these algorithms are erroneous.
 Much of the relevant research has been limited to quantifying differences with
