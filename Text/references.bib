@@ -1,12 +1,81 @@
 %% This BibTeX bibliography file was created using BibDesk.
 %% https://bibdesk.sourceforge.io/
 
-%% Created for Nick Tustison at 2021-01-26 11:54:21 -0800 
+%% Created for Nick Tustison at 2021-01-27 19:38:43 -0800 
 
 
 %% Saved with string encoding Unicode (UTF-8) 
 
 
+
+@article{Schlemper:2019aa,
+	abstract = {We propose a novel attention gate (AG) model for medical image analysis that automatically learns to focus on target structures of varying shapes and sizes. Models trained with AGs implicitly learn to suppress irrelevant regions in an input image while highlighting salient features useful for a specific task. This enables us to eliminate the necessity of using explicit external tissue/organ localisation modules when using convolutional neural networks (CNNs). AGs can be easily integrated into standard CNN models such as VGG or U-Net architectures with minimal computational overhead while increasing the model sensitivity and prediction accuracy. The proposed AG models are evaluated on a variety of tasks, including medical image classification and segmentation. For classification, we demonstrate the use case of AGs in scan plane detection for fetal ultrasound screening. We show that the proposed attention mechanism can provide efficient object localisation while improving the overall prediction performance by reducing false positives. For segmentation, the proposed architecture is evaluated on two large 3D CT abdominal datasets with manual annotations for multiple organs. Experimental results show that AG models consistently improve the prediction performance of the base architectures across different datasets and training sizes while preserving computational efficiency. Moreover, AGs guide the model activations to be focused around salient regions, which provides better insights into how model predictions are made. The source code for the proposed AG models is publicly available.},
+	author = {Schlemper, Jo and Oktay, Ozan and Schaap, Michiel and Heinrich, Mattias and Kainz, Bernhard and Glocker, Ben and Rueckert, Daniel},
+	date-added = {2021-01-27 19:38:42 -0800},
+	date-modified = {2021-01-27 19:38:42 -0800},
+	doi = {10.1016/j.media.2019.01.012},
+	journal = {Med Image Anal},
+	journal-full = {Medical image analysis},
+	keywords = {Attention gates; Fully convolutional networks; Image classification; Localisation; Segmentation; Soft attention},
+	mesh = {Algorithms; Datasets as Topic; Female; Humans; Image Interpretation, Computer-Assisted; Imaging, Three-Dimensional; Neural Networks, Computer; Pregnancy; Radiography, Abdominal; Tomography, X-Ray Computed; Ultrasonography, Prenatal},
+	month = {04},
+	pages = {197-207},
+	pmid = {30802813},
+	pst = {ppublish},
+	title = {Attention gated networks: Learning to leverage salient regions in medical images},
+	volume = {53},
+	year = {2019},
+	Bdsk-Url-1 = {https://doi.org/10.1016/j.media.2019.01.012}}
+
+@article{Crum:2006aa,
+	abstract = {Measures of overlap of labelled regions of images, such as the Dice and Tanimoto coefficients, have been extensively used to evaluate image registration and segmentation algorithms. Modern studies can include multiple labels defined on multiple images yet most evaluation schemes report one overlap per labelled region, simply averaged over multiple images. In this paper, common overlap measures are generalized to measure the total overlap of ensembles of labels defined on multiple test images and account for fractional labels using fuzzy set theory. This framework allows a single "figure-of-merit" to be reported which summarises the results of a complex experiment by image pair, by label or overall. A complementary measure of error, the overlap distance, is defined which captures the spatial extent of the nonoverlapping part and is related to the Hausdorff distance computed on grey level images. The generalized overlap measures are validated on synthetic images for which the overlap can be computed analytically and used as similarity measures in nonrigid registration of three-dimensional magnetic resonance imaging (MRI) brain images. Finally, a pragmatic segmentation ground truth is constructed by registering a magnetic resonance atlas brain to 20 individual scans, and used with the overlap measures to evaluate publicly available brain segmentation algorithms.},
+	author = {Crum, William R and Camara, Oscar and Hill, Derek L G},
+	date-added = {2021-01-27 18:47:54 -0800},
+	date-modified = {2021-01-27 18:47:54 -0800},
+	doi = {10.1109/TMI.2006.880587},
+	journal = {IEEE Trans Med Imaging},
+	journal-full = {IEEE transactions on medical imaging},
+	mesh = {Algorithms; Brain; Humans; Image Enhancement; Image Interpretation, Computer-Assisted; Information Storage and Retrieval; Magnetic Resonance Imaging; Pattern Recognition, Automated; Quality Assurance, Health Care; Reproducibility of Results; Sensitivity and Specificity; Subtraction Technique},
+	month = {Nov},
+	number = {11},
+	pages = {1451-61},
+	pmid = {17117774},
+	pst = {ppublish},
+	title = {Generalized overlap measures for evaluation and validation in medical image analysis},
+	volume = {25},
+	year = {2006},
+	Bdsk-Url-1 = {https://doi.org/10.1109/TMI.2006.880587}}
+
+@article{Isensee:2020aa,
+	abstract = {Biomedical imaging is a driver of scientific discovery and a core component of medical care and is being stimulated by the field of deep learning. While semantic segmentation algorithms enable image analysis and quantification in many applications, the design of respective specialized solutions is non-trivial and highly dependent on dataset properties and hardware conditions. We developed nnU-Net, a deep learning-based segmentation method that automatically configures itself, including preprocessing, network architecture, training and post-processing for any new task. The key design choices in this process are modeled as a set of fixed parameters, interdependent rules and empirical decisions. Without manual intervention, nnU-Net surpasses most existing approaches, including highly specialized solutions on 23 public datasets used in international biomedical segmentation competitions. We make nnU-Net publicly available as an out-of-the-box tool, rendering state-of-the-art segmentation accessible to a broad audience by requiring neither expert knowledge nor computing resources beyond standard network training.},
+	author = {Isensee, Fabian and Jaeger, Paul F and Kohl, Simon A A and Petersen, Jens and Maier-Hein, Klaus H},
+	date-added = {2021-01-27 18:43:36 -0800},
+	date-modified = {2021-01-27 18:43:36 -0800},
+	doi = {10.1038/s41592-020-01008-z},
+	journal = {Nat Methods},
+	journal-full = {Nature methods},
+	month = {Dec},
+	pmid = {33288961},
+	pst = {aheadofprint},
+	title = {nnU-Net: a self-configuring method for deep learning-based biomedical image segmentation},
+	year = {2020},
+	Bdsk-Url-1 = {https://doi.org/10.1038/s41592-020-01008-z}}
+
+@article{Tustison:2020aa,
+	abstract = {The Advanced Normalizations Tools ecosystem, known as ANTsX, consists of multiple open-source software libraries which house top-performing algorithms used worldwide by scientific and research communities for processing and analyzing biological and medical imaging data. The base software library, ANTs, is built upon, and contributes to, the NIH-sponsored Insight Toolkit. Founded in 2008 with the highly regarded Symmetric Normalization image registration framework, the ANTs library has since grown to include additional functionality. Recent enhancements include statistical, visualization, and deep learning capabilities through interfacing with both the R statistical project (ANTsR) and Python (ANTsPy). Additionally, the corresponding deep learning extensions ANTsRNet and ANTsPyNet (built on the popular TensorFlow/Keras libraries) contain several popular network architectures and trained models for specific applications. One such comprehensive application is a deep learning analog for generating cortical thickness data from structural T1-weighted brain MRI, both cross-sectionally and longitudinally. These pipelines significantly improve computational efficiency and provide comparable-to-superior accuracy over multiple criteria relative to the existing ANTs workflows and simultaneously illustrate the importance of the comprehensive ANTsX approach as a framework for medical image analysis.Competing Interest StatementThe authors have declared no competing interest.Funding StatementNo external funding was received.Author DeclarationsI confirm all relevant ethical guidelines have been followed, and any necessary IRB and/or ethics committee approvals have been obtained.YesThe details of the IRB/oversight body that provided approval or exemption for the research described are given below:None.All necessary patient/participant consent has been obtained and the appropriate institutional forms have been archived.YesI understand that all clinical trials and any other prospective interventional studies must be registered with an ICMJE-approved registry, such as ClinicalTrials.gov. I confirm that any such study reported in the manuscript has been registered and the trial registration ID is provided (note: if posting a prospective study registered retrospectively, please provide a statement in the trial ID field explaining why the study was not registered in advance).YesI have followed all appropriate research reporting guidelines and uploaded the relevant EQUATOR Network research reporting checklist(s) and other pertinent material as supplementary files, if applicable.YesAll imaging data is available from public repositories. All software, scripts, and tabulated measurements used to produce the figures and other results are in the specified GitHub repositories. https://github.com/ntustison/PaperANTsX/ https://github.com/ntustison/CrossLong},
+	author = {Tustison, Nicholas J. and Cook, Philip A. and Holbrook, Andrew J. and Johnson, Hans J. and Muschelli, John and Devenyi, Gabriel A. and Duda, Jeffrey T. and Das, Sandhitsu R. and Cullen, Nicholas C. and Gillen, Daniel L. and Yassa, Michael A. and Stone, James R. and Gee, James C. and Avants, Brian B. and ,},
+	date-added = {2021-01-27 16:52:50 -0800},
+	date-modified = {2021-01-27 16:53:06 -0800},
+	doi = {10.1101/2020.10.19.20215392},
+	elocation-id = {2020.10.19.20215392},
+	eprint = {https://www.medrxiv.org/content/early/2021/01/23/2020.10.19.20215392.full.pdf},
+	journal = {medRxiv},
+	publisher = {Cold Spring Harbor Laboratory Press},
+	title = {ANTsX: A dynamic ecosystem for quantitative biological and medical imaging},
+	url = {https://www.medrxiv.org/content/early/2021/01/23/2020.10.19.20215392},
+	year = {2021},
+	Bdsk-Url-1 = {https://www.medrxiv.org/content/early/2021/01/23/2020.10.19.20215392},
+	Bdsk-Url-2 = {https://doi.org/10.1101/2020.10.19.20215392}}
 
 @article{Vannier:1985aa,
 	abstract = {Magnetic resonance (MR) imaging systems produce spatial distribution estimates of proton density, relaxation time, and flow, in a two dimensional matrix form that is analogous to that of the image data obtained from multispectral imaging satellites. Advanced NASA satellite image processing offers sophisticated multispectral analysis of MR images. Spin echo and inversion recovery pulse sequence images were entered in a digital format compatible with satellite images and accurately registered pixel by pixel. Signatures of each tissue class were automatically determined using both supervised and unsupervised classification. Overall tissue classification was obtained in the form of a theme map. In MR images of the brain, for example, the classes included CSF, gray matter, white matter, subcutaneous fat, muscle, and bone. These methods provide an efficient means of identifying subtle relationships in a multi-image MR study.},
