@@ -86,31 +86,29 @@ ntustison@virginia.edu
 # Abstract {-}
 
 Magnetic resonance imaging using hyperpolarized gases has facilitated the novel
-visualization of airspaces, such as the human lung. The advent and refinement of
-these imaging techniques have furthered research avenues with respect to the
-growth, development, and pathologies of the pulmonary system.  In conjunction
-with the improvements associated with image acquisition, multiple image analysis
-strategies have been proposed and developed for the quantification of
-hyperpolarized gas images with much research effort devoted to semantic
+visualization of airspaces, such as the human lung, which has furthered research
+into the growth, development, and pathologies of the pulmonary system.  In
+conjunction with the innovations associated with image acquisition, multiple
+image analysis strategies have been proposed and refined for the quantification
+of hyperpolarized gas images with much research effort devoted to semantic
 segmentation, or voxelwise classification, into clinically-oriented categories
-based on functional ventilation levels. Given the functional nature of these
-images and the consequent complexity of the segmentation task, many of these
-algorithmic approaches reduce the complex spatial image intensity information to
-intensity-only considerations, particularly those associated with the intensity
-histogram. Although facilitating computational processing, this simplifying
-transformation results in the loss of important spatial cues for identifying
-salient imaging features, such as ventilation defects---an identified correlate
-of lung pathophysiology.  In this work, we demonstrate the interrelatedness of
-the most common approaches for intensity-only (e.g., histogram), ventilation
-segmentation of hyperpolarized gas lung imaging for driving voxelwise
-classification.  We evaluate the underlying assumptions associated with each
-approach and show how these assumptions lead to suboptimal performance.  We then
-illustrate how a convolutional neural network can be constructed in a
-multi-scale, hierarchically feature-based (i.e., spatial) manner which
-circumvents the problematic issues associated with existing intensity-only
-approaches.  Importantly, we provide the entire evaluation framework, including
-this newly reported deep learning functionality, as open-source through the
-well-known Advanced Normalization Tools (ANTs) library.
+based on ventilation levels. Given the functional nature of these images and the
+consequent sophistication of the segmentation task, many of these algorithmic
+approaches reduce the complex spatial image intensity information to
+intensity-only considerations, which can be contextualized in terms of the
+intensity histogram. Although facilitating computational processing, this
+simplifying transformation results in the loss of important spatial cues for
+identifying salient imaging features, such as ventilation defects---a
+well-studied correlate of lung pathophysiology.  In this work, we discuss the
+interrelatedness of the most common approaches for histogram-based segmentation
+of hyperpolarized gas lung imaging and evaluate the underlying assumptions
+associated with each approach demonstrating how these assumptions lead to
+suboptimal performance.  We then illustrate how a convolutional neural network
+leverages multi-scale spatial information to circumvent the problematic issues
+associated with existing histogram-based approaches.  Importantly, we provide
+the entire processing and evaluation framework, including the newly reported
+deep learning functionality, as open-source through the well-known Advanced
+Normalization Tools ecosystem (ANTsX).
 
 \newpage
 
@@ -173,10 +171,10 @@ Related approaches, which continue to be used currently (e.g.,
 [@Shammi:2021aa]), simply use a rescaled threshold value to binarize the
 segmentation.  Similar to the histogram-only algorithms (i.e., linear binning
 and k-means), these approaches do not take into account the various artefacts
-associated with MRI such as the non-Gaussianity of the MR imaging noise
+associated with MRI such as MR imaging noise
 [@Gudbjartsson:1995aa;@Andersen:1996aa] and the intensity inhomogeneity field
-[@Sled:1998aa] which prevent simple intensity thresholds from distinguishing
-tissue types consistent with that of human experts.
+[@Sled:1998aa] which prevent hard thresholds from distinguishing tissue types
+consistent with that of human experts.
 
 To provide a more granular categorization of ventilation that tracks with
 clinical qualitative assessment, an increase in the number of voxel classes have
@@ -191,7 +189,7 @@ Intensity rescaling for determination of segmentation clusters of lung images
 can be thought of as a global affine 1-D transform of the intensity histogram to
 a standardized 1-D reference histogram. Such a global transform does not account
 for MR intensity nonlinearities that have been well-studied
-[@Wendt:1994aa;@Nyul:1999aa;@Nyul:2000aa;@De-Nunzio:2015aa] and can cause
+[@Wendt:1994aa;@Nyul:1999aa;@Nyul:2000aa;@Collewet:2004aa;@De-Nunzio:2015aa] and can cause
 significant intensity variation even in the same tissue region of the same
 subject.  As stated in [@Collewet:2004aa]:
 
@@ -205,7 +203,7 @@ As we demonstrate in subsequent sections, ignoring these nonlinearities can have
 significant consequences in the well-studied (and somewhat analogous) area of
 brain tissue segmentation in T1-weighted MRI (e.g.,
 [@Zhang:2001aa;@Ashburner:2005aa;@Avants:2011aa]) and we demonstrate its effect
-in hyperpolarized gas imaging quantification robustness in conunction with noise
+in hyperpolarized gas imaging quantification robustness in conjunction with noise
 considerations.  In addition, it is not a given that we have a sufficient
 understanding of what constitutes a "normal" in the context of mean and standard
 MR intensity values and whether or not those values can be combined in a linear
@@ -454,10 +452,10 @@ ventilationImage <- antsImageRead( "ventilation.nii.gz" )
 # Use deep learning lung extraction to get lung mask from proton image.
 lungMask <- lungExtraction( protonImage, modality = "proton", verbose = TRUE )
 
-# Run deep learning ventilation-based segmentation
+# Run deep learning ventilation-based segmentation.
 seg <- elBicho( ventilationImage, lungMask, verbose = TRUE )
 
-# Write segmentation and probability images to disk
+# Write segmentation and probability images to disk.
 antsImageWrite( seg$segmentationImage, "segmentation.nii.gz" )
 antsImageWrite( seg$probabilityImages[[1]], "probability1.nii.gz" )
 antsImageWrite( seg$probabilityImages[[2]], "probability2.nii.gz" )
@@ -480,14 +478,81 @@ Using the ten normals
 
 # Results
 
+## T1-weighed brain segmentation analogy
+
+As a preview of the
+
+
+In Figure \ref{fig:BrainAnalogy}
+
+Although the reference image set has been intensity normalized to $[0, 1]$ with
+truncated image intensities (quantiles = $[0, 0.99]$), it is apparent that
+the major features of the respective image histograms (specifically, the three
+peaks which correspond to the cerebrospinal fluid (CSF), gray matter (GM), and
+white matter (WM)) do not line up in this globally aligned space.  Attempting to
+create a "reference" histogram from misaligned data is not without controversy.
+This can be seen in the results shown in the bottom where the linear binning
+analog drastically overstimates the amount of gray matter and simultaneously
+underestimates the amount of gray matter.  The k-means approach, using precisely
+the same center clusters as determined via the reference histogram, yields a
+much better segmentation as it is optimizing the piecewise affine transform over
+histogram features.  However, the hard threshold values result in labelings
+susceptible to noise in contrast to the GMM-MRF segmentation results.
+
 \begin{figure}[!h]
   \centering
   \includegraphics[width=0.95\linewidth]{Figures/BrainAnalogy.pdf}
-    \caption{}
+  \caption{T1-weighted three-tissue brain segmentation analogy. Placing the
+  three segmentation algorithms (i.e., linear binning, k-means, and GMM-MRF) in
+  the context of brain tissue segmentation provides an alternative perspective
+  for comparison.  In the style of linear binning, we randomly select an image
+  reference set using structurally normal individuals which is then used to
+  create a reference histogram.  (Bottom) For a subject to be processed, the
+  resulting hard threshold values yield the linear binning segmentation solution
+  as well as the initialization cluster values for both the k-means and GMM-MRF
+  segmentations which are qualitatively different.}
   \label{fig:BrainAnalogy}
 \end{figure}
 
+## Effect of reference image set selection
 
+\begin{figure}[htb]
+  \centering
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.99\linewidth]{Figures/meanReferencePlot.pdf}
+    \caption{Mean reference plot.}
+  \end{subfigure}%
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.99\linewidth]{Figures/sdReferencePlot.pdf}
+    \caption{Standard deviation reference plot.}
+  \end{subfigure}
+\caption{}
+\label{fig:referenceSet}
+\end{figure}
+
+## Effect of MR nonlinear intensity warping and additive noise
+
+\begin{figure}[htb]
+  \centering
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.99\linewidth]{Figures/vdpSdOverall.pdf}
+    \caption{Mean reference plot.}
+  \end{subfigure}%
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.99\linewidth]{Figures/diceMeanOverall.pdf}
+    \caption{Standard deviation reference plot.}
+  \end{subfigure}
+\caption{}
+\label{fig:simulations}
+\end{figure}
+
+
+
+## Diagnostic prediction
 
 
 

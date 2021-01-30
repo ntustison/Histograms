@@ -2,31 +2,29 @@
 # Abstract {-}
 
 Magnetic resonance imaging using hyperpolarized gases has facilitated the novel
-visualization of airspaces, such as the human lung. The advent and refinement of
-these imaging techniques have furthered research avenues with respect to the
-growth, development, and pathologies of the pulmonary system.  In conjunction
-with the improvements associated with image acquisition, multiple image analysis
-strategies have been proposed and developed for the quantification of
-hyperpolarized gas images with much research effort devoted to semantic
+visualization of airspaces, such as the human lung, which has furthered research
+into the growth, development, and pathologies of the pulmonary system.  In
+conjunction with the innovations associated with image acquisition, multiple
+image analysis strategies have been proposed and refined for the quantification
+of hyperpolarized gas images with much research effort devoted to semantic
 segmentation, or voxelwise classification, into clinically-oriented categories
-based on functional ventilation levels. Given the functional nature of these
-images and the consequent complexity of the segmentation task, many of these
-algorithmic approaches reduce the complex spatial image intensity information to
-intensity-only considerations, particularly those associated with the intensity
-histogram. Although facilitating computational processing, this simplifying
-transformation results in the loss of important spatial cues for identifying
-salient imaging features, such as ventilation defects---an identified correlate
-of lung pathophysiology.  In this work, we demonstrate the interrelatedness of
-the most common approaches for intensity-only (e.g., histogram), ventilation
-segmentation of hyperpolarized gas lung imaging for driving voxelwise
-classification.  We evaluate the underlying assumptions associated with each
-approach and show how these assumptions lead to suboptimal performance.  We then
-illustrate how a convolutional neural network can be constructed in a
-multi-scale, hierarchically feature-based (i.e., spatial) manner which
-circumvents the problematic issues associated with existing intensity-only
-approaches.  Importantly, we provide the entire evaluation framework, including
-this newly reported deep learning functionality, as open-source through the
-well-known Advanced Normalization Tools (ANTs) library.
+based on ventilation levels. Given the functional nature of these images and the
+consequent sophistication of the segmentation task, many of these algorithmic
+approaches reduce the complex spatial image intensity information to
+intensity-only considerations, which can be contextualized in terms of the
+intensity histogram. Although facilitating computational processing, this
+simplifying transformation results in the loss of important spatial cues for
+identifying salient imaging features, such as ventilation defects---a
+well-studied correlate of lung pathophysiology.  In this work, we discuss the
+interrelatedness of the most common approaches for histogram-based segmentation
+of hyperpolarized gas lung imaging and evaluate the underlying assumptions
+associated with each approach demonstrating how these assumptions lead to
+suboptimal performance.  We then illustrate how a convolutional neural network
+leverages multi-scale spatial information to circumvent the problematic issues
+associated with existing histogram-based approaches.  Importantly, we provide
+the entire processing and evaluation framework, including the newly reported
+deep learning functionality, as open-source through the well-known Advanced
+Normalization Tools ecosystem (ANTsX).
 
 \newpage
 

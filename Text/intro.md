@@ -56,10 +56,10 @@ Related approaches, which continue to be used currently (e.g.,
 [@Shammi:2021aa]), simply use a rescaled threshold value to binarize the
 segmentation.  Similar to the histogram-only algorithms (i.e., linear binning
 and k-means), these approaches do not take into account the various artefacts
-associated with MRI such as the non-Gaussianity of the MR imaging noise
+associated with MRI such as MR imaging noise
 [@Gudbjartsson:1995aa;@Andersen:1996aa] and the intensity inhomogeneity field
-[@Sled:1998aa] which prevent simple intensity thresholds from distinguishing
-tissue types consistent with that of human experts.
+[@Sled:1998aa] which prevent hard thresholds from distinguishing tissue types
+consistent with that of human experts.
 
 To provide a more granular categorization of ventilation that tracks with
 clinical qualitative assessment, an increase in the number of voxel classes have
@@ -74,7 +74,7 @@ Intensity rescaling for determination of segmentation clusters of lung images
 can be thought of as a global affine 1-D transform of the intensity histogram to
 a standardized 1-D reference histogram. Such a global transform does not account
 for MR intensity nonlinearities that have been well-studied
-[@Wendt:1994aa;@Nyul:1999aa;@Nyul:2000aa;@De-Nunzio:2015aa] and can cause
+[@Wendt:1994aa;@Nyul:1999aa;@Nyul:2000aa;@Collewet:2004aa;@De-Nunzio:2015aa] and can cause
 significant intensity variation even in the same tissue region of the same
 subject.  As stated in [@Collewet:2004aa]:
 
@@ -88,7 +88,7 @@ As we demonstrate in subsequent sections, ignoring these nonlinearities can have
 significant consequences in the well-studied (and somewhat analogous) area of
 brain tissue segmentation in T1-weighted MRI (e.g.,
 [@Zhang:2001aa;@Ashburner:2005aa;@Avants:2011aa]) and we demonstrate its effect
-in hyperpolarized gas imaging quantification robustness in conunction with noise
+in hyperpolarized gas imaging quantification robustness in conjunction with noise
 considerations.  In addition, it is not a given that we have a sufficient
 understanding of what constitutes a "normal" in the context of mean and standard
 MR intensity values and whether or not those values can be combined in a linear
