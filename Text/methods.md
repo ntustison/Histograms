@@ -160,6 +160,7 @@ antsImageWrite( seg$probabilityImages[[4]], "probability4.nii.gz" )
 * Show how the mean and standard deviation values for linear binning
 parameters vary based on selection of "normal" cohort.
 * Measurement variance based on noise + intensity nonlinearities
+* \textcolor{red}{(We can also show accuracy, or lack of bias, through STAPLE)}
 
 ### Measurement variance based on "normal" cohort selection {-}
 

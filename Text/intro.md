@@ -46,27 +46,27 @@ histogram for facilitating comparison.
 
 An early semi-automated technique used to compare smokers and never-smokers
 relied on manually drawn regions to determine a threshold value based on the
-mean signal and noise values [@Woodhouse:2005aa].  Related approaches uses a
-simple rescaled threshold value to binarize the ventilation image into
-ventilated/non-ventilated regions [@Thomen:2015aa], which continues to find
+mean signal and noise values [@Woodhouse:2005aa].  Related approaches, which use
+a simple rescaled threshold value to binarize the ventilation image into
+ventilated/non-ventilated regions [@Thomen:2015aa], continue to find modern
 application [@Shammi:2021aa].  Similar to the histogram-only algorithms (i.e.,
-linear binning and k-means), these approaches do not take into account the
-various MRI artefacts such as noise [@Gudbjartsson:1995aa;@Andersen:1996aa] and
-the intensity inhomogeneity field [@Sled:1998aa] which prevent hard threshold
-values from distinguishing tissue types precisely consistent with that of human
-experts.  In addition, to provide a more granular categorization of ventilation
-for greater compatibility with clinical qualitative assessment, an increase in
-the number of voxel classes (i.e., clusters) have been added to the various lung
-parcellation protocols beyond the binary categories of "ventilated" and
-"non-ventilated."
+linear binning and k-means, discussed below), these approaches do not take into
+account the various MRI artefacts such as noise
+[@Gudbjartsson:1995aa;@Andersen:1996aa] and the intensity inhomogeneity field
+[@Sled:1998aa] which prevent hard threshold values from distinguishing tissue
+types precisely consistent with that of human experts.  In addition, to provide
+a more granular categorization of ventilation for greater compatibility with
+clinical qualitative assessment, many current techniques have increased the
+number of voxel classes (i.e., clusters) beyond the binary categories of
+"ventilated" and "non-ventilated."
 
-Linear binning is a simplified type of MR intensity standardization approach in
-which a set of healthy controls, all intensity normalized to [0, 1], is used to
-calculate the cluster threshold values, based on a simple Gaussian.  This
-intensity rescaling can be viewed as a global affine 1-D transform of the
-intensity histogram to a standardized 1-D reference histogram where the mapping
-aligns the cluster boundaries such that corresponding labelings have the same
-clinical interpretation.  In addition to the previously mentioned issues with
+Linear binning is a simplified type of MR intensity standardization
+[@Nyul:1999aa] in which a set of healthy controls, all intensity normalized to
+[0, 1], is used to calculate the cluster threshold values, based on a single
+Gaussian model. A subject image to be segmented is then rescaled to this
+reference histogram (i.e., a global affine 1-D transform). This mapping aligns
+the cluster boundaries such that corresponding labels have the same clinical
+interpretation. In addition to the previously mentioned issues associated with
 hard threshold values, such a global transform does not account for MR intensity
 nonlinearities that have been well-studied
 [@Wendt:1994aa;@Nyul:1999aa;@Nyul:2000aa;@Collewet:2004aa;@De-Nunzio:2015aa] and
@@ -86,10 +86,11 @@ brain tissue segmentation in T1-weighted MRI (e.g.,
 in hyperpolarized gas imaging quantification robustness in conjunction with
 noise considerations.  In addition, it is not a given that we have a sufficient
 understanding of what constitutes a "normal" in the context of mean and standard
-MR intensity values and whether or not those values can be combined in a linear
+deviation MR intensity values and whether or not those values can be combined in a linear
 fashion to constitute a reference standard. Of more concrete concern, though, is
 that the requirement for a healthy cohort for determination of algorithmic
-parameters introduces (unnecessary) measurement variance.
+parameters introduces a non-negligible source of measurement variance, as we will
+also demonstrate.
 
 Previous attempts at histogram standardization [@Nyul:1999aa;@Nyul:2000aa] in
 light of these MR intensity nonlinearities have relied on 1-D piecewise affine
@@ -105,18 +106,19 @@ some groups [@Kirby:2012aa] of employing k-means as a clustering strategy
 [@Hartigan:1979aa] to minimize the within-class variance of its intensities can
 be viewed as an alternative optimization strategy for determining a nonlinear
 mapping between histograms for a clinically-based MR intensity standardization.
-Although manual k-means initialization is often used where representative voxels
-are selected for each class by the operator, linear binning can be considered a
-type of automated initialization.  However, k-means does constitute an
-algorithmic approach with additional degrees of flexibility over linear binning
-as it employs basic prior knowledge in the form of a generic clustering
-desideratum for optimizing a type of MR intensity standardization[^1]
+K-means does constitute an algorithmic approach with additional degrees of
+flexibility and sophistication over linear binning as it employs basic prior
+knowledge in the form of a generic clustering desideratum for optimizing a type
+of MR intensity standardization.[^1] Although manual k-means initialization is
+sometimes used where representative voxels are selected for each class by the
+operator, the linear binning strategy of equally spaced cluster centers is often
+used as a type of k-means automated initialization.
 
 [^1]: The prior knowledge for histogram mapping is the general machine learning
 heuristic of clustering samples based on the minimizing within-class distance
 while simultaneously maximizing the between-class distance.  In the case of
-k-means, this "distance" is the variance as optimizing based on the Euclidean
-distance is NP-hard.
+k-means, this "distance" is the intensity variance as optimizing based on the
+Euclidean distance is NP-hard.
 
 Histogram-based optimization is used in conjunction with spatial considerations
 in the approach detailed in [@Tustison:2011aa].  Based on a well-established
@@ -124,48 +126,37 @@ iterative approach originally used for NASA satellite image processing and
 subsequently appropriated for brain tissue segmentation in T1-weighted MRI
 [@Vannier:1985aa], a GMM is used to model the intensity clusters of the
 histogram with class modulation in the form of probabilistic voxelwise label
-considerations within image neighborhoods using the expectation-maximization
-algorithm.  Initialization for this particular application is in the form of
-k-means clustering which, itself, is initialized automatically using evenly
-spaced cluster centers---similar to linear binning without the reference
-distribution.  This has a number of advantages in that it accommodates MR
+considerations within image neighborhoods [@Besag:1986aa] using the
+expectation-maximization algorithm [@Dempster:1977aa].  Initialization for this
+particular application is in the form of k-means clustering which, itself, is
+initialized automatically using evenly spaced cluster centers---similar to
+linear binning.  This has a number of advantages in that it accommodates MR
 intensity nonlinearities, like k-means, but in contrast to k-means and the other
 algorithms outlined, does not use hard intensity thresholds for distinguishing
 class labels.  However, as we will demonstrate, this algorithm is also flawed in
 that it implicitly assumes, incorrectly, that meaningful structure is found, and
 can be adequately characterized, within the associated image histogram in order
-to optimize class labeling.
+to optimize a multi-class labeling.
 
-Additionally, many of these segmentation algorithms use the N4 bias correction
-preprocessing algorithm [@Tustison:2010ac] to mitigate MR intensity
-inhomogeneity artefacts which is an extension of the popular nonparametric
-nonuniform intensity normalization (N3) algorithm [@Sled:1998aa]. Interestingly,
-N3/N4 also iteratively optimizes towards a final solution using information from
-both the histogram and image domains.  Based on the intuition that the bias
-field acts as a smoothing convolution operation on the original image intensity
-histogram, N3/N4 optimizes a nonlinear intensity mapping, based on
-histogram deconvolution, which smoothly varies across the image.  This nonlinear
-mapping sharpens the histogram peaks which presumably correspond to tissue
-types. While such assumptions are appropriate for the domain in which N3/N4 was
-developed (i.e., T1-weighted brain tissue segmentation) and while it is assumed
-that the enforcement of low-frequency modulation of the intensity mapping
-prevents new image features from being generated, it is not clear what effects
-N4 parameter choices have on the final segmentation solution, particularly for
-those algorithms that are limited to intensity-only considerations.
+Additionally, many of these segmentation algorithms use N4 bias correction
+[@Tustison:2010ac], an extension of the nonuniform intensity normalization (N3)
+algorithm [@Sled:1998aa],  to mitigate MR intensity inhomogeneity artefacts.
+Interestingly, N3/N4 also iteratively optimizes towards a final solution using
+information from both the histogram and image domains.  Based on the intuition
+that the bias field acts as a smoothing convolution operation on the original
+image intensity histogram, N3/N4 optimizes a nonlinear (i.e., deformable) intensity mapping, based
+on histogram deconvolution.  This nonlinear mapping is constrained such that its
+effects smoothly vary across the image.  Additionally, due to the deconvolution
+operation, this nonlinear mapping sharpens the histogram peaks which presumably correspond to
+tissue types. While such assumptions are appropriate for the domain in which
+N3/N4 was developed (i.e., T1-weighted brain tissue segmentation) and while it
+is assumed that the enforcement of low-frequency modulation of the intensity
+mapping prevents new image features from being generated, it is not clear what
+effects N4 parameter choices have on the final segmentation solution,
+particularly for those algorithms that are limited to intensity-only
+considerations and not robust to the aforementioned MR intensity nonlinearities.
 
 ## Motivation for current study
-
-All these methods can be described in terms of the intensity histogram. Investigating the assumptions
-outlined above, particularly those associated with the nonlinear intensity
-mappings due to both the MR acquisition and inhomogeneity mitigation
-preprocessing, we became concerned by the susceptibility of the histogram
-structure to such variations and the potential effects on current clinical
-measures of interest (e.g., ventilation defect percentage) derived from these
-algorithms.  Figure \ref{fig:motivation} provides a visualization representing
-some of the structural changes that we observed when simulating these nonlinear
-mappings.  It is important to notice that even relatively small alterations
-in the image intensities can have significant effects on the histogram even
-though a visual, clinically-based assessment of the image can be unchanged.
 
 \begin{figure}[!h]
   \centering
@@ -182,25 +173,47 @@ though a visual, clinically-based assessment of the image can be unchanged.
   \label{fig:motivation}
 \end{figure}
 
-Ultimately, we are not claiming that these algorithms are erroneous per se. Much
-of the relevant research has been limited to quantifying differences with
+It should be clear that all these methods can be described in terms of the
+intensity histogram. Investigating the assumptions outlined above, particularly
+those associated with the nonlinear intensity mappings due to both the MR
+acquisition and inhomogeneity mitigation preprocessing, we became concerned by
+the susceptibility of the histogram structure to such variations and the
+potential effects on current clinical measures of interest (e.g., ventilation
+defect percentage) derived from these algorithms.  Figure \ref{fig:motivation}
+provides a visualization representing some of the structural changes that we
+observed when simulating these nonlinear mappings.  It is important to notice
+that even relatively small alterations in the image intensities can have
+significant effects on the histogram even though a visual, clinically-based
+assessment of the image can remain unchanged.
+
+Ultimately, we are not claiming that these algorithms are erroneous, per se.
+Much of the relevant research has been limited to quantifying differences with
 respect to ventilation versus non-ventilation in various clinical categories and
 these algorithms have certainly demonstrated the capacity for advancing such
 research.  However, these issues influence quantitation in terms of core
-scientific measurement principles such as precision (e.g., repeatability) and
-bias.  In addition, as acquistion and analysis methodologies improve, so should
-the level of sophistication and performance of the measurement tools. In
-evaluating and assessing these algorithms, it is important to note that human
-expertise leverages more than relative intensity values to identify salient,
-clinically relevant features in images. Fortunately, modern algorithmic
-paradigms, specifically deep learning, have the potential for leveraging spatial
-information from the images that surpasses the perceptual capabilities of
-previous approaches and even rivals that of human raters [@@Zhang:2018aa].  We
-introduced such an approach in [@Tustison:2019ac] and further expand on that
-work for comparison with existing approaches in this work.  In the spirit of
-open science, we have made the entire evaluation framework, including our novel
-contributions, available within our ANTsR and ANTsPy libraries for both R and
-Python users, respectively.
+scientific measurement principles such as precision (e.g., reproducibility and
+repeatability [@Svenningsen:2020aa]) and bias which will become more acute as
+multi-site and large-scale studies are performed.  In addition, generally
+speaking, refinements in measuring capabilities correlates with scientific
+advancement so as acquisition and analysis methodologies improve, so should the
+level of sophistication and performance of the measurement tools.
+
+The recent emergence of deep-layered neural networks [@LeCun:2015aa],
+particularly convolutional neural networks, is due to their outstanding
+performance in certain computational tasks, including classification and
+semantic segmentation in medical imaging [@Shen:2017aa].  Their
+potential for leveraging spatial information from images surpasses the
+perceptual capabilities of previous approaches and even rivals that of human
+raters [@Zhang:2018aa]. In assessing these segmentation algorithms for
+hyperpolarized gas imaging, it is important to note that human expertise
+leverages more than relative intensity values to identify salient, clinically
+relevant features in images---something more akin to the complex neural network
+structure (versus the 1-D intensity histogram). We introduced a deep learning
+approach in [@Tustison:2019ac] and further expand on that work for comparison
+with existing approaches in this work.  In the spirit of open science, we have
+made the entire evaluation framework, including our novel contributions,
+available within our ANTsR and ANTsPy libraries for both R and Python users,
+respectively.
 
 
 
