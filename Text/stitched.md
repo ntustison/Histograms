@@ -85,10 +85,10 @@ ntustison@virginia.edu
 
 # Abstract {-}
 
-Magnetic resonance imaging using hyperpolarized gases has facilitated the novel
-visualization of airspaces, such as the human lung, which has furthered research
-into the growth, development, and pathologies of the pulmonary system.  In
-conjunction with the innovations associated with image acquisition, multiple
+Magnetic resonance imaging using hyperpolarized gases has made possible the
+novel visualization of airspaces, such as the human lung, which has advanced
+research into the growth, development, and pathologies of the pulmonary system.
+In conjunction with the innovations associated with image acquisition, multiple
 image analysis strategies have been proposed and refined for the quantification
 of hyperpolarized gas images with much research effort devoted to semantic
 segmentation, or voxelwise classification, into clinically-oriented categories
@@ -98,17 +98,18 @@ approaches reduce the complex spatial image intensity information to
 intensity-only considerations, which can be contextualized in terms of the
 intensity histogram. Although facilitating computational processing, this
 simplifying transformation results in the loss of important spatial cues for
-identifying salient imaging features, such as ventilation defects---a
-well-studied correlate of lung pathophysiology.  In this work, we discuss the
+identifying salient image features, such as ventilation defects---a well-studied
+correlate of lung pathophysiology.  In this work, we discuss the
 interrelatedness of the most common approaches for histogram-based segmentation
 of hyperpolarized gas lung imaging and evaluate the underlying assumptions
 associated with each approach demonstrating how these assumptions lead to
-suboptimal performance.  We then illustrate how a convolutional neural network
-leverages multi-scale spatial information to circumvent the problematic issues
-associated with existing histogram-based approaches.  Importantly, we provide
-the entire processing and evaluation framework, including the newly reported
-deep learning functionality, as open-source through the well-known Advanced
-Normalization Tools ecosystem (ANTsX).
+suboptimal performance, particularly in terms of precision.  We then illustrate
+how a convolutional neural network can be trained to leverage multi-scale
+spatial information which circumvents the problematic issues associated with
+these approaches.  Importantly, we provide the entire processing and evaluation
+framework, including the newly reported deep learning functionality, as
+open-source through the well-known Advanced Normalization Tools ecosystem
+(ANTsX).
 
 \newpage
 
@@ -141,57 +142,52 @@ Descriptions:
 
 ## Historical overview of quantification
 
-Initial attempts at quantification of ventilation images were limited to
-ennumerating the number of "ventilation defects" or estimating ventilation
-defect percentage (as a percentage of total lung volume).  Often these
-measurements were acquired on a slice-by-slice basis.
+Early attempts at quantification of ventilation images were limited to
+enumerating the number of ventilation defects or estimating the proportion of
+ventilated lung [@Lange:1999aa;@Altes:2001aa;@Samee:2003aa].  This early work
+has evolved to current techniques which can be generally categorized in order
+of increasing algorithmic sophistication as follows:
 
-Prior to the popularization of deep learning in medical image analysis,
-including in the field of hyperpolarized gas imaging [@Tustison:2019ac], widely
-used semi-automated or automated segmentation techniques were primarily based on
-intensity-only considerations.  In order of increasing sophistication, these
-techniques can be categorized as follows:
-
-* binary thresholding based on relative intensities
-  [@Woodhouse:2005aa;@Shammi:2021aa],
+* binary thresholding based on relative intensities [@Woodhouse:2005aa;@Shammi:2021aa],
 * linear intensity standardization based on global rescaling of the intensity
   histogram to a reference distribution based on healthy controls, i.e., "linear
   binning" [@He:2016aa;@He:2020aa],
 * nonlinear intensity standardization based on piecewise affine transformation
-  of the intensity histogram using the K-means algorithm [@Kirby:2012aa], and
-* Gaussian mixture modeling (GMM) with Markov random field (MRF) spatial
-  modeling [@Tustison:2011aa].
+  of the intensity histogram using the k-means algorithm [@Kirby:2012aa;@Kirby:2012ab], and
+* Gaussian mixture modeling (GMM) of the intensity histogram with Markov random field (MRF) spatial
+  prior modeling [@Tustison:2011aa].
 
-The early semi-automated technique used to compare smokers and never-smokers in
-[@Woodhouse:2005aa] uses manually drawn regions to determine the mean signal
-intensity and the standard deviation of the noise to derive a threshold value of
-three noise standard deviations below the mean intensity.  All voxels above that
-threshold value were considered "ventilated" for the purposes of the study.
-Related approaches, which continue to be used currently (e.g.,
-[@Shammi:2021aa]), simply use a rescaled threshold value to binarize the
-segmentation.  Similar to the histogram-only algorithms (i.e., linear binning
-and k-means), these approaches do not take into account the various artefacts
-associated with MRI such as MR imaging noise
-[@Gudbjartsson:1995aa;@Andersen:1996aa] and the intensity inhomogeneity field
-[@Sled:1998aa] which prevent hard thresholds from distinguishing tissue types
-consistent with that of human experts.
+We purposely couch these algorithms within the context of the intensity
+histogram for facilitating comparison.
 
-To provide a more granular categorization of ventilation that tracks with
-clinical qualitative assessment, an increase in the number of voxel classes have
-been added to the various lung parcellation protocols beyond the binary
-categories of "ventilated" and "non-ventilated."  Linear binning is a simplified
-intensity standardization approach with six discrete intensity levels (or
-clusters).  The six clusters are evenly spaced throughout the intensity range
-based on the mean and standard deviation values determined from a cohort of
-healthy controls.
+An early semi-automated technique used to compare smokers and never-smokers
+relied on manually drawn regions to determine a threshold value based on the
+mean signal and noise values [@Woodhouse:2005aa].  Related approaches uses a
+simple rescaled threshold value to binarize the ventilation image into
+ventilated/non-ventilated regions [@Thomen:2015aa], which continues to find
+application [@Shammi:2021aa].  Similar to the histogram-only algorithms (i.e.,
+linear binning and k-means), these approaches do not take into account the
+various MRI artefacts such as noise [@Gudbjartsson:1995aa;@Andersen:1996aa] and
+the intensity inhomogeneity field [@Sled:1998aa] which prevent hard threshold
+values from distinguishing tissue types precisely consistent with that of human
+experts.  In addition, to provide a more granular categorization of ventilation
+for greater compatibility with clinical qualitative assessment, an increase in
+the number of voxel classes (i.e., clusters) have been added to the various lung
+parcellation protocols beyond the binary categories of "ventilated" and
+"non-ventilated."
 
-Intensity rescaling for determination of segmentation clusters of lung images
-can be thought of as a global affine 1-D transform of the intensity histogram to
-a standardized 1-D reference histogram. Such a global transform does not account
-for MR intensity nonlinearities that have been well-studied
-[@Wendt:1994aa;@Nyul:1999aa;@Nyul:2000aa;@Collewet:2004aa;@De-Nunzio:2015aa] and can cause
-significant intensity variation even in the same tissue region of the same
-subject.  As stated in [@Collewet:2004aa]:
+Linear binning is a simplified type of MR intensity standardization approach in
+which a set of healthy controls, all intensity normalized to [0, 1], is used to
+calculate the cluster threshold values, based on a simple Gaussian.  This
+intensity rescaling can be viewed as a global affine 1-D transform of the
+intensity histogram to a standardized 1-D reference histogram where the mapping
+aligns the cluster boundaries such that corresponding labelings have the same
+clinical interpretation.  In addition to the previously mentioned issues with
+hard threshold values, such a global transform does not account for MR intensity
+nonlinearities that have been well-studied
+[@Wendt:1994aa;@Nyul:1999aa;@Nyul:2000aa;@Collewet:2004aa;@De-Nunzio:2015aa] and
+are known to cause significant intensity variation even in the same region of
+the same subject.  As stated in [@Collewet:2004aa]:
 
 > Intensities of MR images can vary, even in the same protocol and the same
 > sample and using the same scanner. Indeed, they may depend on the acquisition
@@ -203,13 +199,13 @@ As we demonstrate in subsequent sections, ignoring these nonlinearities can have
 significant consequences in the well-studied (and somewhat analogous) area of
 brain tissue segmentation in T1-weighted MRI (e.g.,
 [@Zhang:2001aa;@Ashburner:2005aa;@Avants:2011aa]) and we demonstrate its effect
-in hyperpolarized gas imaging quantification robustness in conjunction with noise
-considerations.  In addition, it is not a given that we have a sufficient
+in hyperpolarized gas imaging quantification robustness in conjunction with
+noise considerations.  In addition, it is not a given that we have a sufficient
 understanding of what constitutes a "normal" in the context of mean and standard
 MR intensity values and whether or not those values can be combined in a linear
 fashion to constitute a reference standard. Of more concrete concern, though, is
 that the requirement for a healthy cohort for determination of algorithmic
-parameters introduces an (unnecessary) source of measurement variance.
+parameters introduces (unnecessary) measurement variance.
 
 Previous attempts at histogram standardization [@Nyul:1999aa;@Nyul:2000aa] in
 light of these MR intensity nonlinearities have relied on 1-D piecewise affine
@@ -333,7 +329,26 @@ Python users, respectively.
 
 ## Image cohort
 
-A retrospective data selection was made
+\textcolor{red}{(Jaime needs to edit this subsection.)}
+
+A retrospective dataset was collected consisting of young healthy ($n=5$),
+older healthy ($n=7$), cystic fibrosis (CF) ($n=?$), idiopathic lung disease
+(ILD) ($n=?$), and chronic obstructive pulmonary disease ($n=?$).
+Imaging with hyperpolarized 3He was
+performed under an Institutional Review Board (IRB)-approved protocol with
+written informed consent obtained from each subject. In addition, all imaging
+was performed under a Food and Drug Administration approved physician’s
+Investigational New Drug application (IND 57866) for hyperpolarized 3He. MRI
+data were acquired on a 1.5 T whole-body MRI scanner (Siemens Sonata, Siemens
+Medical Solutions, Malvern, PA) with broadband capabilities and a flexible 3He
+chest radiofrequency coil (RF; IGC Medical Advances, Milwaukee, WI; or Clinical
+MR Solutions, Brookfield, WI). During a 10–20-second breath-hold following the
+inhalation of $\approx 300$ mL of hyperpolarized 3He mixed with $\approx 700$ mL
+of nitrogen, a set of 19–28 contiguous axial sections were collected. Parameters
+of the fast low angle shot sequence for 3He MRI were as follows: repetition time
+msec / echo time msec, 7/3; flip angle, 10$^{\circ}$; matrix, 80 $\times$ 128;
+field of view, 26 80 $\times$ 42 cm; section thickness, 10 mm; and intersection
+gap, none. The data were deidentified prior to analysis.
 
 ## Algorithmic implementations
 

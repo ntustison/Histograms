@@ -3,7 +3,26 @@
 
 ## Image cohort
 
-A retrospective data selection was made
+\textcolor{red}{(Jaime needs to edit this subsection.)}
+
+A retrospective dataset was collected consisting of young healthy ($n=5$),
+older healthy ($n=7$), cystic fibrosis (CF) ($n=?$), idiopathic lung disease
+(ILD) ($n=?$), and chronic obstructive pulmonary disease ($n=?$).
+Imaging with hyperpolarized 3He was
+performed under an Institutional Review Board (IRB)-approved protocol with
+written informed consent obtained from each subject. In addition, all imaging
+was performed under a Food and Drug Administration approved physician’s
+Investigational New Drug application (IND 57866) for hyperpolarized 3He. MRI
+data were acquired on a 1.5 T whole-body MRI scanner (Siemens Sonata, Siemens
+Medical Solutions, Malvern, PA) with broadband capabilities and a flexible 3He
+chest radiofrequency coil (RF; IGC Medical Advances, Milwaukee, WI; or Clinical
+MR Solutions, Brookfield, WI). During a 10–20-second breath-hold following the
+inhalation of $\approx 300$ mL of hyperpolarized 3He mixed with $\approx 700$ mL
+of nitrogen, a set of 19–28 contiguous axial sections were collected. Parameters
+of the fast low angle shot sequence for 3He MRI were as follows: repetition time
+msec / echo time msec, 7/3; flip angle, 10$^{\circ}$; matrix, 80 $\times$ 128;
+field of view, 26 80 $\times$ 42 cm; section thickness, 10 mm; and intersection
+gap, none. The data were deidentified prior to analysis.
 
 ## Algorithmic implementations
 

@@ -26,57 +26,52 @@ Descriptions:
 
 ## Historical overview of quantification
 
-Initial attempts at quantification of ventilation images were limited to
-ennumerating the number of "ventilation defects" or estimating ventilation
-defect percentage (as a percentage of total lung volume).  Often these
-measurements were acquired on a slice-by-slice basis.
+Early attempts at quantification of ventilation images were limited to
+enumerating the number of ventilation defects or estimating the proportion of
+ventilated lung [@Lange:1999aa;@Altes:2001aa;@Samee:2003aa].  This early work
+has evolved to current techniques which can be generally categorized in order
+of increasing algorithmic sophistication as follows:
 
-Prior to the popularization of deep learning in medical image analysis,
-including in the field of hyperpolarized gas imaging [@Tustison:2019ac], widely
-used semi-automated or automated segmentation techniques were primarily based on
-intensity-only considerations.  In order of increasing sophistication, these
-techniques can be categorized as follows:
-
-* binary thresholding based on relative intensities
-  [@Woodhouse:2005aa;@Shammi:2021aa],
+* binary thresholding based on relative intensities [@Woodhouse:2005aa;@Shammi:2021aa],
 * linear intensity standardization based on global rescaling of the intensity
   histogram to a reference distribution based on healthy controls, i.e., "linear
   binning" [@He:2016aa;@He:2020aa],
 * nonlinear intensity standardization based on piecewise affine transformation
-  of the intensity histogram using the K-means algorithm [@Kirby:2012aa], and
-* Gaussian mixture modeling (GMM) with Markov random field (MRF) spatial
-  modeling [@Tustison:2011aa].
+  of the intensity histogram using the k-means algorithm [@Kirby:2012aa;@Kirby:2012ab], and
+* Gaussian mixture modeling (GMM) of the intensity histogram with Markov random field (MRF) spatial
+  prior modeling [@Tustison:2011aa].
 
-The early semi-automated technique used to compare smokers and never-smokers in
-[@Woodhouse:2005aa] uses manually drawn regions to determine the mean signal
-intensity and the standard deviation of the noise to derive a threshold value of
-three noise standard deviations below the mean intensity.  All voxels above that
-threshold value were considered "ventilated" for the purposes of the study.
-Related approaches, which continue to be used currently (e.g.,
-[@Shammi:2021aa]), simply use a rescaled threshold value to binarize the
-segmentation.  Similar to the histogram-only algorithms (i.e., linear binning
-and k-means), these approaches do not take into account the various artefacts
-associated with MRI such as MR imaging noise
-[@Gudbjartsson:1995aa;@Andersen:1996aa] and the intensity inhomogeneity field
-[@Sled:1998aa] which prevent hard thresholds from distinguishing tissue types
-consistent with that of human experts.
+We purposely couch these algorithms within the context of the intensity
+histogram for facilitating comparison.
 
-To provide a more granular categorization of ventilation that tracks with
-clinical qualitative assessment, an increase in the number of voxel classes have
-been added to the various lung parcellation protocols beyond the binary
-categories of "ventilated" and "non-ventilated."  Linear binning is a simplified
-intensity standardization approach with six discrete intensity levels (or
-clusters).  The six clusters are evenly spaced throughout the intensity range
-based on the mean and standard deviation values determined from a cohort of
-healthy controls.
+An early semi-automated technique used to compare smokers and never-smokers
+relied on manually drawn regions to determine a threshold value based on the
+mean signal and noise values [@Woodhouse:2005aa].  Related approaches uses a
+simple rescaled threshold value to binarize the ventilation image into
+ventilated/non-ventilated regions [@Thomen:2015aa], which continues to find
+application [@Shammi:2021aa].  Similar to the histogram-only algorithms (i.e.,
+linear binning and k-means), these approaches do not take into account the
+various MRI artefacts such as noise [@Gudbjartsson:1995aa;@Andersen:1996aa] and
+the intensity inhomogeneity field [@Sled:1998aa] which prevent hard threshold
+values from distinguishing tissue types precisely consistent with that of human
+experts.  In addition, to provide a more granular categorization of ventilation
+for greater compatibility with clinical qualitative assessment, an increase in
+the number of voxel classes (i.e., clusters) have been added to the various lung
+parcellation protocols beyond the binary categories of "ventilated" and
+"non-ventilated."
 
-Intensity rescaling for determination of segmentation clusters of lung images
-can be thought of as a global affine 1-D transform of the intensity histogram to
-a standardized 1-D reference histogram. Such a global transform does not account
-for MR intensity nonlinearities that have been well-studied
-[@Wendt:1994aa;@Nyul:1999aa;@Nyul:2000aa;@Collewet:2004aa;@De-Nunzio:2015aa] and can cause
-significant intensity variation even in the same tissue region of the same
-subject.  As stated in [@Collewet:2004aa]:
+Linear binning is a simplified type of MR intensity standardization approach in
+which a set of healthy controls, all intensity normalized to [0, 1], is used to
+calculate the cluster threshold values, based on a simple Gaussian.  This
+intensity rescaling can be viewed as a global affine 1-D transform of the
+intensity histogram to a standardized 1-D reference histogram where the mapping
+aligns the cluster boundaries such that corresponding labelings have the same
+clinical interpretation.  In addition to the previously mentioned issues with
+hard threshold values, such a global transform does not account for MR intensity
+nonlinearities that have been well-studied
+[@Wendt:1994aa;@Nyul:1999aa;@Nyul:2000aa;@Collewet:2004aa;@De-Nunzio:2015aa] and
+are known to cause significant intensity variation even in the same region of
+the same subject.  As stated in [@Collewet:2004aa]:
 
 > Intensities of MR images can vary, even in the same protocol and the same
 > sample and using the same scanner. Indeed, they may depend on the acquisition
@@ -88,13 +83,13 @@ As we demonstrate in subsequent sections, ignoring these nonlinearities can have
 significant consequences in the well-studied (and somewhat analogous) area of
 brain tissue segmentation in T1-weighted MRI (e.g.,
 [@Zhang:2001aa;@Ashburner:2005aa;@Avants:2011aa]) and we demonstrate its effect
-in hyperpolarized gas imaging quantification robustness in conjunction with noise
-considerations.  In addition, it is not a given that we have a sufficient
+in hyperpolarized gas imaging quantification robustness in conjunction with
+noise considerations.  In addition, it is not a given that we have a sufficient
 understanding of what constitutes a "normal" in the context of mean and standard
 MR intensity values and whether or not those values can be combined in a linear
 fashion to constitute a reference standard. Of more concrete concern, though, is
 that the requirement for a healthy cohort for determination of algorithmic
-parameters introduces an (unnecessary) source of measurement variance.
+parameters introduces (unnecessary) measurement variance.
 
 Previous attempts at histogram standardization [@Nyul:1999aa;@Nyul:2000aa] in
 light of these MR intensity nonlinearities have relied on 1-D piecewise affine
