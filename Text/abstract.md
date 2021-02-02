@@ -29,4 +29,11 @@ Tools ecosystem (ANTsX).
 
 \newpage
 
+\textcolor{red}{Notes to self:}
 
+* Calling CNN "el Bicho" until we can come up a different name.
+* Jaime to edit Subsections 2.1?
+* Possible co-authors:  Tally Altes, Kun Qing, John Mugler, Wilson Miller, James Gee, possibly include Mu He after posting to medrxiv.
+* Need five more young healthy subjects.
+
+\newpage

@@ -57,6 +57,16 @@ susceptible to noise in contrast to the GMM-MRF segmentation results.
 
 ## Effect of MR nonlinear intensity warping and additive noise
 
+Need to add a SSIM calculation for each simulated image along with
+different histogram similarity measurements.  We can then rescale
+all measurements for comparison and show how the SSIM calculation
+has lower variance than the histograms.  THis shows that the
+image-to-histogram transformation results in information which is
+less robust than the original image.
+
+
+
+
 \begin{figure}[htb]
   \centering
   \begin{subfigure}{0.5\textwidth}

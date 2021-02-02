@@ -1,9 +1,46 @@
 
 # Materials and methods
 
-## Image cohort
+To support the discussion in the Introduction, we perform various experiments to
+showcase the effects of both MR nonlinear intensity mapping and noise on
+measurement bias and precision using the popular algorithms described
+previously, specifically:
 
-\textcolor{red}{(Jaime needs to edit this subsection.)}
+* linear binning,
+* hierarchical k-means,
+* GMM-MRF, and
+* a trained U-net.
+
+We first demonstrate the effects of MR intensity nonlinearities on the
+analogical application of T1-weighted brain MR segmentation.  This evaluation is
+strictly qualitative as the visual evidence and previous developmental history
+is overwhelmingly indicative of the need for adequate algorithmic optimization
+capabilities.  We use these qualitative results as a segue to quantifying the
+effects of the choice of reference cohort on the clustering parameters for the
+three histogram-based algorithms.  We then incorporate the CNN model in
+exploring additional aspects of measurement variance based on simulating both MR
+noise and intensity nonlinearities.  Finally, we investigate algorithmic
+accuracy (i.e., bias) in the absence of ground-truth segmentations, by using a
+clinical diagnostic prediction approach and a study for simultaneous truth and
+performance level estimation (STAPLE) [@Warfield:2004aa].
+
+A fair and accurate comparison between algorithms necessitates several considerations
+which have been outlined previously [@Tustison:2013aa].  In designing the evaluation
+study:
+
+* All algorithms and evaluation scripts have been implemented using open-source tools
+by the first author who is also responsible for the GMM-MRF ("Atropos" in ANTs) and
+N4 algorithms.  The linear binning and k-means algorithms were easily recreated
+using existing R tools.  Similarly, N4, GMM-MRF, and the trained CNN approach are
+all available through ANTsR/ANTsRNet, ``ANTsR::n4BiasFieldCorrection``,
+``ANTsRNet::functionalLungSegmentation``, and ``ANTsRNet::elBicho``, respectively.[^2]
+* Default parameters vary slightly from the original implementations.  For example,
+in [@Kirby:2012aa], five clusters
+
+
+[^2]:  Python versions are also available through ANTsPy/ANTsPyNet.
+
+## Image cohorts
 
 A retrospective dataset was collected consisting of young healthy ($n=5$),
 older healthy ($n=7$), cystic fibrosis (CF) ($n=?$), idiopathic lung disease
@@ -81,12 +118,12 @@ Prior to slice extraction, both random noise and randomly-generated, nonlinear
 intensity warping was added to the 3-D image (see Figure
 \ref{fig:sample_ventilation}) using the respective ANTsR/ANTsRNet functions:
 
-* ``addNoiseToImage`` [^2] and
-* ``histogramWarpImageIntensities`` [^3]
+* ``addNoiseToImage`` [^3] and
+* ``histogramWarpImageIntensities`` [^4]
 
-[^2]: https://github.com/ANTsX/ANTsR/blob/master/R/addNoiseToImage.R
+[^3]: https://github.com/ANTsX/ANTsR/blob/master/R/addNoiseToImage.R
 
-[^3]:
+[^4]:
 https://github.com/ANTsX/ANTsRNet/blob/master/R/histogramWarpImageIntensities.R
 
 with analogs in ANTsPy/ANTsPyNet.  3-D images were intensity normalized to have
@@ -153,15 +190,3 @@ antsImageWrite( seg$probabilityImages[[4]], "probability4.nii.gz" )
 \end{lstlisting}
 \setstretch{1.5}
 
-## Multi-prong exploratory evaluation
-
-* Brain analogy
-    * Show labeled histograms of manually traced images to demonstrate that hard threshold values are inadequate.
-* Show how the mean and standard deviation values for linear binning
-parameters vary based on selection of "normal" cohort.
-* Measurement variance based on noise + intensity nonlinearities
-* \textcolor{red}{(We can also show accuracy, or lack of bias, through STAPLE)}
-
-### Measurement variance based on "normal" cohort selection {-}
-
-Using the ten normals

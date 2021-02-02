@@ -113,8 +113,14 @@ Tools ecosystem (ANTsX).
 
 \newpage
 
+\textcolor{red}{Notes to self:}
 
+* Calling CNN "el Bicho" until we can come up a different name.
+* Jaime to edit Subsections 2.1?
+* Possible co-authors:  Tally Altes, Kun Qing, John Mugler, Wilson Miller, James Gee, possibly include Mu He after posting to medrxiv.
+* Need five more young healthy subjects.
 
+\newpage
 # Introduction
 
 ## Early acquisition and development
@@ -242,17 +248,18 @@ iterative approach originally used for NASA satellite image processing and
 subsequently appropriated for brain tissue segmentation in T1-weighted MRI
 [@Vannier:1985aa], a GMM is used to model the intensity clusters of the
 histogram with class modulation in the form of probabilistic voxelwise label
-considerations within image neighborhoods [@Besag:1986aa] using the
-expectation-maximization algorithm [@Dempster:1977aa].  Initialization for this
-particular application is in the form of k-means clustering which, itself, is
-initialized automatically using evenly spaced cluster centers---similar to
-linear binning.  This has a number of advantages in that it accommodates MR
-intensity nonlinearities, like k-means, but in contrast to k-means and the other
-algorithms outlined, does not use hard intensity thresholds for distinguishing
-class labels.  However, as we will demonstrate, this algorithm is also flawed in
-that it implicitly assumes, incorrectly, that meaningful structure is found, and
-can be adequately characterized, within the associated image histogram in order
-to optimize a multi-class labeling.
+considerations, i.e. Markov Random Field (MRF) modeling,  within image
+neighborhoods [@Besag:1986aa] using the expectation-maximization (EM) algorithm
+[@Dempster:1977aa].  Initialization for this particular application is in the
+form of k-means clustering which, itself, is initialized automatically using
+evenly spaced cluster centers---similar to linear binning.  This has a number of
+advantages in that it accommodates MR intensity nonlinearities, like k-means,
+but in contrast to k-means and the other algorithms outlined, does not use hard
+intensity thresholds for distinguishing class labels.  However, as we will
+demonstrate, this algorithm is also flawed in that it implicitly assumes,
+incorrectly, that meaningful structure is found, and can be adequately
+characterized, within the associated image histogram in order to optimize a
+multi-class labeling.
 
 Additionally, many of these segmentation algorithms use N4 bias correction
 [@Tustison:2010ac], an extension of the nonuniform intensity normalization (N3)
@@ -294,13 +301,13 @@ intensity histogram. Investigating the assumptions outlined above, particularly
 those associated with the nonlinear intensity mappings due to both the MR
 acquisition and inhomogeneity mitigation preprocessing, we became concerned by
 the susceptibility of the histogram structure to such variations and the
-potential effects on current clinical measures of interest (e.g., ventilation
-defect percentage) derived from these algorithms.  Figure \ref{fig:motivation}
-provides a visualization representing some of the structural changes that we
+potential effects on current clinical measures of interest derived from these
+algorithms (e.g., ventilation defect percentage).  Figure \ref{fig:motivation}
+provides a sample visualization representing some of the structural changes that we
 observed when simulating these nonlinear mappings.  It is important to notice
 that even relatively small alterations in the image intensities can have
 significant effects on the histogram even though a visual, clinically-based
-assessment of the image can remain unchanged.
+assessment of the image can remain largely unchanged.
 
 Ultimately, we are not claiming that these algorithms are erroneous, per se.
 Much of the relevant research has been limited to quantifying differences with
@@ -315,7 +322,7 @@ advancement so as acquisition and analysis methodologies improve, so should the
 level of sophistication and performance of the measurement tools.
 
 The recent emergence of deep-layered neural networks [@LeCun:2015aa],
-particularly convolutional neural networks, is due to their outstanding
+particularly convolutional neural networks (CNN), is due to their outstanding
 performance in certain computational tasks, including classification and
 semantic segmentation in medical imaging [@Shen:2017aa].  Their
 potential for leveraging spatial information from images surpasses the
@@ -324,12 +331,11 @@ raters [@Zhang:2018aa]. In assessing these segmentation algorithms for
 hyperpolarized gas imaging, it is important to note that human expertise
 leverages more than relative intensity values to identify salient, clinically
 relevant features in images---something more akin to the complex neural network
-structure (versus the 1-D intensity histogram). We introduced a deep learning
+structure versus the 1-D intensity histogram. We introduced a deep learning
 approach in [@Tustison:2019ac] and further expand on that work for comparison
 with existing approaches in this work.  In the spirit of open science, we have
 made the entire evaluation framework, including our novel contributions,
-available within our ANTsR and ANTsPy libraries for both R and Python users,
-respectively.
+available within our Advanced Normalization Tools software ecosystem (ANTsX).
 
 
 
@@ -340,9 +346,45 @@ respectively.
 
 # Materials and methods
 
-## Image cohort
+To support the discussion in the Introduction, we perform various experiments to
+showcase the effects of both MR nonlinear intensity mapping and noise on
+measurement bias and precision using the popular algorithms described
+previously, specifically:
 
-\textcolor{red}{(Jaime needs to edit this subsection.)}
+* linear binning,
+* k-means,
+* GMM-MRF, and
+* CNN.
+
+We first demonstrate the effects of MR intensity nonlinearities on the
+analogical application of T1-weighted brain MR segmentation.  This evaluation is
+strictly qualitative as the visual evidence and previous developmental history
+is overwhelmingly indicative of the need for adequate algorithmic optimization
+capabilities.  We use these qualitative results as a segue to quantifying the
+effects of the choice of reference cohort on the clustering parameters for the
+three histogram-based algorithms.  We then incorporate the CNN model in
+exploring additional aspects of measurement variance based on simulating both MR
+noise and intensity nonlinearities.  Finally, we investigate algorithmic
+accuracy (i.e., bias) in the absence of ground-truth segmentations, by using a
+clinical diagnostic prediction approach and a study for simultaneous truth and
+performance level estimation (STAPLE) [@Warfield:2004aa].
+
+A fair and accurate comparison between algorithms necessitates several considerations
+which have been outlined previously [@Tustison:2013aa].  In designing the evaluation
+study:
+
+* All algorithms and evaluation scripts have been implemented using open-source tools
+by the first author who is also responsible for the GMM-MRF ("Atropos" in ANTs) and
+N4 algorithms.  The linear binning and k-means algorithms were easily recreated
+using existing R tools.  Similarly, N4, GMM-MRF, and the trained CNN approach are
+all available through ANTsR/ANTsRNet---``ANTsR::n4BiasFieldCorrection``,
+``ANTsR::functionalLungSegmentation``, and ``ANTsR::elBicho``.[^2]
+
+[^2]:  Python versions are also available through ANTsPy/ANTsPyNet.
+
+
+
+## Image cohorts
 
 A retrospective dataset was collected consisting of young healthy ($n=5$),
 older healthy ($n=7$), cystic fibrosis (CF) ($n=?$), idiopathic lung disease
@@ -420,12 +462,12 @@ Prior to slice extraction, both random noise and randomly-generated, nonlinear
 intensity warping was added to the 3-D image (see Figure
 \ref{fig:sample_ventilation}) using the respective ANTsR/ANTsRNet functions:
 
-* ``addNoiseToImage`` [^2] and
-* ``histogramWarpImageIntensities`` [^3]
+* ``addNoiseToImage`` [^3] and
+* ``histogramWarpImageIntensities`` [^4]
 
-[^2]: https://github.com/ANTsX/ANTsR/blob/master/R/addNoiseToImage.R
+[^3]: https://github.com/ANTsX/ANTsR/blob/master/R/addNoiseToImage.R
 
-[^3]:
+[^4]:
 https://github.com/ANTsX/ANTsRNet/blob/master/R/histogramWarpImageIntensities.R
 
 with analogs in ANTsPy/ANTsPyNet.  3-D images were intensity normalized to have
@@ -492,18 +534,6 @@ antsImageWrite( seg$probabilityImages[[4]], "probability4.nii.gz" )
 \end{lstlisting}
 \setstretch{1.5}
 
-## Multi-prong exploratory evaluation
-
-* Brain analogy
-    * Show labeled histograms of manually traced images to demonstrate that hard threshold values are inadequate.
-* Show how the mean and standard deviation values for linear binning
-parameters vary based on selection of "normal" cohort.
-* Measurement variance based on noise + intensity nonlinearities
-* \textcolor{red}{(We can also show accuracy, or lack of bias, through STAPLE)}
-
-### Measurement variance based on "normal" cohort selection {-}
-
-Using the ten normals
 
 # Results
 
@@ -562,6 +592,16 @@ susceptible to noise in contrast to the GMM-MRF segmentation results.
 \end{figure}
 
 ## Effect of MR nonlinear intensity warping and additive noise
+
+Need to add a SSIM calculation for each simulated image along with
+different histogram similarity measurements.  We can then rescale
+all measurements for comparison and show how the SSIM calculation
+has lower variance than the histograms.  THis shows that the
+image-to-histogram transformation results in information which is
+less robust than the original image.
+
+
+
 
 \begin{figure}[htb]
   \centering
