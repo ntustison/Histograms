@@ -104,7 +104,7 @@ characteristically correspond to visible histogram peaks, as landmarks to
 determine the nonlinear intensity mapping between images. However, in
 hyperpolarized gas imaging of the lung, no such characteristic structural
 features exist, generally speaking, between histograms.  The approach used by
-some groups [@Cooley:2010;@Kirby:2012aa] of employing k-means as a clustering strategy
+some groups [@Cooley:2010aa;@Kirby:2012aa] of employing k-means as a clustering strategy
 [@Hartigan:1979aa] to minimize the within-class variance of its intensities can
 be viewed as an alternative optimization strategy for determining a nonlinear
 mapping between histograms for a clinically-based MR intensity standardization.
@@ -168,8 +168,9 @@ the aforementioned MR intensity nonlinearities.
   types of intensity changes, we can visualize the effects on the underlying
   intensity histograms and investigate the effects on salient outcome measures.
   Here we simulate intensity mappings which, although relatively small, can have
-  a significant effect on the histogram structure.} \label{fig:motivation}
-  \end{figure}
+  a significant effect on the histogram structure.}
+  \label{fig:motivation}
+\end{figure}
 
 It should be clear that all these methods can be described in terms of the
 intensity histogram. Investigating the assumptions outlined above, particularly
@@ -182,7 +183,24 @@ provides a sample visualization representing some of the structural changes that
 we observed when simulating these nonlinear mappings.  It is important to notice
 that even relatively small alterations in the image intensities can have
 significant effects on the histogram even though a visual, clinically-based
-assessment of the image can remain largely unchanged.
+assessment of the image can remain largely unchanged.  In further support,
+we provide a summary measure from a set of experiments detailed later in this
+work.  Figure \ref{fig:similarity} is not derived from the algorithmic comparisons
+but simply demonstrates the importance of the considerations of the issues just
+raised.  The structural similarity index measurement (SSIM) is a highly cited
+quantity within the computer vision literature used for assessing image
+quality, often under transformation processes, e.g., image compression.
+
+*In addition to the simple fact that it discards important spatial information,
+ although the image-to-histogram transformation simplifies computation, this transformation
+results in greater outcome variance in the resulting information under common
+MR imaging artefacts, according to these measures.*
+
+\begin{figure}[!h] \centering
+  \includegraphics[width=0.95\textwidth]{Figures/similarity.pdf}
+  \caption{}
+  \label{fig:similarity}
+\end{figure}
 
 Ultimately, we are not claiming that these algorithms are erroneous, per se.
 Much of the relevant research has been limited to quantifying differences with

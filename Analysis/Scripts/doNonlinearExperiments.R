@@ -19,7 +19,11 @@ source( "./lungSegmentationUtilities.R" )
 numberOfSimulationsPerImage <- 10
 sdDisplacements <- 0.05
 
+doNoise <- TRUE
+doNonlinearities <- FALSE
+
 baseDirectory <- "/Users/ntustison/Data/HeliumLungStudies/QuantificationMethodComparison/"
+outputDirectoryName <- "SimulationExperiments_Noise"
 dataDirectory <- paste0( baseDirectory, "NiftiProcessed" )
 
 gasFiles <- list.files( path = dataDirectory, pattern = "NormalizedMu.nii.gz",
@@ -30,7 +34,11 @@ diagnosis <- c()
 simulationNumber <- c()
 segmentation <- c()
 vdp <- c()
-dice <- c()
+diceAll <- c()
+dice1 <- c()
+dice2 <- c()
+dice3 <- c()
+dice4 <- c()
 
 simSubject <- c()
 simDiagnosis <- c()
@@ -39,8 +47,8 @@ ssim <- c()
 minkowskiDist1 <- c()
 minkowskiDist2 <- c()
 intersectDist <- c()
-klDiv <- c()
-jeffreyDiv <- c()
+pearson <- c()
+chi <- c()
 
 for( i in seq.int( length( gasFiles ) ) )
   {
@@ -58,15 +66,23 @@ for( i in seq.int( length( gasFiles ) ) )
   clusterPartition <- getClusterPartition( image, muSegmentation )
   kmeansClusterCenters <- 0.5 * ( clusterPartition[1:6] + clusterPartition[2:7] )
 
-  outputDirectory <- dirname( sub( "NiftiProcessed", "NonlinearExperiments3", dirname( muSegmentationFile ) ) )
+  outputDirectory <- dirname( sub( "NiftiProcessed", outputDirectoryName, dirname( muSegmentationFile ) ) )
   if( ! dir.exists( outputDirectory ) )
     {
     dir.create( outputDirectory, recursive = TRUE )
     }
   outputPrefix <- paste0( outputDirectory, "/", sub( "NormalizedMu.nii.gz", "", basename( gasFiles[i] ) ) )
-  antsImageWrite( image, paste0( outputPrefix, "_OriginalImage.nii.gz" ) )
+  imageFile <- paste0( outputPrefix, "_OriginalImage.nii.gz" )
+  if( ! file.exists( imageFile ) )
+    {
+    antsImageWrite( image, imageFile  )
+    }
   histogramFile <- paste0( outputPrefix, "_OriginalImageHistogram.pdf" )
-  makeSegmentationHistogram( image, mask, histogramFile, FALSE )
+  if( ! file.exists( histogramFile ) )
+    {
+    makeSegmentationHistogram( image, mask, histogramFile, FALSE )
+    }
+
 
   ########################################
   #
@@ -76,42 +92,79 @@ for( i in seq.int( length( gasFiles ) ) )
 
   imageVector <- image[mask != 0]
 
-  histogramOriginal <- hist( imageVector, breaks = 200, plot = FALSE )
+  histogramOriginal <- hist( imageVector, breaks = seq.int( from = 0, to = 1.0, length.out = 200 ), plot = FALSE )
 
   # Do linear binning
   cat( "       (original) linear binning...\n" )
-  linearBinningResults <- rep( 0, length( imageVector ) )
-  linearBinningSegmentationOriginal <- antsImageClone( image ) * 0
-  for( k in seq.int( length( clusterPartition ) - 1 ) )
+
+  imageFile <- paste0( outputPrefix, "_LinearBinning.nii.gz" )
+  if( ! file.exists( imageFile ) )
     {
-    linearBinningResults[which( imageVector > clusterPartition[k] & imageVector <= clusterPartition[k+1] )] <- k
+    linearBinningResults <- rep( 0, length( imageVector ) )
+    linearBinningSegmentationOriginal <- antsImageClone( image ) * 0
+    for( k in seq.int( length( clusterPartition ) - 1 ) )
+      {
+      linearBinningResults[which( imageVector > clusterPartition[k] & imageVector <= clusterPartition[k+1] )] <- k
+      }
+    linearBinningSegmentationOriginal[mask == 1] <- linearBinningResults
+    linearBinningSegmentationOriginal <- groupClusters( linearBinningSegmentationOriginal )
+    antsImageWrite( linearBinningSegmentationOriginal, imageFile )
+    } else {
+    linearBinningSegmentationOriginal <- antsImageRead( imageFile )
     }
-  linearBinningSegmentationOriginal[mask == 1] <- linearBinningResults
-  linearBinningSegmentationOriginal <- groupClusters( linearBinningSegmentationOriginal )
-  antsImageWrite( linearBinningSegmentationOriginal, paste0( outputPrefix, "_LinearBinning.nii.gz" ) )
   histogramFile <- paste0( outputPrefix, "_LinearBinningHistogram.pdf" )
-  makeSegmentationHistogram( image, linearBinningSegmentationOriginal, histogramFile, TRUE )
+  if( ! file.exists( histogramFile ) )
+    {
+    makeSegmentationHistogram( image, linearBinningSegmentationOriginal, histogramFile, TRUE )
+    }
 
   ## Do Atropos
   cat( "       (original) atropos...\n" )
-  atroposSegmentationOriginal <- groupClusters( atroposLungSegmentation( image, mask ) )
-  antsImageWrite( atroposSegmentationOriginal, paste0( outputPrefix, "_Atropos.nii.gz" ) )
+  imageFile <- paste0( outputPrefix, "_Atropos.nii.gz" )
+  if( ! file.exists( imageFile ) )
+    {
+    atroposSegmentationOriginal <- groupClusters( atroposLungSegmentation( image, mask ) )
+    antsImageWrite( atroposSegmentationOriginal, imageFile )
+    } else {
+    atroposSegmentationOriginal <- antsImageRead( imageFile )
+    }
   histogramFile <- paste0( outputPrefix, "_AtroposHistogram.pdf" )
-  makeSegmentationHistogram( image, atroposSegmentationOriginal, histogramFile, TRUE )
+  if( ! file.exists( histogramFile ) )
+    {
+    makeSegmentationHistogram( image, atroposSegmentationOriginal, histogramFile, TRUE )
+    }
 
   ## Do El Bicho
   cat( "       (original) el bicho...\n" )
-  elBichoSegmentationOriginal <- groupClusters( elBichoLungSegmentation( image, mask ) )
-  antsImageWrite( elBichoSegmentationOriginal, paste0( outputPrefix, "_ElBicho.nii.gz" ) )
+  imageFile <- paste0( outputPrefix, "_ElBicho.nii.gz" )
+  if( ! file.exists( imageFile ) )
+    {
+    elBichoSegmentationOriginal <- groupClusters( elBichoLungSegmentation( image, mask ) )
+    antsImageWrite( elBichoSegmentationOriginal, imageFile )
+    } else {
+    elBichoSegmentationOriginal <- antsImageRead( imageFile )
+    }
   histogramFile <- paste0( outputPrefix, "_ElBichoHistogram.pdf" )
-  makeSegmentationHistogram( image, elBichoSegmentationOriginal, histogramFile, TRUE )
+  if( ! file.exists( histogramFile ) )
+    {
+    makeSegmentationHistogram( image, elBichoSegmentationOriginal, histogramFile, TRUE )
+    }
 
   # Do kmeans
   cat( "       (original) hierarchical kmeans...\n" )
-  kmeansSegmentationOriginal <- groupClusters( kirbyKmeansLungSegmentation( image, mask ) )
-  antsImageWrite( kmeansSegmentationOriginal, paste0( outputPrefix, "_KMeans.nii.gz" ) )
+  imageFile <- paste0( outputPrefix, "_KMeans.nii.gz" )
+  if( ! file.exists( imageFile ) )
+    {
+    kmeansSegmentationOriginal <- groupClusters( kirbyKmeansLungSegmentation( image, mask ) )
+    antsImageWrite( kmeansSegmentationOriginal, imageFile )
+    } else {
+    kmeansSegmentationOriginal <- antsImageRead( imageFile )
+    }
   histogramFile <- paste0( outputPrefix, "_KmeansHistogram.pdf" )
-  makeSegmentationHistogram( image, kmeansSegmentationOriginal, histogramFile, TRUE )
+  if( ! file.exists( histogramFile ) )
+    {
+    makeSegmentationHistogram( image, kmeansSegmentationOriginal, histogramFile, TRUE )
+    }
 
   ########################################
   #
@@ -124,24 +177,55 @@ for( i in seq.int( length( gasFiles ) ) )
     cat( "   Doing simulation ", j, "\n" )
 
     outputPrefixSimulation <- paste0( outputPrefix, "_Simulation", j, "_" )
+    transformedImageFile <- paste0( outputPrefixSimulation, "TransformedImage.nii.gz" )
 
-    bspliner <- histogramWarpImageIntensities2( image,
-      breakPoints = c( 0.2, 0.4, 0.6, 0.8 ),
-      clampEndPoints = c( TRUE, FALSE ),
-      sdDisplacements = sdDisplacements, transformDomainSize = 20 )
+    transformedImage <- antsImageClone( image )
 
-    transformedImage <- ( bspliner$transformedImage - min( bspliner$transformedImage ) ) /
-      ( max( bspliner$transformedImage ) - min( bspliner$transformedImage ) )
+    if( ! file.exists( transformedImageFile ) )
+      {
+      if( doNonlinearities == TRUE )
+        {
+        bspliner <- histogramWarpImageIntensities2( image,
+          breakPoints = c( 0.2, 0.4, 0.6, 0.8 ),
+          clampEndPoints = c( TRUE, FALSE ),
+          sdDisplacements = sdDisplacements, transformDomainSize = 20 )
+        transformedImage <- ( bspliner$transformedImage - min( bspliner$transformedImage ) ) /
+          ( max( bspliner$transformedImage ) - min( bspliner$transformedImage ) )
 
-    transformedImage <- addNoiseToImage( transformedImage, noiseModel = 'additivegaussian', c( 0, runif( 1, 0, 0.05 ) ) )
-    transformedImage <- ( transformedImage - min( transformedImage ) ) / ( max( transformedImage ) - min( transformedImage ) )
+        mapping <- bspliner$bsplineMapping
+        mappingDataFrame <- data.frame( Input = mapping[, 1], Output = mapping[, 1] + mapping[, 2] )
+        mappingPlot <- ggplot( data = mappingDataFrame ) +
+                      geom_line( aes( x = Input, y = Output ), color = "blue" ) +
+                      geom_abline( slope = 1, intercept = 0, linetype = 2, color = "black" ) +
+                      xlim( 0, 1 ) +
+                      ylim( 0, 1 )
+        mappingFile <- paste0( outputPrefixSimulation, "Mapping.pdf" )
+        ggsave( filename = mappingFile, plot = mappingPlot, width = 4, height = 4, units = 'in' )
+        }
+      if( doNoise == TRUE )
+        {
+        transformedImage <- addNoiseToImage( transformedImage,
+          noiseModel = 'additivegaussian', c( 0, runif( 1, 0, 0.05 ) ) )
+        transformedImage <- ( transformedImage - min( transformedImage ) ) /
+          ( max( transformedImage ) - min( transformedImage ) )
+        }
+      antsImageWrite( transformedImage, transformedImageFile )
+      } else {
+      transformedImage <- antsImageRead( transformedImageFile )
+      }
+    histogramFile <- paste0( outputPrefixSimulation, "TransformedImageHistogram.pdf" )
+    if( ! file.exists( histogramFile ) )
+      {
+      makeSegmentationHistogram( transformedImage, mask, histogramFile, FALSE )
+      }
 
     transformedImageVector <- transformedImage[mask != 0]
-    antsImageWrite( transformedImage, paste0( outputPrefixSimulation, "TransformedImage.nii.gz" ) )
-    histogramFile <- paste0( outputPrefixSimulation, "TransformedImageHistogram.pdf" )
-    makeSegmentationHistogram( transformedImage, mask, histogramFile, FALSE )
 
-
+    ###################
+    #
+    # Histogram comparisons
+    #
+    ####################
 
     histogramTransformed <- hist( transformedImageVector, breaks = histogramOriginal$breaks, plot = FALSE )
 
@@ -152,34 +236,39 @@ for( i in seq.int( length( gasFiles ) ) )
     minkowskiDist1 <- append( minkowskiDist1, minkowski.dist( histogramOriginal, histogramTransformed, 1 ) )
     minkowskiDist2 <- append( minkowskiDist2, minkowski.dist( histogramOriginal, histogramTransformed, 2 ) )
     intersectDist <- append( intersectDist, intersect.dist( histogramOriginal, histogramTransformed ) )
-    klDiv <- append( klDiv, kl.divergence( histogramOriginal, histogramTransformed ) )
-    jeffreyDiv <- append( jeffreyDiv, kl.divergence( histogramOriginal, histogramTransformed ) )
 
+    h1 <- histogramOriginal$density
+    h2 <- histogramTransformed$density
 
+    pearson <- append( pearson, cor( h1, h2, method = "pearson" ) )
+    chi <- append( chi, sum( ( h1 - h2 )^2 / h1 ) )
 
-    mapping <- bspliner$bsplineMapping
-    mappingDataFrame <- data.frame( Input = mapping[, 1], Output = mapping[, 1] + mapping[, 2] )
-    mappingPlot <- ggplot( data = mappingDataFrame ) +
-                   geom_line( aes( x = Input, y = Output ), color = "blue" ) +
-                   geom_abline( slope = 1, intercept = 0, linetype = 2, color = "black" ) +
-                   xlim( 0, 1 ) +
-                   ylim( 0, 1 )
-    mappingFile <- paste0( outputPrefixSimulation, "Mapping.pdf" )
-    ggsave( filename = mappingFile, plot = mappingPlot, width = 4, height = 4, units = 'in' )
+    ###################
 
     # Do linear binning
+
     cat( "       linear binning...\n" )
-    linearBinningResults <- rep( 0, length( transformedImageVector ) )
-    linearBinningSegmentation <- antsImageClone( transformedImage ) * 0
-    for( k in seq.int( length( clusterPartition ) - 1 ) )
+
+    imageFile <- paste0( outputPrefixSimulation, "_LinearBinning.nii.gz" )
+    if( ! file.exists( imageFile ) )
       {
-      linearBinningResults[which( transformedImageVector > clusterPartition[k] & transformedImageVector <= clusterPartition[k+1] )] <- k
+      linearBinningResults <- rep( 0, length( transformedImageVector ) )
+      linearBinningSegmentation <- antsImageClone( transformedImage ) * 0
+      for( k in seq.int( length( clusterPartition ) - 1 ) )
+        {
+        linearBinningResults[which( transformedImageVector > clusterPartition[k] & transformedImageVector <= clusterPartition[k+1] )] <- k
+        }
+      linearBinningSegmentation[mask == 1] <- linearBinningResults
+      linearBinningSegmentation <- groupClusters( linearBinningSegmentation )
+      antsImageWrite( linearBinningSegmentation, imageFile )
+      } else {
+      linearBinningSegmentation <- antsImageRead( imageFile )
       }
-    linearBinningSegmentation[mask == 1] <- linearBinningResults
-    linearBinningSegmentation <- groupClusters( linearBinningSegmentation )
-    antsImageWrite( linearBinningSegmentation, paste0( outputPrefixSimulation, "LinearBinning.nii.gz" ) )
     histogramFile <- paste0( outputPrefixSimulation, "LinearBinningHistogram.pdf" )
-    makeSegmentationHistogram( transformedImage, linearBinningSegmentation, histogramFile, TRUE )
+    if( ! file.exists( histogramFile ) )
+      {
+      makeSegmentationHistogram( transformedImage, linearBinningSegmentation, histogramFile, TRUE )
+      }
 
     simulationNumber <- append( simulationNumber, j )
     diagnosis <- append( diagnosis, subjectDiagnosis )
@@ -189,14 +278,29 @@ for( i in seq.int( length( gasFiles ) ) )
     vdp <-  append( vdp,
       length( linearBinningSegmentation[linearBinningSegmentation == 1] ) / length( mask[mask == 1] ) )
     overlap <- labelOverlapMeasures( linearBinningSegmentationOriginal, linearBinningSegmentation )
-    dice <- append( dice, overlap$MeanOverlap[1] )
+    diceAll <- append( diceAll, overlap$MeanOverlap[1] )
+    dice1 <- append( dice1, overlap$MeanOverlap[2] )
+    dice2 <- append( dice2, overlap$MeanOverlap[3] )
+    dice3 <- append( dice3, overlap$MeanOverlap[4] )
+    dice4 <- append( dice4, overlap$MeanOverlap[5] )
 
     ## Do Atropos
+
     cat( "       atropos...\n" )
-    atroposSegmentation <- groupClusters( atroposLungSegmentation( transformedImage, mask ) )
-    antsImageWrite( atroposSegmentation, paste0( outputPrefixSimulation, "Atropos.nii.gz" ) )
+
+    imageFile <- paste0( outputPrefixSimulation, "Atropos.nii.gz" )
+    if( ! file.exists( imageFile ) )
+      {
+      atroposSegmentation <- groupClusters( atroposLungSegmentation( transformedImage, mask ) )
+      antsImageWrite( atroposSegmentation, imageFile )
+      } else {
+      atroposSegmentation <- antsImageRead( imageFile )
+      }
     histogramFile <- paste0( outputPrefixSimulation, "AtroposHistogram.pdf" )
-    makeSegmentationHistogram( transformedImage, atroposSegmentation, histogramFile, TRUE )
+    if( ! file.exists( histogramFile ) )
+      {
+      makeSegmentationHistogram( transformedImage, atroposSegmentation, histogramFile, TRUE )
+      }
 
     simulationNumber <- append( simulationNumber, j )
     diagnosis <- append( diagnosis, subjectDiagnosis )
@@ -206,14 +310,29 @@ for( i in seq.int( length( gasFiles ) ) )
     vdp <-  append( vdp,
       length( atroposSegmentation[atroposSegmentation == 1] ) / length( mask[mask == 1] ) )
     overlap <- labelOverlapMeasures( atroposSegmentationOriginal, atroposSegmentation )
-    dice <- append( dice, overlap$MeanOverlap[1] )
+    diceAll <- append( diceAll, overlap$MeanOverlap[1] )
+    dice1 <- append( dice1, overlap$MeanOverlap[2] )
+    dice2 <- append( dice2, overlap$MeanOverlap[3] )
+    dice3 <- append( dice3, overlap$MeanOverlap[4] )
+    dice4 <- append( dice4, overlap$MeanOverlap[5] )
 
     ## Do El Bicho
+
     cat( "       el bicho...\n" )
-    elBichoSegmentation <- groupClusters( elBichoLungSegmentation( transformedImage, mask ) )
-    antsImageWrite( elBichoSegmentation, paste0( outputPrefixSimulation, "ElBicho.nii.gz" ) )
+
+    imageFile <- paste0( outputPrefixSimulation, "ElBicho.nii.gz" )
+    if( ! file.exists( imageFile ) )
+      {
+      elBichoSegmentation <- groupClusters( elBichoLungSegmentation( transformedImage, mask ) )
+      antsImageWrite( elBichoSegmentation, imageFile )
+      } else {
+      elBichoSegmentation <- antsImageRead( imageFile )
+      }
     histogramFile <- paste0( outputPrefixSimulation, "ElBicho.pdf" )
-    makeSegmentationHistogram( transformedImage, elBichoSegmentation, histogramFile, TRUE )
+    if( ! file.exists( histogramFile ) )
+      {
+      makeSegmentationHistogram( transformedImage, elBichoSegmentation, histogramFile, TRUE )
+      }
 
     simulationNumber <- append( simulationNumber, j )
     diagnosis <- append( diagnosis, subjectDiagnosis )
@@ -223,14 +342,29 @@ for( i in seq.int( length( gasFiles ) ) )
     vdp <-  append( vdp,
       length( elBichoSegmentation[elBichoSegmentation == 1] ) / length( mask[mask == 1] ) )
     overlap <- labelOverlapMeasures( elBichoSegmentationOriginal, elBichoSegmentation )
-    dice <- append( dice, overlap$MeanOverlap[1] )
+    diceAll <- append( diceAll, overlap$MeanOverlap[1] )
+    dice1 <- append( dice1, overlap$MeanOverlap[2] )
+    dice2 <- append( dice2, overlap$MeanOverlap[3] )
+    dice3 <- append( dice3, overlap$MeanOverlap[4] )
+    dice4 <- append( dice4, overlap$MeanOverlap[5] )
 
     # Do kmeans
+
     cat( "       hierarchical kmeans...\n" )
-    kmeansSegmentation <- groupClusters( kirbyKmeansLungSegmentation( transformedImage, mask ) )
-    antsImageWrite( kmeansSegmentation, paste0( outputPrefixSimulation, "KMeans.nii.gz" ) )
+
+    imageFile <- paste0( outputPrefixSimulation, "KMeans.nii.gz" )
+    if( ! file.exists( imageFile ) )
+      {
+      kmeansSegmentation <- groupClusters( kirbyKmeansLungSegmentation( transformedImage, mask ) )
+      antsImageWrite( kmeansSegmentation, imageFile )
+      } else {
+      kmeansSegmentation <- antsImageRead( imageFile )
+      }
     histogramFile <- paste0( outputPrefixSimulation, "KmeansHistogram.pdf" )
-    makeSegmentationHistogram( transformedImage, kmeansSegmentation, histogramFile, TRUE )
+    if( ! file.exists( histogramFile ) )
+      {
+      makeSegmentationHistogram( transformedImage, kmeansSegmentation, histogramFile, TRUE )
+      }
 
     simulationNumber <- append( simulationNumber, j )
     diagnosis <- append( diagnosis, subjectDiagnosis )
@@ -239,8 +373,12 @@ for( i in seq.int( length( gasFiles ) ) )
 
     vdp <-  append( vdp,
       length( kmeansSegmentation[kmeansSegmentation == 1] ) / length( mask[mask == 1] ) )
-    overlap <- labelOverlapMeasures( kmeansSegmentation, kmeansSegmentation )
-    dice <- append( dice, overlap$MeanOverlap[1] )
+    overlap <- labelOverlapMeasures( kmeansSegmentationOriginal, kmeansSegmentation )
+    diceAll <- append( diceAll, overlap$MeanOverlap[1] )
+    dice1 <- append( dice1, overlap$MeanOverlap[2] )
+    dice2 <- append( dice2, overlap$MeanOverlap[3] )
+    dice3 <- append( dice3, overlap$MeanOverlap[4] )
+    dice4 <- append( dice4, overlap$MeanOverlap[5] )
     }
 
   #
@@ -259,8 +397,8 @@ for( i in seq.int( length( gasFiles ) ) )
                                    Minkowski1 = minkowskiDist1,
                                    Minkowski2 = minkowskiDist2,
                                    intersectDist = intersectDist,
-                                   KLDivergence = klDiv,
-                                   JeffreyDivergence = jeffreyDiv
+                                   Correlation = pearson,
+                                   ChiSq = chi
                                    )
   write.csv( similarityResults, file = paste0( baseDirectory, "similarityStudy.csv" ), row.names = FALSE )
 
@@ -269,7 +407,11 @@ for( i in seq.int( length( gasFiles ) ) )
                                   Simulation = simulationNumber,
                                   Segmentation = segmentation,
                                   VDP = vdp,
-                                  Dice = dice )
+                                  DiceAll = diceAll,
+                                  Dice1 = dice1,
+                                  Dice2 = dice2,
+                                  Dice3 = dice3,
+                                  Dice4 = dice4 )
   write.csv( nonlinearResults, file = paste0( baseDirectory, "varianceStudy.csv" ), row.names = FALSE )
 
   nonlinearResults <- read.csv( paste0( baseDirectory, "varianceStudy.csv" ) )
@@ -281,8 +423,8 @@ for( i in seq.int( length( gasFiles ) ) )
 
     plotDataFrame <- data.frame( SubjectID = as.factor( dxResults$SubjectID ),
                                 Pipeline = dxResults$Segmentation,
-                                VDP = dxResults$VDP,
-                                Dice = dxResults$Dice )
+                                VDP = dxResults$Dice1,
+                                Dice = dxResults$DiceAll )
     vdpVariancePlot <- ggplot( data = plotDataFrame ) +
                       geom_boxplot( aes( x = SubjectID, y = VDP, fill = Pipeline ) )  +
                       theme( axis.text.x = element_text( angle = 45 ) ) +
@@ -317,7 +459,7 @@ for( i in seq.int( length( gasFiles ) ) )
           sd( dxResults$VDP[which( dxResults$SubjectID == subjects[m] & dxResults$Segmentation == pipelines[n] )] ) )
         pipeline <- append( pipeline, pipelines[n] )
         diceMean <- append( diceMean,
-          mean( dxResults$Dice[which( dxResults$SubjectID == subjects[m] & dxResults$Segmentation == pipelines[n] )] ) )
+          mean( dxResults$DiceAll[which( dxResults$SubjectID == subjects[m] & dxResults$Segmentation == pipelines[n] )] ) )
         }
       }
 
@@ -350,7 +492,7 @@ for( i in seq.int( length( gasFiles ) ) )
         sd( dxResults$VDP[which( dxResults$SubjectID == subjects[m] & dxResults$Segmentation == pipelines[n] )] ) )
       pipeline <- append( pipeline, pipelines[n] )
       diceMean <- append( diceMean,
-        mean( dxResults$Dice[which( dxResults$SubjectID == subjects[m] & dxResults$Segmentation == pipelines[n] )] ) )
+        mean( dxResults$DiceAll[which( dxResults$SubjectID == subjects[m] & dxResults$Segmentation == pipelines[n] )] ) )
       }
     }
 
