@@ -125,7 +125,7 @@ iterative approach originally used for NASA satellite image processing and
 subsequently appropriated for brain tissue segmentation in T1-weighted MRI
 [@Vannier:1985aa], a GMM is used to model the intensity clusters of the
 histogram with class modulation in the form of probabilistic voxelwise label
-considerations, i.e. Markov Random Field (MRF) modeling,  within image
+considerations, i.e., MRF modeling,  within image
 neighborhoods [@Besag:1986aa] using the expectation-maximization (EM) algorithm
 [@Dempster:1977aa].  Initialization for this particular application is in the
 form of k-means clustering which, itself, is initialized automatically using
@@ -183,34 +183,52 @@ provides a sample visualization representing some of the structural changes that
 we observed when simulating these nonlinear mappings.  It is important to notice
 that even relatively small alterations in the image intensities can have
 significant effects on the histogram even though a visual, clinically-based
-assessment of the image can remain largely unchanged.  In further support,
-we provide a summary measure from a set of experiments detailed later in this
-work.  Figure \ref{fig:similarity} is not derived from the algorithmic comparisons
-but simply demonstrates the importance of the considerations of the issues just
-raised.  The structural similarity index measurement (SSIM) is a highly cited
-quantity within the computer vision literature used for assessing image
-quality, often under transformation processes, e.g., image compression.
+assessment of the image can remain largely unchanged.
 
-*In addition to the simple fact that it discards important spatial information,
- although the image-to-histogram transformation simplifies computation, this transformation
-results in greater outcome variance in the resulting information under common
-MR imaging artefacts, according to these measures.*
-
-\begin{figure}[!h] \centering
+\begin{figure}[!htb] \centering
   \includegraphics[width=0.95\textwidth]{Figures/similarity.pdf}
-  \caption{}
+  \caption{Image-based SSIM vs. histogram-based Pearson's correlation differences
+  under the common MR artefacts of noise and intensity nonlinearities.  For the
+  nonlinearity-only simulations, the images maintain their structural integrity
+  as the SSIM values remain close to 1.  This is in contrast to the
+  corresponding range in histogram similarity is much larger.
+  Although not as large, the range in histogram differences with simulated noise
+  is much greater than the range in SSIM.  Both point to the potential lack of
+  robustness in the histogram domain vs. the image domain in relation to
+  simulated MR artefacts.}
   \label{fig:similarity}
 \end{figure}
+
+To generalize these effects further, we provide a summary illustration from a
+set of image simulations in Figure \ref{fig:similarity} which are detailed later
+in this work and used for algorithmic comparison.  Simulated MR artefacts
+include both noise and nonlinear intensity mappings (and their combination), in
+a set of ~50 images ($\times 10$ simulations per image).   Prior to any
+algorithmic analysis, we compared each simulated image with the original image
+using the structural similarity index measurement (SSIM) [@Wang:2004aa]. SSIM is
+a highly-cited measure which quantifies structural differences between a
+reference and distorted (i.e., transformed) image based on known properties of
+the human visual system.  SSIM has a range $[-1,1]$ where 0 indicates no
+structural similarity and 1 indicates perfect structural similarity. We
+generated the histograms corresponding to the reference and transformed images.
+Although several histogram similarity measures exist, we choose Pearson's
+correlation primarily as it resides in the same [min, max] range as SSIM with
+analogous significance. In addition to the fact that the image-to-histogram
+transformation discards important spatial information, from Figure
+\ref{fig:similarity}, it should be apparent that this transformation also
+results in greater variance in the resulting information under common MR imaging
+artefacts, according to these measures.
+
 
 Ultimately, we are not claiming that these algorithms are erroneous, per se.
 Much of the relevant research has been limited to quantifying differences with
 respect to ventilation versus non-ventilation in various clinical categories and
 these algorithms have certainly demonstrated the capacity for advancing such
-research.  However, these issues influence quantitation in terms of core
-scientific measurement principles such as precision (e.g., reproducibility and
-repeatability [@Svenningsen:2020aa]) and bias which will become more acute as
-multi-site and large-scale studies are performed.  In addition, generally
-speaking, refinements in measuring capabilities correlates with scientific
+research.  However, the aforementioned issues influence quantitation in terms of
+core scientific measurement principles such as precision (e.g., reproducibility
+and repeatability [@Svenningsen:2020aa]) and bias which become increasingly
+significant with multi-site and large-scale studies.  In addition, generally
+speaking, refinements in measuring capabilities correlate with scientific
 advancement so as acquisition and analysis methodologies improve, so should the
 level of sophistication and performance of the measurement tools.
 
@@ -228,7 +246,7 @@ histogram. We introduced a deep learning approach in [@Tustison:2019ac] and
 further expand on that work for comparison with existing approaches in this
 work.  In the spirit of open science, we have made the entire evaluation
 framework, including our novel contributions, available within our Advanced
-Normalization Tools software ecosystem (ANTsX).
+Normalization Tools software ecosystem (ANTsX) [@Tustison:2020aa].
 
 
 

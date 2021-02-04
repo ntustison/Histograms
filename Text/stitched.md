@@ -58,13 +58,21 @@ $ $
 
 \normalsize
 
-Nicholas J. Tustison,
-\ldots,
-Jaime F. Mata
+Nicholas J. Tustison$^1$,
+Talissa A. Altes$^2$,
+Kun Qing$^3$,
+G. Wilson Miller$^1$,
+James C. Gee$^3$,
+John P. Mugler III$^1$,
+Jaime F. Mata$^1$
 
 \footnotesize
 
-Department of Radiology and Medical Imaging, University of Virginia, Charlottesville, VA \\
+$^1$Department of Radiology and Medical Imaging, University of Virginia, Charlottesville, VA \\
+$^2$Department of Radiology, University of Missouri, Columbia, MO \\
+$^3$Department of Radiation Oncology, City of Hope, Los Angeles, CA \\
+$^3$Department of Radiology, University of Pennsylvania, Philadelphia, PA \\
+
 
 \end{centering}
 
@@ -254,7 +262,7 @@ iterative approach originally used for NASA satellite image processing and
 subsequently appropriated for brain tissue segmentation in T1-weighted MRI
 [@Vannier:1985aa], a GMM is used to model the intensity clusters of the
 histogram with class modulation in the form of probabilistic voxelwise label
-considerations, i.e. Markov Random Field (MRF) modeling,  within image
+considerations, i.e., MRF modeling,  within image
 neighborhoods [@Besag:1986aa] using the expectation-maximization (EM) algorithm
 [@Dempster:1977aa].  Initialization for this particular application is in the
 form of k-means clustering which, itself, is initialized automatically using
@@ -312,34 +320,52 @@ provides a sample visualization representing some of the structural changes that
 we observed when simulating these nonlinear mappings.  It is important to notice
 that even relatively small alterations in the image intensities can have
 significant effects on the histogram even though a visual, clinically-based
-assessment of the image can remain largely unchanged.  In further support,
-we provide a summary measure from a set of experiments detailed later in this
-work.  Figure \ref{fig:similarity} is not derived from the algorithmic comparisons
-but simply demonstrates the importance of the considerations of the issues just
-raised.  The structural similarity index measurement (SSIM) is a highly cited
-quantity within the computer vision literature used for assessing image
-quality, often under transformation processes, e.g., image compression.
+assessment of the image can remain largely unchanged.
 
-*In addition to the simple fact that it discards important spatial information,
- although the image-to-histogram transformation simplifies computation, this transformation
-results in greater outcome variance in the resulting information under common
-MR imaging artefacts, according to these measures.*
-
-\begin{figure}[!h] \centering
+\begin{figure}[!htb] \centering
   \includegraphics[width=0.95\textwidth]{Figures/similarity.pdf}
-  \caption{}
+  \caption{Image-based SSIM vs. histogram-based Pearson's correlation differences
+  under the common MR artefacts of noise and intensity nonlinearities.  For the
+  nonlinearity-only simulations, the images maintain their structural integrity
+  as the SSIM values remain close to 1.  This is in contrast to the
+  corresponding range in histogram similarity is much larger.
+  Although not as large, the range in histogram differences with simulated noise
+  is much greater than the range in SSIM.  Both point to the potential lack of
+  robustness in the histogram domain vs. the image domain in relation to
+  simulated MR artefacts.}
   \label{fig:similarity}
 \end{figure}
+
+To generalize these effects further, we provide a summary illustration from a
+set of image simulations in Figure \ref{fig:similarity} which are detailed later
+in this work and used for algorithmic comparison.  Simulated MR artefacts
+include both noise and nonlinear intensity mappings (and their combination), in
+a set of ~50 images ($\times 10$ simulations per image).   Prior to any
+algorithmic analysis, we compared each simulated image with the original image
+using the structural similarity index measurement (SSIM) [@Wang:2004aa]. SSIM is
+a highly-cited measure which quantifies structural differences between a
+reference and distorted (i.e., transformed) image based on known properties of
+the human visual system.  SSIM has a range $[-1,1]$ where 0 indicates no
+structural similarity and 1 indicates perfect structural similarity. We
+generated the histograms corresponding to the reference and transformed images.
+Although several histogram similarity measures exist, we choose Pearson's
+correlation primarily as it resides in the same [min, max] range as SSIM with
+analogous significance. In addition to the fact that the image-to-histogram
+transformation discards important spatial information, from Figure
+\ref{fig:similarity}, it should be apparent that this transformation also
+results in greater variance in the resulting information under common MR imaging
+artefacts, according to these measures.
+
 
 Ultimately, we are not claiming that these algorithms are erroneous, per se.
 Much of the relevant research has been limited to quantifying differences with
 respect to ventilation versus non-ventilation in various clinical categories and
 these algorithms have certainly demonstrated the capacity for advancing such
-research.  However, these issues influence quantitation in terms of core
-scientific measurement principles such as precision (e.g., reproducibility and
-repeatability [@Svenningsen:2020aa]) and bias which will become more acute as
-multi-site and large-scale studies are performed.  In addition, generally
-speaking, refinements in measuring capabilities correlates with scientific
+research.  However, the aforementioned issues influence quantitation in terms of
+core scientific measurement principles such as precision (e.g., reproducibility
+and repeatability [@Svenningsen:2020aa]) and bias which become increasingly
+significant with multi-site and large-scale studies.  In addition, generally
+speaking, refinements in measuring capabilities correlate with scientific
 advancement so as acquisition and analysis methodologies improve, so should the
 level of sophistication and performance of the measurement tools.
 
@@ -357,7 +383,7 @@ histogram. We introduced a deep learning approach in [@Tustison:2019ac] and
 further expand on that work for comparison with existing approaches in this
 work.  In the spirit of open science, we have made the entire evaluation
 framework, including our novel contributions, available within our Advanced
-Normalization Tools software ecosystem (ANTsX).
+Normalization Tools software ecosystem (ANTsX) [@Tustison:2020aa].
 
 
 
@@ -371,45 +397,27 @@ Normalization Tools software ecosystem (ANTsX).
 To support the discussion in the Introduction, we perform various experiments to
 showcase the effects of both MR nonlinear intensity mapping and noise on
 measurement bias and precision using the popular algorithms described
-previously, specifically:
-
-* linear binning,
-* hierarchical k-means,
-* GMM-MRF, and
-* a trained U-net.
+previously, specifically linear binning [@He:2016aa], hierarchical k-means
+[@@Kirby:2012aa], GMM-MRF (specifically, ANTs-based Atropos tailored for
+the functional lung imaging domain) [@Tustison:2011aa],
+and a trained CNN [@Tustison:2019ac].
 
 We first demonstrate the effects of MR intensity nonlinearities on the
-analogical application of T1-weighted brain MR segmentation.  This evaluation is
+application of T1-weighted brain MR segmentation.  This component is
 strictly qualitative as the visual evidence and previous developmental history
-is overwhelmingly indicative of the need for adequate algorithmic optimization
-capabilities.  We use these qualitative results as a segue to quantifying the
-effects of the choice of reference cohort on the clustering parameters for the
-three histogram-based algorithms.  We then incorporate the CNN model in
-exploring additional aspects of measurement variance based on simulating both MR
-noise and intensity nonlinearities.  Finally, we investigate algorithmic
-accuracy (i.e., bias) in the absence of ground-truth segmentations, by using a
-clinical diagnostic prediction approach and a study for simultaneous truth and
-performance level estimation (STAPLE) [@Warfield:2004aa].
+is sufficiently compelling and motivates exploring in the analogical domain of
+hyperpolarized gas lung imaging.  We use these qualitative results as a segue to
+quantifying the effects of the choice of reference cohort on the clustering
+parameters for the linear binning algorithm.  We then incorporate the
+trained CNN model in exploring additional aspects of measurement variance based on
+simulating both MR noise and intensity nonlinearities.  Finally, we investigate
+algorithmic accuracy (i.e., bias) in the absence of ground-truth segmentations,
+by using a clinical diagnostic prediction approach and employing the simultaneous
+truth and performance level estimation (STAPLE) [@Warfield:2004aa].
 
-A fair and accurate comparison between algorithms necessitates several considerations
-which have been outlined previously [@Tustison:2013aa].  In designing the evaluation
-study:
+## Hyperpolarized gas image cohort
 
-* All algorithms and evaluation scripts have been implemented using open-source tools
-by the first author who is also responsible for the GMM-MRF ("Atropos" in ANTs) and
-N4 algorithms.  The linear binning and k-means algorithms were easily recreated
-using existing R tools.  Similarly, N4, GMM-MRF, and the trained CNN approach are
-all available through ANTsR/ANTsRNet, ``ANTsR::n4BiasFieldCorrection``,
-``ANTsRNet::functionalLungSegmentation``, and ``ANTsRNet::elBicho``, respectively.[^2]
-* Default parameters vary slightly from the original implementations.  For example,
-in [@Kirby:2012aa], five clusters
-
-
-[^2]:  Python versions are also available through ANTsPy/ANTsPyNet.
-
-## Image cohorts
-
-A retrospective dataset was collected consisting of young healthy ($n=5$),
+A retrospective dataset was collected consisting of young healthy ($n=10$),
 older healthy ($n=7$), cystic fibrosis (CF) ($n=?$), idiopathic lung disease
 (ILD) ($n=?$), and chronic obstructive pulmonary disease ($n=?$).
 Imaging with hyperpolarized 3He was
@@ -430,29 +438,51 @@ gap, none. The data were deidentified prior to analysis.
 
 ## Algorithmic implementations
 
-All algorithms and evaluation scripts are implemented within the ANTsR/ANTsRNet
-framework---a component of the ANTsX ecosystem [@Tustison:2020aa] for R users.
-For the interested reader, ANTsPy/ANTsPyNet make potential evaluation possible
-with the Python language.
+A fair and accurate comparison between algorithms necessitates several considerations
+which have been outlined previously [@Tustison:2013aa].  In designing the evaluation
+study:
+
+* All algorithms and evaluation scripts have been implemented using open-source
+  tools by the first author.  The linear binning and hierarchical k-means
+  algorithms were recreated using existing R functionality.  These have been made
+  available as part of the GitHub repository corresponding to this paper.[^2]
+  Similarly, N4, Atropos-based lung segmentation, and the trained CNN approach are
+  all available through ANTsR/ANTsRNet, ``ANTsR::n4BiasFieldCorrection``,
+  ``ANTsR::functionalLungSegmentation``, and ``ANTsRNet::elBicho``, respectively.[^3]
+  The weights for the CNN are publicly available and are automatically downloaded
+  when running the program.
+
+* The imaging data used for the evaluation is available upon request and through a data
+  sharing agreement.  All other data, including additional evaluation plots are available,
+  in the specified GitHub repository.
+
+[^2]:  https://github.com/ntustison/Histograms
+
+[^3]:  Python versions are also available through ANTsPy/ANTsPyNet.
 
 ## Introduction of "El Bicho"
 
 We extended the deep learning functionality first described in
 [@Tustison:2019ac] to improve performance and provide a more clinically granular
-labeling.  In addition, further modifications incorporated additional data
-during training, added attention gating [@Schlemper:2019aa]to the U-net network
-[@Falk:2019aa], and novel data augmentation strategies. More details are given
-below.
+labeling (i.e., four clusters instead of two).  In addition, further
+modifications incorporated additional data during training, added attention
+gating [@Schlemper:2019aa] to the U-net network [@Falk:2019aa] along with
+recommended hyperparameters [@Isensee:2020aa], and a novel data augmentation
+strategy.  More details are given below.
 
 ### Network training
 
-A 2-D per-image-slice U-net model [@Falk:2019aa] was trained with several
-parameters recommended by recent U-net exploratory work [@Isensee:2020aa].  Four
-total network layers were employed with 32 filters at the base layer which is
-doubled at each subsequent layer.  Multiple training runs were executed where
-initial runs employed categorical cross entropy as the loss function.  Upon
-convergence, training continued with a multi-label Dice [@Crum:2006aa] loss
-function.
+A 2-D U-net network was trained with several parameters recommended by recent
+U-net exploratory work [@Isensee:2020aa].  The images are sufficiently small
+such that 3-D training is possible.  However, given the large voxel anisotropy
+for much of our data (both coronal and axial), we found a 2-D approach to be
+sufficient.  Nevertheless, a 2.5-D approach is an optional way to run the code
+for isotropic data where network prediction can occur in more than one direction
+and the results averaged. Four total network layers were employed with 32
+filters at the base layer which is doubled at each subsequent layer.  Multiple
+training runs were performed where initial runs employed categorical cross
+entropy as the loss function.  Upon convergence, training continued with a
+multi-label Dice loss function [@Crum:2006aa].
 
 \begin{figure}[htb]
   \centering
@@ -471,29 +501,30 @@ function.
     \includegraphics[width=0.95\linewidth]{Figures/sample_ventilation_noise_9.png}
     \caption{Noise.}
   \end{subfigure}
-\caption{Custom data augmentation strategies for training.  (b)  }
+\caption{Custom data augmentation strategies for training to force a solution which
+focuses on the underlying ventilation-based lung structure.  (b) Nonlinear intensity
+warping based on smoothly varying perturbations of the image histogram.  (c) Additive Gaussian noise
+included for increasing the robustness of the segmentation network.}
 \label{fig:sample_ventilation}
 \end{figure}
 
 Training data (using an 80/20---training/testing split) was composed of the
-ventilation image along with a lung mask and corresponding ventilation-based
-parcellation. The ventilation-based parcellation comprised four labels based on
-previous experience and the similar choices of other research groups. A total of
-five random slices per image were selected in the acquisition direction (both
-axial and coronal) for inclusion within a given batch (batch size = 128 slices).
-Prior to slice extraction, both random noise and randomly-generated, nonlinear
-intensity warping was added to the 3-D image (see Figure
-\ref{fig:sample_ventilation}) using the respective ANTsR/ANTsRNet functions:
+ventilation image, lung mask, and corresponding ventilation-based parcellation.
+The lung parcellation comprised four labels based on the Atropos-based
+ventilation-based segmentation [@Tustison:2011aa]. Six clusters were used to
+create the training data and combined to four for training. In using this GMM-MRF
+algorithm (which is the only one to use spatial information in the form of the
+MRF prior), we attempt to bootstrap a better network-based segmentation approach
+by using the encoder-decoder structure of the U-net architecture as a
+dimensionality reduction technique.
 
-* ``addNoiseToImage`` [^3] and
-* ``histogramWarpImageIntensities`` [^4]
-
-[^3]: https://github.com/ANTsX/ANTsR/blob/master/R/addNoiseToImage.R
-
-[^4]:
-https://github.com/ANTsX/ANTsRNet/blob/master/R/histogramWarpImageIntensities.R
-
-with analogs in ANTsPy/ANTsPyNet.  3-D images were intensity normalized to have
+A total of five random slices per image were selected in the acquisition
+direction (both axial and coronal) for inclusion within a given batch (batch
+size = 128 slices). Prior to slice extraction, both random noise and
+randomly-generated, nonlinear intensity warping was added to the 3-D image (see
+Figure \ref{fig:sample_ventilation}) using ANTsR/ANTsRNet functions
+(``ANTsR::addNoiseToImage``, and ``ANTsRNet::histogramWarpImageIntensities``)
+with analogs in ANTsPy/ANTsPyNet .  3-D images were intensity normalized to have
 0 mean and unit standard deviation.  The noise model was additive Gaussian with
 0 mean and a randomly chosen standard deviation value between [0, 0.3].
 Histogram-based intensity warping used the default parameters.  These data
@@ -503,8 +534,13 @@ DGX (GPUs: 4X Tesla V100, system memory: 256 GB LRDIMM DDR4).
 
 ### Pipeline processing
 
-
-The proposed deep learning extension was
+An example R-based code snippet is provided in Listing \ref{listing:elBicho}
+demonstrating how to process a single ventilation image using
+``ANTsRNet::elBicho``. If a simultaneous proton image has been acquired,
+``ANTsRNet::lungExtraction`` can be used to generate the requisite lung mask
+input.  As mentioned previously, by default the prediction occurs slice-by-slice
+along the direction of anisotropy. Alternatively, prediction can be performed
+in all three canonical directions and averaged to produce the final solution.
 
 \vspace{10mm}
 
@@ -532,7 +568,7 @@ The proposed deep learning extension was
         a single ventilation image.
         },
         captionpos=b,
-        label=listing:antspyCorticalThickness
+        label=listing:elBicho
         }
 \begin{lstlisting}
 library( ANTsR )
