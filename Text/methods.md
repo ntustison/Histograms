@@ -1,18 +1,18 @@
 
 # Materials and methods
 
-To support the discussion in the Introduction, we perform various experiments to
-showcase the effects of both MR nonlinear intensity mapping and noise on
-measurement bias and precision using the popular algorithms described
+To support the discussion in the Introduction, we performed various experiments
+which showcase the effects of both nonlinear intensity mapping and noise
+artefacts on measurement precision and bias using the popular algorithms described
 previously, specifically linear binning [@He:2016aa], hierarchical k-means
 [@@Kirby:2012aa], GMM-MRF (specifically, ANTs-based Atropos tailored for
-the functional lung imaging domain) [@Tustison:2011aa],
-and a trained CNN [@Tustison:2019ac].
+functional lung imaging) [@Tustison:2011aa], and a trained CNN
+[@Tustison:2019ac].
 
 We first demonstrate the effects of MR intensity nonlinearities on the
 application of T1-weighted brain MR segmentation.  This component is
 strictly qualitative as the visual evidence and previous developmental history
-is sufficiently compelling and motivates exploring in the analogical domain of
+should be sufficiently compelling in motivating exploration in the analogical domain of
 hyperpolarized gas lung imaging.  We use these qualitative results as a segue to
 quantifying the effects of the choice of reference cohort on the clustering
 parameters for the linear binning algorithm.  We then incorporate the

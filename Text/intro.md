@@ -188,7 +188,7 @@ assessment of the image can remain largely unchanged.
 \begin{figure}[!htb] \centering
   \includegraphics[width=0.95\textwidth]{Figures/similarity.pdf}
   \caption{Image-based SSIM vs. histogram-based Pearson's correlation differences
-  under the common MR artefacts of noise and intensity nonlinearities.  For the
+  under distortions induced by the common MR artefacts of noise and intensity nonlinearities.  For the
   nonlinearity-only simulations, the images maintain their structural integrity
   as the SSIM values remain close to 1.  This is in contrast to the
   corresponding range in histogram similarity is much larger.
@@ -199,26 +199,31 @@ assessment of the image can remain largely unchanged.
   \label{fig:similarity}
 \end{figure}
 
-To generalize these effects further, we provide a summary illustration from a
-set of image simulations in Figure \ref{fig:similarity} which are detailed later
-in this work and used for algorithmic comparison.  Simulated MR artefacts
-include both noise and nonlinear intensity mappings (and their combination), in
-a set of ~50 images ($\times 10$ simulations per image).   Prior to any
-algorithmic analysis, we compared each simulated image with the original image
-using the structural similarity index measurement (SSIM) [@Wang:2004aa]. SSIM is
-a highly-cited measure which quantifies structural differences between a
-reference and distorted (i.e., transformed) image based on known properties of
-the human visual system.  SSIM has a range $[-1,1]$ where 0 indicates no
-structural similarity and 1 indicates perfect structural similarity. We
-generated the histograms corresponding to the reference and transformed images.
+To briefly explore these effects further for the purposes of motivating
+additional experimentation, we provide a summary illustration from a set of
+image simulations in Figure \ref{fig:similarity} which are detailed later in
+this work and used for algorithmic comparison.  Simulated MR artefacts
+were applied to each image which included
+both noise and nonlinear intensity mappings (and their combination) which made
+for a total simulated cohort of
+~50 images ($\times 10$ simulations per image).   Prior to any algorithmic
+comparative analysis, we quantified the difference of each simulated image with
+the original image using the structural similarity index measurement (SSIM)
+[@Wang:2004aa]. SSIM is a highly-cited measure which quantifies structural
+differences between a reference and distorted (i.e., transformed) image based on
+known properties of the human visual system.  SSIM has a range $[-1,1]$ where 0
+indicates no structural similarity and 1 indicates perfect structural
+similarity. We also generated the histograms corresponding to these images.
 Although several histogram similarity measures exist, we choose Pearson's
 correlation primarily as it resides in the same [min, max] range as SSIM with
 analogous significance. In addition to the fact that the image-to-histogram
 transformation discards important spatial information, from Figure
 \ref{fig:similarity}, it should be apparent that this transformation also
 results in greater variance in the resulting information under common MR imaging
-artefacts, according to these measures.
-
+artefacts, according to these measures.  Thus, prior to any algorithmic
+considerations, these observations point to the fact that optimizing in the domain
+of the histogram will be generally less robust than optimizing directly in the image
+domain.
 
 Ultimately, we are not claiming that these algorithms are erroneous, per se.
 Much of the relevant research has been limited to quantifying differences with
@@ -227,26 +232,26 @@ these algorithms have certainly demonstrated the capacity for advancing such
 research.  However, the aforementioned issues influence quantitation in terms of
 core scientific measurement principles such as precision (e.g., reproducibility
 and repeatability [@Svenningsen:2020aa]) and bias which become increasingly
-significant with multi-site and large-scale studies.  In addition, generally
+significant with multi-site [@Couch:2019aa] and large-scale studies.  In addition, generally
 speaking, refinements in measuring capabilities correlate with scientific
 advancement so as acquisition and analysis methodologies improve, so should the
 level of sophistication and performance of the measurement tools.
 
-The recent emergence of deep-layered neural networks [@LeCun:2015aa],
-particularly convolutional neural networks (CNN), is due to their outstanding
-performance in certain computational tasks, including classification and
-semantic segmentation in medical imaging [@Shen:2017aa].  Their potential for
-leveraging spatial information from images surpasses the perceptual capabilities
-of previous approaches and even rivals that of human raters [@Zhang:2018aa]. In
-assessing these segmentation algorithms for hyperpolarized gas imaging, it is
+In assessing these segmentation algorithms for hyperpolarized gas imaging, it is
 important to note that human expertise leverages more than relative intensity
 values to identify salient, clinically relevant features in images---something
 more akin to the complex neural network structure versus the 1-D intensity
-histogram. We introduced a deep learning approach in [@Tustison:2019ac] and
-further expand on that work for comparison with existing approaches in this
-work.  In the spirit of open science, we have made the entire evaluation
-framework, including our novel contributions, available within our Advanced
-Normalization Tools software ecosystem (ANTsX) [@Tustison:2020aa].
+histogram.  The increased popularity of deep-layered neural networks as
+[@LeCun:2015aa], particularly convolutional neural networks (CNN), is due to
+their outstanding performance in certain computational tasks, including
+classification and semantic segmentation in medical imaging [@Shen:2017aa].
+Their potential for leveraging spatial information from images surpasses the
+perceptual capabilities of previous approaches and even rivals that of human
+raters [@Zhang:2018aa].  We introduced a deep learning approach in
+[@Tustison:2019ac] and further expand on that work for comparison with existing
+approaches in this work.  In the spirit of open science, we have made the entire
+evaluation framework, including our novel contributions, available within our
+Advanced Normalization Tools software ecosystem (ANTsX) [@Tustison:2020aa].
 
 
 
