@@ -101,9 +101,9 @@ histogramWarpImageIntensities2 <- function( image,
 
 groupClusters <- function( image )
   {
-  image[image == 4] <- 4
-  image[image == 5] <- 4
-  image[image == 6] <- 4
+  image[image == 4] <- 3
+  image[image == 5] <- 3
+  image[image == 6] <- 3
 
   return( image )
   }
