@@ -14,13 +14,14 @@ output:
     fig_caption: true
 bibliography:
   - references.bib
-csl: journal-of-magnetic-resonance-imaging.csl 
+csl: journal-of-magnetic-resonance-imaging.csl
 longtable: true
 urlcolor: blue
 header-includes:
   # - \usepackage[left]{lineno}
   # - \linenumbers
   - \usepackage{longtable}
+  - \usepackage[normalem]{ulem}
   - \usepackage{graphicx}
   - \usepackage{booktabs}
   - \usepackage{listings}
@@ -58,21 +59,13 @@ $ $
 
 \normalsize
 
-Nicholas J. Tustison$^1$,
-Talissa A. Altes$^2$,
-Kun Qing$^3$,
-G. Wilson Miller$^1$,
-James C. Gee$^3$,
-John P. Mugler III$^1$,
-Jaime F. Mata$^1$
+Nicholas J. Tustison,
+E. Alia,
+Jaime F. Mata
 
 \footnotesize
 
-$^1$Department of Radiology and Medical Imaging, University of Virginia, Charlottesville, VA \\
-$^2$Department of Radiology, University of Missouri, Columbia, MO \\
-$^3$Department of Radiation Oncology, City of Hope, Los Angeles, CA \\
-$^3$Department of Radiology, University of Pennsylvania, Philadelphia, PA \\
-
+Department of Radiology and Medical Imaging, University of Virginia, Charlottesville, VA \\
 
 \end{centering}
 
@@ -126,14 +119,13 @@ Tools ecosystem (ANTsX).
 * Calling CNN "el Bicho" until we can come up a different name.
 * Jaime to edit Subsections 2.1?
 * Possible co-authors:  Tally Altes, Kun Qing, John Mugler, Wilson Miller, James Gee, Mu He
-* Need five more young healthy subjects.
+* \sout{Need five more young healthy subjects.}
 * Need to finalize experiments
 
     * Nonlinear experiments: Noise, MR intensity nonlinear mapping, Noise + Nonlinear mapping
     * one issue is "should we preprocess with N4?"  --- yes, it helps segmentation, and more than
       one group uses it.
 
-* Should we retrain with shot/salt and pepper?  No let's wait until after the first round of experiments.
 
 \newpage
 # Introduction
@@ -378,7 +370,7 @@ In assessing these segmentation algorithms for hyperpolarized gas imaging, it is
 important to note that human expertise leverages more than relative intensity
 values to identify salient, clinically relevant features in images---something
 more akin to the complex neural network structure versus the 1-D intensity
-histogram.  The recent emergence of deep-layered neural networks
+histogram.  The increased popularity of deep-layered neural networks as
 [@LeCun:2015aa], particularly convolutional neural networks (CNN), is due to
 their outstanding performance in certain computational tasks, including
 classification and semantic segmentation in medical imaging [@Shen:2017aa].
@@ -399,26 +391,31 @@ Advanced Normalization Tools software ecosystem (ANTsX) [@Tustison:2020aa].
 
 # Materials and methods
 
-To support the discussion in the Introduction, we perform various experiments to
-showcase the effects of both MR nonlinear intensity mapping and noise on
-measurement bias and precision using the popular algorithms described
+To support the discussion in the Introduction, we performed various experiments
+which showcase the effects of both nonlinear intensity mapping and noise
+artefacts on measurement precision and bias using the popular algorithms described
 previously, specifically linear binning [@He:2016aa], hierarchical k-means
 [@@Kirby:2012aa], GMM-MRF (specifically, ANTs-based Atropos tailored for
-the functional lung imaging domain) [@Tustison:2011aa],
-and a trained CNN [@Tustison:2019ac].
+functional lung imaging) [@Tustison:2011aa], and a trained CNN
+[@Tustison:2019ac].
 
-We first demonstrate the effects of MR intensity nonlinearities on the
-application of T1-weighted brain MR segmentation.  This component is
-strictly qualitative as the visual evidence and previous developmental history
-is sufficiently compelling and motivates exploring in the analogical domain of
-hyperpolarized gas lung imaging.  We use these qualitative results as a segue to
-quantifying the effects of the choice of reference cohort on the clustering
-parameters for the linear binning algorithm.  We then incorporate the
-trained CNN model in exploring additional aspects of measurement variance based on
-simulating both MR noise and intensity nonlinearities.  Finally, we investigate
-algorithmic accuracy (i.e., bias) in the absence of ground-truth segmentations,
-by using a clinical diagnostic prediction approach and employing the simultaneous
-truth and performance level estimation (STAPLE) [@Warfield:2004aa].
+We focus initially on some of the issues unique to linear binning, specifically
+its susceptibility to MR nonlinearity artefacts as well as the additional
+requirement of a reference distribution.  The latter is motivated qualitatively
+through the analogous application of T1-weighted brain MR segmentation.  This
+component is strictly qualitative as the visual evidence and previous
+developmental history within that field should be sufficiently compelling in
+motivating subsequent quantitative exploration within hyperpolarized gas lung
+imaging.  We use these qualitative results as a segue to quantifying the effects
+of the choice of reference cohort on the clustering parameters for the linear
+binning algorithm.
+
+We then incorporate the trained CNN model in exploring additional aspects of
+measurement variance based on simulating both MR noise and intensity
+nonlinearities.  Finally, we investigate algorithmic accuracy (i.e., bias) in
+the absence of ground-truth segmentations, by using a clinical diagnostic
+prediction approach and employing the simultaneous truth and performance level
+estimation (STAPLE) [@Warfield:2004aa].
 
 ## Hyperpolarized gas image cohort
 
@@ -450,9 +447,9 @@ study:
 * All algorithms and evaluation scripts have been implemented using open-source
   tools by the first author.  The linear binning and hierarchical k-means
   algorithms were recreated using existing R functionality.  These have been made
-  available as part of the GitHub repository corresponding to this paper.[^2]
+  available as part of the GitHub repository corresponding to this work.[^2]
   Similarly, N4, Atropos-based lung segmentation, and the trained CNN approach are
-  all available through ANTsR/ANTsRNet, ``ANTsR::n4BiasFieldCorrection``,
+  all available through ANTsR/ANTsRNet: ``ANTsR::n4BiasFieldCorrection``,
   ``ANTsR::functionalLungSegmentation``, and ``ANTsRNet::elBicho``, respectively.[^3]
   The weights for the CNN are publicly available and are automatically downloaded
   when running the program.
@@ -489,7 +486,7 @@ training runs were performed where initial runs employed categorical cross
 entropy as the loss function.  Upon convergence, training continued with a
 multi-label Dice loss function [@Crum:2006aa].
 
-\begin{figure}[htb]
+\begin{figure}[!htb]
   \centering
   \begin{subfigure}{0.33\textwidth}
     \centering
@@ -506,10 +503,11 @@ multi-label Dice loss function [@Crum:2006aa].
     \includegraphics[width=0.95\linewidth]{Figures/sample_ventilation_noise_9.png}
     \caption{Noise.}
   \end{subfigure}
-\caption{Custom data augmentation strategies for training to force a solution which
-focuses on the underlying ventilation-based lung structure.  (b) Nonlinear intensity
-warping based on smoothly varying perturbations of the image histogram.  (c) Additive Gaussian noise
-included for increasing the robustness of the segmentation network.}
+  \caption{Custom data augmentation strategies for training to force a solution
+  which focuses on the underlying ventilation-based lung structure.  (b)
+  Nonlinear intensity warping based on smoothly varying perturbations of the
+  image histogram.  (c) Additive Gaussian noise included for increasing the
+  robustness of the segmentation network.}
 \label{fig:sample_ventilation}
 \end{figure}
 
@@ -519,9 +517,11 @@ The lung parcellation comprised four labels based on the Atropos-based
 ventilation-based segmentation [@Tustison:2011aa]. Six clusters were used to
 create the training data and combined to four for training. In using this GMM-MRF
 algorithm (which is the only one to use spatial information in the form of the
-MRF prior), we attempt to bootstrap a better network-based segmentation approach
+MRF prior), we attempt to bootstrap a superior network-based segmentation approach
 by using the encoder-decoder structure of the U-net architecture as a
-dimensionality reduction technique.
+dimensionality reduction technique.  None of the evaluation data used in this
+work were used as training data.  Responses from two subjects at the last layer
+of the network (with $n = 32$ filters) are given in Figure \ref{figure}
 
 A total of five random slices per image were selected in the acquisition
 direction (both axial and coronal) for inclusion within a given batch (batch
@@ -536,6 +536,14 @@ Histogram-based intensity warping used the default parameters.  These data
 augmentation parameters were chosen to provide realistic but potentially
 difficult cases for training. In terms of hardware, all training was done on a
 DGX (GPUs: 4X Tesla V100, system memory: 256 GB LRDIMM DDR4).
+
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=0.99\textwidth]{Figures/featureImages.pdf}
+  \caption{Optimized feature responses from the last layer of the U-net network
+  generated from a (top) young healthy subject and (bottom) CF patient.  }
+\label{fig:featureImages}
+\end{figure}
 
 ### Pipeline processing
 
@@ -570,7 +578,7 @@ in all three canonical directions and averaged to produce the final solution.
         language=python,
         floatplacement=!h,
         caption={\small ANTsR/ANTsRNet command calls for processing
-        a single ventilation image.
+        a single ventilation image using ElBicho.
         },
         captionpos=b,
         label=listing:elBicho
@@ -601,7 +609,37 @@ antsImageWrite( seg$probabilityImages[[4]], "probability4.nii.gz" )
 
 # Results
 
-## T1-weighed brain segmentation analogy
+Evaluations:
+
+* Algorithmic precision
+
+    * Three-tissue T1-weighted brain MRI segmentation (qualitative analog)
+    * Input variance of reference distribution $\longrightarrow$ output variance (linear binning only)
+    * Effects of simulated MR artefacts
+
+* Algorithmic bias (in the absence of ground truth)
+
+    * Dx prediction
+    * STAPLE
+
+## Dx prediction
+
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=0.99\linewidth]{Figures/volumeXRocDx.pdf}
+  \caption{}
+  \label{fig:DxPrediction}
+\end{figure}
+
+\include{dxPredictionAucTable}
+
+In the absence of ground truth, this type of evaluation does confirm that these
+these measurements are clinically relevant.  However, this is a very coarse
+assessment.  For example, spirometry measures alone can be used to achieve
+highly accurate predictions using machine learning techniques [@Badnjevic:2018aa].
+
+
+## T1-weighted brain segmentation analogy
 
 As a preview of the
 
@@ -639,57 +677,115 @@ susceptible to noise in contrast to the GMM-MRF segmentation results.
 
 ## Effect of reference image set selection
 
-\begin{figure}[htb]
+\begin{figure}[!h]
   \centering
   \begin{subfigure}{0.5\textwidth}
     \centering
-    \includegraphics[width=0.99\linewidth]{Figures/meanReferencePlot.pdf}
-    \caption{Mean reference plot.}
+    \includegraphics[width=0.95\linewidth]{Figures/meanReferencePlot.pdf}
+    \caption{Original: variation of the reference mean.}
   \end{subfigure}%
   \begin{subfigure}{0.5\textwidth}
     \centering
-    \includegraphics[width=0.99\linewidth]{Figures/sdReferencePlot.pdf}
-    \caption{Standard deviation reference plot.}
+    \includegraphics[width=0.95\linewidth]{Figures/meanReferenceN4Plot.pdf}
+    \caption{N4:  variation of the mean.}
+  \end{subfigure} \\
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.95\linewidth]{Figures/sdReferencePlot.pdf}
+    \caption{Original:  variation of the standard deviation.}
+  \end{subfigure}%
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.95\linewidth]{Figures/sdReferenceN4Plot.pdf}
+    \caption{N4:  variation of the standard deviation.}
+  \end{subfigure} \\
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.95\linewidth]{Figures/referencePlot_10_1.pdf}
+    \caption{Original:  clustered reference distribution.}
+  \end{subfigure}%
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.95\linewidth]{Figures/referencePlot_10_1_N4.pdf}
+    \caption{N4:  clustered reference distribution.}
   \end{subfigure}
-\caption{}
+\caption{Original (left) vs. N4-preprocessed (right) images and the effects on the
+reference distribution.  The reference distribution was generated from 10 young
+healthy controls.  Sample reference distributions were generated for all combinations
+from 1 to 9 images (both original and N4-preprocessed) and (a)-(d) plotted the resulting
+variance in reference distribution parameters (i.e., mean and standard deviation)
+which define the clusters in the linear binning algorithm. Reference distributions
+for all ten healthy controls for both the (e) original and (f) N4 images.}
 \label{fig:referenceSet}
 \end{figure}
 
+One important issue was whether or not to use the N4 bias correction algorithm
+as a preprocessing step.  We ultimately decided to include it for a couple
+reasons.  It is explicitly used in multiple algorithms (e.g.,
+[@Tustison:2011aa;@He:2016aa;@Shammi:2021aa]) despite the issues raised previously
+and elsewhere [@He:2020aa] due to the fact that it qualitatively improves
+image appearance.[^4]
+
+[^4]:  This assessment is based on multiple conversations between the first
+author (as the developer of N4 and Atropos) and co-author Dr. Talissa Altes,
+one of the most experienced individuals in the field.
+
+There was another practical reason why this step was included and it concerns
+the reference distribution required by the linear binning algorithm. As
+mentioned, a significant portion of N4 processing involves the deconvolution of
+the image histogram to sharpen the histogram peaks which decreases the standard
+deviation of the intensity distribution and can also result in an histogram
+shift. Using the original set of 10 young healthy data with no N4 preprocessing,
+we created a reference distribution according to [@He:2016aa], which resulted in
+an approximate distribution of $\mathcal{N}(0.45, 0.24)$.  This produced 0
+voxels being classified as belonging to cluster 1 (i.e., ventilation defect)
+because two standard deviations from the mean is less than 0 and cluster 1
+resides between -3 and -2 standard deviations.  However using N4-preprocessed
+images produced something closer,  $\mathcal{N}(0.56, 0.22)$, to the published
+values, $\mathcal{N}(0.52, 0.18)$, reported in [@He:2016aa], resulting in a
+non-empty set for cluster 1.
+
+In addition to this pointing to a potential issue when applying linear binning
+to multi-site data, it prompted us to look at an associated precision issue due
+to reference cohort selection.
+
+
 ## Effect of MR nonlinear intensity warping and additive noise
 
-Need to add a SSIM calculation for each simulated image along with
-different histogram similarity measurements.  We can then rescale
-all measurements for comparison and show how the SSIM calculation
-has lower variance than the histograms.  THis shows that the
-image-to-histogram transformation results in information which is
-less robust than the original image.
+Need to add a SSIM calculation for each simulated image along with different
+histogram similarity measurements.  We can then rescale all measurements for
+comparison and show how the SSIM calculation has lower variance than the
+histograms.  THis shows that the image-to-histogram transformation results in
+information which is less robust than the original image.
+
+
 
 
 
 
 \begin{figure}[htb]
   \centering
-  \begin{subfigure}{0.5\textwidth}
-    \centering
-    \includegraphics[width=0.99\linewidth]{Figures/vdpSdOverall.pdf}
-    \caption{Mean reference plot.}
-  \end{subfigure}%
-  \begin{subfigure}{0.5\textwidth}
-    \centering
-    \includegraphics[width=0.99\linewidth]{Figures/diceMeanOverall.pdf}
-    \caption{Standard deviation reference plot.}
-  \end{subfigure}
+  \includegraphics[width=0.99\linewidth]{Figures/VarianceStudy.pdf}
 \caption{}
 \label{fig:simulations}
 \end{figure}
 
 
+\input{varianceTable}
 
 ## Diagnostic prediction
 
 
 
 # Discussion
+
+Imagine, dear Reader, the reality of the future clinical application of
+functional lung imaging beyond mere research activity.  In fact, imagine
+yourself being a patient on the receiving end of an imaging battery which
+includes hyperpolarized gas imaging.  Now imagine that, upon receiving the
+images for assessment, the radiologist declares "Yes, these are nice but I'd
+rather work with the corresponding histograms."  If this strikes you as absurd,
+then the point that we are trying to make should be clear.
 
 We recognize that alternative deep learning strategies (hyperparameter
 choice, training data selection, etc.) could provide comparable and even
@@ -699,7 +795,45 @@ than histogram approaches as network training directly takes place in
 the image (i.e., spatial) domain and not in a transformed space where
 key information has been discarded.
 
+As we mentioned previously, although susceptible to varyious levels of
+bias and lack of precision, these algorithms are decent for what they've been
+used for---global measurements, no more granular than spirometry, for
+doing research (while providing pretty visuals for publications.)
+However, if you want to do more sophisticated studies involving, for
+example, the spatial manifestation and/or growth of disease aided
+by advanced statistical techniques (such as similarity-driven multivariate
+linear reconstruction, then one should move beyond these shitty algorithms
 
+
+In addition to the fundamental issues of precision and bias, we also point
+out that generally good modelling practice is to incorporate as much
+prior information as possible.  Histogram-only algorithms throw out a
+significant portion of that prior information.  This is a key consequence of
+the "No Free Lunch Theorem" [@Wolpert:1997aa]
+
+Instead of investing time in propping up shitty algorithms, we should be
+donig things like looking at tailored network architectures/features and
+data augmentation strategies.
+
+So, in summary:
+
+* In addition to completely discarding spatial information, linear binning is
+  based on overly simplistic assumptions, especially given common MR artefacts.
+  The additional requirement of a reference distribution, with its questionable
+  assumption of Gaussianity, is also a potential source of output variance.
+
+* Hierarchical k-means also ignores spatial information and, although it does
+  use a principled optimization criterion, this criterion is not adequately
+  tailored for hyperpolarized gas imaging and relatively more susceptible to
+  various levels of noise than competing approaches.
+
+* The GMM-MRF approach does employ spatial considerations in the form of Markov
+  random fields but these are highly simplistic prior modeling of local voxel
+  neighborhoods which do not capture the complexity of ventilation
+  defects/heterogeneity appearance in the images.  Although the simplistic
+  assumptions provide some robustness to noise, the highly variable histogram
+  structure in the presence of MR nonlinearities causes significant variance in
+  the resulting GMM fitting.
 \newpage
 
 # References {-}

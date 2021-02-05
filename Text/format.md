@@ -14,13 +14,14 @@ output:
     fig_caption: true
 bibliography:
   - references.bib
-csl: journal-of-magnetic-resonance-imaging.csl 
+csl: journal-of-magnetic-resonance-imaging.csl
 longtable: true
 urlcolor: blue
 header-includes:
   # - \usepackage[left]{lineno}
   # - \linenumbers
   - \usepackage{longtable}
+  - \usepackage[normalem]{ulem}
   - \usepackage{graphicx}
   - \usepackage{booktabs}
   - \usepackage{listings}

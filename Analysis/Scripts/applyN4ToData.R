@@ -18,8 +18,8 @@ for( i in seq.int( length( maskFiles ) ) )
   if( ! file.exists( imageN4File ) )
     {
     imageN4 <- n4BiasFieldCorrection( image, shrinkFactor = 2, verbose = TRUE )
+    antsImageWrite( imageN4, imageN4File )
     }
 
-  antsImageWrite( imageN4, imageN4File )
   }
 

@@ -9,18 +9,23 @@ previously, specifically linear binning [@He:2016aa], hierarchical k-means
 functional lung imaging) [@Tustison:2011aa], and a trained CNN
 [@Tustison:2019ac].
 
-We first demonstrate the effects of MR intensity nonlinearities on the
-application of T1-weighted brain MR segmentation.  This component is
-strictly qualitative as the visual evidence and previous developmental history
-should be sufficiently compelling in motivating exploration in the analogical domain of
-hyperpolarized gas lung imaging.  We use these qualitative results as a segue to
-quantifying the effects of the choice of reference cohort on the clustering
-parameters for the linear binning algorithm.  We then incorporate the
-trained CNN model in exploring additional aspects of measurement variance based on
-simulating both MR noise and intensity nonlinearities.  Finally, we investigate
-algorithmic accuracy (i.e., bias) in the absence of ground-truth segmentations,
-by using a clinical diagnostic prediction approach and employing the simultaneous
-truth and performance level estimation (STAPLE) [@Warfield:2004aa].
+We focus initially on some of the issues unique to linear binning, specifically
+its susceptibility to MR nonlinearity artefacts as well as the additional
+requirement of a reference distribution.  The latter is motivated qualitatively
+through the analogous application of T1-weighted brain MR segmentation.  This
+component is strictly qualitative as the visual evidence and previous
+developmental history within that field should be sufficiently compelling in
+motivating subsequent quantitative exploration within hyperpolarized gas lung
+imaging.  We use these qualitative results as a segue to quantifying the effects
+of the choice of reference cohort on the clustering parameters for the linear
+binning algorithm.
+
+We then incorporate the trained CNN model in exploring additional aspects of
+measurement variance based on simulating both MR noise and intensity
+nonlinearities.  Finally, we investigate algorithmic accuracy (i.e., bias) in
+the absence of ground-truth segmentations, by using a clinical diagnostic
+prediction approach and employing the simultaneous truth and performance level
+estimation (STAPLE) [@Warfield:2004aa].
 
 ## Hyperpolarized gas image cohort
 
@@ -52,9 +57,9 @@ study:
 * All algorithms and evaluation scripts have been implemented using open-source
   tools by the first author.  The linear binning and hierarchical k-means
   algorithms were recreated using existing R functionality.  These have been made
-  available as part of the GitHub repository corresponding to this paper.[^2]
+  available as part of the GitHub repository corresponding to this work.[^2]
   Similarly, N4, Atropos-based lung segmentation, and the trained CNN approach are
-  all available through ANTsR/ANTsRNet, ``ANTsR::n4BiasFieldCorrection``,
+  all available through ANTsR/ANTsRNet: ``ANTsR::n4BiasFieldCorrection``,
   ``ANTsR::functionalLungSegmentation``, and ``ANTsRNet::elBicho``, respectively.[^3]
   The weights for the CNN are publicly available and are automatically downloaded
   when running the program.
@@ -91,7 +96,7 @@ training runs were performed where initial runs employed categorical cross
 entropy as the loss function.  Upon convergence, training continued with a
 multi-label Dice loss function [@Crum:2006aa].
 
-\begin{figure}[htb]
+\begin{figure}[!htb]
   \centering
   \begin{subfigure}{0.33\textwidth}
     \centering
@@ -108,10 +113,11 @@ multi-label Dice loss function [@Crum:2006aa].
     \includegraphics[width=0.95\linewidth]{Figures/sample_ventilation_noise_9.png}
     \caption{Noise.}
   \end{subfigure}
-\caption{Custom data augmentation strategies for training to force a solution which
-focuses on the underlying ventilation-based lung structure.  (b) Nonlinear intensity
-warping based on smoothly varying perturbations of the image histogram.  (c) Additive Gaussian noise
-included for increasing the robustness of the segmentation network.}
+  \caption{Custom data augmentation strategies for training to force a solution
+  which focuses on the underlying ventilation-based lung structure.  (b)
+  Nonlinear intensity warping based on smoothly varying perturbations of the
+  image histogram.  (c) Additive Gaussian noise included for increasing the
+  robustness of the segmentation network.}
 \label{fig:sample_ventilation}
 \end{figure}
 
@@ -121,9 +127,11 @@ The lung parcellation comprised four labels based on the Atropos-based
 ventilation-based segmentation [@Tustison:2011aa]. Six clusters were used to
 create the training data and combined to four for training. In using this GMM-MRF
 algorithm (which is the only one to use spatial information in the form of the
-MRF prior), we attempt to bootstrap a better network-based segmentation approach
+MRF prior), we attempt to bootstrap a superior network-based segmentation approach
 by using the encoder-decoder structure of the U-net architecture as a
-dimensionality reduction technique.
+dimensionality reduction technique.  None of the evaluation data used in this
+work were used as training data.  Responses from two subjects at the last layer
+of the network (with $n = 32$ filters) are given in Figure \ref{figure}
 
 A total of five random slices per image were selected in the acquisition
 direction (both axial and coronal) for inclusion within a given batch (batch
@@ -138,6 +146,14 @@ Histogram-based intensity warping used the default parameters.  These data
 augmentation parameters were chosen to provide realistic but potentially
 difficult cases for training. In terms of hardware, all training was done on a
 DGX (GPUs: 4X Tesla V100, system memory: 256 GB LRDIMM DDR4).
+
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=0.99\textwidth]{Figures/featureImages.pdf}
+  \caption{Optimized feature responses from the last layer of the U-net network
+  generated from a (top) young healthy subject and (bottom) CF patient.  }
+\label{fig:featureImages}
+\end{figure}
 
 ### Pipeline processing
 
@@ -172,7 +188,7 @@ in all three canonical directions and averaged to produce the final solution.
         language=python,
         floatplacement=!h,
         caption={\small ANTsR/ANTsRNet command calls for processing
-        a single ventilation image.
+        a single ventilation image using ElBicho.
         },
         captionpos=b,
         label=listing:elBicho

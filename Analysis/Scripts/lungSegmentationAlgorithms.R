@@ -31,30 +31,18 @@ calculateReferenceDistributionForLinearBinning <- function( imageList, maskList 
 
 linearBinningLungSegmentation <- function( image, mask, mean, standardDeviation )
   {
-  processedImage <- antsImageClone( image )
-
-  imageVector <- image[mask != 0]
-  imageVector <- ( imageVector - min( imageVector ) ) / ( max( imageVector ) - min( imageVector ) )
-
-  thresholdValue <- quantile( imageVector, 0.99 )[[1]]
-  # imageVector <- imageVector[imageVector <= thresholdValue]
-  # From histogram figures in the 2016 paper, it looks like they
-  # keep the truncated values in the histogram.
-  imageVector[imageVector > thresholdValue] <- thresholdValue
-  processedImage[mask != 0] <- imageVector
-
   segmentation <- antsImageClone( image )
 
-  segmentation[processedImage <  mean - 2 * standardDeviation] <- 1
-  segmentation[processedImage >= mean - 2 * standardDeviation &
-               processedImage <  mean - 1 * standardDeviation] <- 2
-  segmentation[processedImage >= mean - 1 * standardDeviation &
-               processedImage <  mean] <- 3
-  segmentation[processedImage >= mean &
-               processedImage <  mean + 1 * standardDeviation] <- 4
-  segmentation[processedImage >= mean + 1 * standardDeviation &
-               processedImage <  mean + 2 * standardDeviation] <- 5
-  segmentation[processedImage >= mean + 2 * standardDeviation] <- 6
+  segmentation[image <  mean - 2 * standardDeviation] <- 1
+  segmentation[image >= mean - 2 * standardDeviation &
+               image <  mean - 1 * standardDeviation] <- 2
+  segmentation[image >= mean - 1 * standardDeviation &
+               image <  mean] <- 3
+  segmentation[image >= mean &
+               image <  mean + 1 * standardDeviation] <- 4
+  segmentation[image >= mean + 1 * standardDeviation &
+               image <  mean + 2 * standardDeviation] <- 5
+  segmentation[image >= mean + 2 * standardDeviation] <- 6
 
   segmentation[mask == 0] <- 0
 

@@ -1,8 +1,10 @@
 library( ggplot2 )
 
 
+baseDirectory <- './'
+figuresDirectory <- paste0( baseDirectory, "../../Text/Figures/" )
 
-simulationTypes <- c( "Noise", "Nonlinearities", "NoiseAndNonlinearities" )
+simulationTypes <- c( "Noise", "NoiseAndNonlinearities", "Nonlinearities" )
 
 similarity <- list()
 for( i in seq.int( length( simulationTypes ) ) )
@@ -18,10 +20,10 @@ similarityDataFrame <- data.frame(
                rep( simulationTypes[2], length( similarity[[2]]$SSIM ) ),
                rep( simulationTypes[3], length( similarity[[3]]$SSIM ) ) ), levels = simulationTypes ) )
 
-similarityPlot <- ggplot( data = similarityDataFrame ) +
-                  geom_point( aes( x = SSIM, y = HistCorr, colour = Type, shape = Type ), size = 1, alpha = 0.85 ) +
+similarityPlot <- ggplot( data = similarityDataFrame, aes( x = SSIM, y = HistCorr, fill = Type, shape = Type ) ) +
+                  geom_point( size = 2, alpha = 0.5 ) +
                   scale_x_continuous( "Structural Similarity Index Measure", limits = c( -0.25, 1. ) ) +
                   scale_y_continuous( "Histogram Correlation", limits = c( -0.25, 1. ) ) +
-                  scale_colour_discrete( name = "Simulation", breaks = simulationTypes, labels = c( "Noise", "Nonlinearities", "Noise and nonlinearities" ) ) +
-                  scale_shape_discrete( name = "Simulation", breaks = simulationTypes, labels = c( "Noise", "Nonlinearities", "Noise and nonlinearities" ) ) +
-ggsave( "./similarity.pdf", similarityPlot, width = 5, height = 3, units = "in" )
+                  scale_fill_manual( name = "Simulation", values=c( "blue", "red", "green" ), breaks = simulationTypes, labels = c( "Noise", "Noise and nonlinearities", "Nonlinearities" ) ) +
+                  scale_shape_manual( name = "Simulation", values= c(21, 22, 23), breaks = simulationTypes, labels = c( "Noise", "Noise and nonlinearities", "Nonlinearities" ) )
+ggsave( paste0( figuresDirectory, "similarity.pdf" ), similarityPlot, width = 5, height = 3, units = "in" )

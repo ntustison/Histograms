@@ -34,13 +34,12 @@ Tools ecosystem (ANTsX).
 * Calling CNN "el Bicho" until we can come up a different name.
 * Jaime to edit Subsections 2.1?
 * Possible co-authors:  Tally Altes, Kun Qing, John Mugler, Wilson Miller, James Gee, Mu He
-* Need five more young healthy subjects.
+* \sout{Need five more young healthy subjects.}
 * Need to finalize experiments
 
     * Nonlinear experiments: Noise, MR intensity nonlinear mapping, Noise + Nonlinear mapping
     * one issue is "should we preprocess with N4?"  --- yes, it helps segmentation, and more than
       one group uses it.
 
-* Should we retrain with shot/salt and pepper?  No let's wait until after the first round of experiments.
 
 \newpage
