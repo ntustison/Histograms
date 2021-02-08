@@ -20,6 +20,27 @@ artefacts[[1]] <- c( TRUE, FALSE )
 artefacts[[2]] <- c( FALSE, TRUE )
 artefacts[[3]] <- c( TRUE, TRUE )
 
+#######################################################################
+#
+#
+#
+#######################################################################
+
+source( "./lungSegmentationAlgorithms.R" )
+source( "./lungSegmentationUtilities.R" )
+
+baseDirectory <- './'
+dataDirectory <- paste0( baseDirectory, "../Data/Nifti/")
+figuresDirectory <- paste0( baseDirectory, "../../Text/Figures/" )
+
+gasFiles <- list.files( path = dataDirectory, pattern = "N4.nii.gz",
+  recursive = TRUE, full.names = TRUE )
+maskFiles <- gsub( "N4", "LungMask", gasFiles )
+if( useN4Images == FALSE )
+  {
+  gasFiles <- gsub( "N4", "", gasFiles )
+  }
+
 for( s in length( artefacts ) )
   {
   if( s != 3 )
@@ -30,27 +51,6 @@ for( s in length( artefacts ) )
   doNonlinearities <- artefacts[[s]][2]
 
   outputDirectoryName <- outputDirectoryNames[s]
-
-  #######################################################################
-  #
-  #
-  #
-  #######################################################################
-
-  source( "./lungSegmentationAlgorithms.R" )
-  source( "./lungSegmentationUtilities.R" )
-
-  baseDirectory <- './'
-  dataDirectory <- paste0( baseDirectory, "../Data/Nifti/")
-  figuresDirectory <- paste0( baseDirectory, "../../Text/Figures/" )
-
-  gasFiles <- list.files( path = dataDirectory, pattern = "N4.nii.gz",
-    recursive = TRUE, full.names = TRUE )
-  maskFiles <- gsub( "N4", "LungMask", gasFiles )
-  if( useN4Images == FALSE )
-    {
-    gasFiles <- gsub( "N4", "", gasFiles )
-    }
 
   #################
   #
@@ -334,7 +334,7 @@ for( s in length( artefacts ) )
       vdp <-  append( vdp,
         length( linearBinningSegmentation[linearBinningSegmentation == 1] ) / length( mask[mask == 1] ) )
       overlap <- labelOverlapMeasures( groupClusters( linearBinningSegmentationOriginal ),
-                                      groupClusters( linearBinningSegmentation ) )
+                                       groupClusters( linearBinningSegmentation ) )
       diceAll <- append( diceAll, overlap$MeanOverlap[1] )
       dice1 <- append( dice1, overlap$MeanOverlap[2] )
       dice2 <- append( dice2, overlap$MeanOverlap[3] )

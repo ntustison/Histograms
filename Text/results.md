@@ -69,6 +69,7 @@ susceptible to noise in contrast to the GMM-MRF segmentation results.
 
 ## Effect of reference image set selection
 
+<!--
 \begin{figure}[!h]
   \centering
   \begin{subfigure}{0.5\textwidth}
@@ -110,6 +111,23 @@ which define the clusters in the linear binning algorithm. Reference distributio
 for all ten healthy controls for both the (e) original and (f) N4 images.}
 \label{fig:referenceSet}
 \end{figure}
+-->
+
+\begin{figure}[!h]
+  \centering
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.95\linewidth]{Figures/referencePlot_10_1.pdf}
+    \caption{Original:  clustered reference distribution.}
+  \end{subfigure}%
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.95\linewidth]{Figures/referencePlot_10_1_N4.pdf}
+    \caption{N4:  clustered reference distribution.}
+  \end{subfigure}
+\caption{}
+\label{fig:n4ornot}
+\end{figure}
 
 One important issue was whether or not to use the N4 bias correction algorithm
 as a preprocessing step.  We ultimately decided to include it for a couple
@@ -121,6 +139,13 @@ image appearance.[^4]
 [^4]:  This assessment is based on multiple conversations between the first
 author (as the developer of N4 and Atropos) and co-author Dr. Talissa Altes,
 one of the most experienced individuals in the field.
+
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=0.99\textwidth]{Figures/referenceVariation.pdf}
+  \caption{}
+  \label{fig:referenceVariance}
+\end{figure}
 
 There was another practical reason why this step was included and it concerns
 the reference distribution required by the linear binning algorithm. As

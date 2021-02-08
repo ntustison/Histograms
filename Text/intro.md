@@ -41,9 +41,9 @@ increasing algorithmic sophistication as follows:
   of the intensity histogram using a customized hierarchical k-means algorithm
   [@Kirby:2012aa;@Kirby:2012ab], and
 * Gaussian mixture modeling (GMM) of the intensity histogram with Markov random
-  field (MRF) spatial prior modeling [@Tustison:2011aa].
+  field (MRF) spatial prior modeling [@Tustison:2011aa]
 
-We purposely couch these algorithms within the context of the intensity
+where each of these algorithms has been contextualized in terms of the intensity
 histogram for facilitating comparison.
 
 An early semi-automated technique used to compare smokers and never-smokers
@@ -56,7 +56,7 @@ linear binning and hierarchical k-means, discussed below), these approaches do
 not take into account the various MRI artefacts such as noise
 [@Gudbjartsson:1995aa;@Andersen:1996aa] and the intensity inhomogeneity field
 [@Sled:1998aa] which prevent hard threshold values from distinguishing tissue
-types precisely consistent with that of human experts.  In addition, to provide
+types consistent with that of human experts.  In addition, to provide
 a more granular categorization of ventilation for greater compatibility with
 clinical qualitative assessment, many current techniques have increased the
 number of voxel classes (i.e., clusters) beyond the binary categories of
@@ -64,10 +64,11 @@ number of voxel classes (i.e., clusters) beyond the binary categories of
 
 Linear binning is a simplified type of MR intensity standardization
 [@Nyul:1999aa] in which a set of healthy controls, all intensity normalized to
-[0, 1], is used to calculate the cluster threshold values, based on a single
-Gaussian model. A subject image to be segmented is then rescaled to this
-reference histogram (i.e., a global affine 1-D transform). This mapping aligns
-the cluster boundaries such that corresponding labels have the same clinical
+[0, 1], is used to calculate the cluster threshold values, based on an
+aggregated estimate of the parameters of a single Gaussian fit. A subject image
+to be segmented is then rescaled to this reference histogram (i.e., a global
+affine 1-D transform). This mapping results in alignment of the cluster
+boundaries such that corresponding labels are assumed to have the same clinical
 interpretation. In addition to the previously mentioned issues associated with
 hard threshold values, such a global transform does not account for MR intensity
 nonlinearities that have been well-studied
@@ -89,22 +90,24 @@ in hyperpolarized gas imaging quantification robustness in conjunction with
 noise considerations.  In addition, it is not a given that we have a sufficient
 understanding of what constitutes a "normal" in the context of mean and standard
 deviation MR intensity values and whether or not those values can be combined in
-a linear fashion to constitute a reference standard. Of more concrete concern,
-though, is that the requirement for a healthy cohort for determination of
-algorithmic parameters introduces a non-negligible source of measurement
+a linear fashion to constitute a single reference standard. Of more concrete
+concern, though, is that the requirement for a healthy cohort for determination
+of algorithmic parameters introduces a non-negligible source of measurement
 variance, as we will also demonstrate.
 
 Previous attempts at histogram standardization [@Nyul:1999aa;@Nyul:2000aa] in
 light of these MR intensity nonlinearities have relied on 1-D piecewise affine
 mappings between corresponding structural features found within the histograms
-(i.e., peaks and valleys).  For example, structural MRI, such as T1-weighted
-neuroimaging, utilizes the well-known relative intensities of major tissues
-types (i.e., cerebrospinal fluid, gray matter, and white matter), which
+themselves (i.e., peaks and valleys).  For example, structural MRI, such as
+T1-weighted neuroimaging, utilizes the well-known relative intensities of major
+tissues types (i.e., cerebrospinal fluid, gray matter, and white matter), which
 characteristically correspond to visible histogram peaks, as landmarks to
 determine the nonlinear intensity mapping between images. However, in
 hyperpolarized gas imaging of the lung, no such characteristic structural
-features exist, generally speaking, between histograms.  The approach used by
-some groups [@Cooley:2010aa;@Kirby:2012aa] of employing k-means as a clustering strategy
+features exist, generally speaking, between histograms.  This is most likely due
+to the primarily functional utility (vs. anatomical) nature of these images. The
+approach used by some groups [@Cooley:2010aa;@Kirby:2012aa] of employing some
+variant of the well-known k-means algorithm as a clustering strategy
 [@Hartigan:1979aa] to minimize the within-class variance of its intensities can
 be viewed as an alternative optimization strategy for determining a nonlinear
 mapping between histograms for a clinically-based MR intensity standardization.
@@ -116,8 +119,7 @@ of MR intensity standardization.[^1]
 [^1]: The prior knowledge for histogram mapping is the general machine learning
 heuristic of clustering samples based on the minimizing within-class distance
 while simultaneously maximizing the between-class distance.  In the case of
-k-means, this "distance" is the intensity variance as optimizing based on the
-Euclidean distance is NP-hard.
+k-means, this "distance" is the intensity variance.
 
 Histogram-based optimization is used in conjunction with spatial considerations
 in the approach detailed in [@Tustison:2011aa].  Based on a well-established
@@ -125,18 +127,18 @@ iterative approach originally used for NASA satellite image processing and
 subsequently appropriated for brain tissue segmentation in T1-weighted MRI
 [@Vannier:1985aa], a GMM is used to model the intensity clusters of the
 histogram with class modulation in the form of probabilistic voxelwise label
-considerations, i.e., MRF modeling,  within image
-neighborhoods [@Besag:1986aa] using the expectation-maximization (EM) algorithm
-[@Dempster:1977aa].  Initialization for this particular application is in the
-form of k-means clustering which, itself, is initialized automatically using
-evenly spaced cluster centers---similar to linear binning.  This has a number of
-advantages in that it accommodates MR intensity nonlinearities, like k-means,
-but in contrast to hierarchical k-means and the other algorithms outlined, does
-not use hard intensity thresholds for distinguishing class labels.  However, as
-we will demonstrate, this algorithm is also flawed in that it implicitly
-assumes, incorrectly, that meaningful structure is found, and can be adequately
-characterized, within the associated image histogram in order to optimize a
-multi-class labeling.
+considerations, i.e., MRF modeling,  within image neighborhoods [@Besag:1986aa]
+using the expectation-maximization (EM) algorithm [@Dempster:1977aa].
+Initialization for this particular application is in the form of k-means
+clustering which, itself, is initialized automatically using evenly spaced
+cluster centers.  This has the advantage, in contrast to k-means and the other
+algorithms outlined, that it does not use hard intensity thresholds for
+distinguishing class labels which does demonstrates robustness to certain
+imaging distortions, such as noise.  However, as we will demonstrate, this
+algorithm is also flawed in that it implicitly assumes, incorrectly, that
+meaningful structure is found, and can be adequately characterized, within the
+associated image histogram in order to optimize a multi-class labeling
+which also leads to susceptibility to MR nonlinear intensity variation.
 
 Additionally, many of these segmentation algorithms use N4 bias correction
 [@Tustison:2010ac], an extension of the nonuniform intensity normalization (N3)
@@ -172,8 +174,7 @@ the aforementioned MR intensity nonlinearities.
   \label{fig:motivation}
 \end{figure}
 
-It should be clear that all these methods can be described in terms of the
-intensity histogram. Investigating the assumptions outlined above, particularly
+Investigating the assumptions outlined above, particularly
 those associated with the nonlinear intensity mappings due to both the MR
 acquisition and inhomogeneity mitigation preprocessing, we became concerned by
 the susceptibility of the histogram structure to such variations and the
@@ -206,15 +207,15 @@ this work and used for algorithmic comparison.  Simulated MR artefacts
 were applied to each image which included
 both noise and nonlinear intensity mappings (and their combination) which made
 for a total simulated cohort of
-~50 images ($\times 10$ simulations per image).   Prior to any algorithmic
+~50 images ($\times 10$ simulations per image $\times 3$ types of artefact simulations).   Prior to any algorithmic
 comparative analysis, we quantified the difference of each simulated image with
-the original image using the structural similarity index measurement (SSIM)
+the corresponding original image using the structural similarity index measurement (SSIM)
 [@Wang:2004aa]. SSIM is a highly-cited measure which quantifies structural
 differences between a reference and distorted (i.e., transformed) image based on
 known properties of the human visual system.  SSIM has a range $[-1,1]$ where 0
 indicates no structural similarity and 1 indicates perfect structural
 similarity. We also generated the histograms corresponding to these images.
-Although several histogram similarity measures exist, we choose Pearson's
+Although several histogram similarity measures exist, we chose Pearson's
 correlation primarily as it resides in the same [min, max] range as SSIM with
 analogous significance. In addition to the fact that the image-to-histogram
 transformation discards important spatial information, from Figure

@@ -6,20 +6,20 @@ novel visualization of airspaces, such as the human lung, which has advanced
 research into the growth, development, and pathologies of the pulmonary system.
 In conjunction with the innovations associated with image acquisition, multiple
 image analysis strategies have been proposed and refined for the quantification
-of hyperpolarized gas images with much research effort devoted to semantic
-segmentation, or voxelwise classification, into clinically-oriented categories
-based on ventilation levels. Given the functional nature of these images and the
+of such lung imaging with much research effort devoted to semantic segmentation,
+or voxelwise classification, into clinically-oriented categories based on
+ventilation levels. Given the functional aspect of these images and the
 consequent sophistication of the segmentation task, many of these algorithmic
 approaches reduce the complex spatial image intensity information to
 intensity-only considerations, which can be contextualized in terms of the
 intensity histogram. Although facilitating computational processing, this
 simplifying transformation results in the loss of important spatial cues for
-identifying salient image features, such as ventilation defects---a well-studied
-correlate of lung pathophysiology.  In this work, we discuss the
-interrelatedness of the most common approaches for histogram-based segmentation
-of hyperpolarized gas lung imaging and evaluate the underlying assumptions
-associated with each approach demonstrating how these assumptions lead to
-suboptimal performance, particularly in terms of precision.  We then
+identifying salient image features, such as ventilation defects (a well-studied
+correlate of lung pathophysiology), as spatial objects.  In this work, we discuss
+the interrelatedness of the most common approaches for histogram-based
+segmentation of hyperpolarized gas lung imaging and evaluate the underlying
+assumptions associated with each approach demonstrating how these assumptions
+lead to suboptimal performance, particularly in terms of precision.  We then
 illustrate how a convolutional neural network can be trained to leverage
 multi-scale spatial information which circumvents the problematic issues
 associated with these approaches.  Importantly, we provide the entire processing
