@@ -29,6 +29,7 @@ Tools ecosystem (ANTsX).
 
 \newpage
 
+<!--
 \textcolor{red}{Notes to self:}
 
 * Calling CNN "el Bicho" until we can come up a different name.
@@ -40,6 +41,6 @@ Tools ecosystem (ANTsX).
     * Nonlinear experiments: Noise, MR intensity nonlinear mapping, Noise + Nonlinear mapping
     * one issue is "should we preprocess with N4?"  --- yes, it helps segmentation, and more than
       one group uses it.
-
+-->
 
 \newpage

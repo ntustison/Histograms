@@ -23,6 +23,12 @@ by advanced statistical techniques (such as similarity-driven multivariate
 linear reconstruction, then one should move beyond these shitty algorithms
 
 
+not take advanta.  For example, spirometry measures
+alone can be used to achieve highly accurate predictions using machine learning
+ techniques [@Badnjevic:2018aa].
+
+
+
 In addition to the fundamental issues of precision and bias, we also point
 out that generally good modelling practice is to incorporate as much
 prior information as possible.  Histogram-only algorithms throw out a

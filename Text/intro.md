@@ -101,7 +101,7 @@ light of MR intensity nonlinearities have relied on 1-D piecewise affine
 mappings between corresponding structural features found within the histograms
 themselves (e.g., peaks and valleys).  For example, structural MRI, such as
 T1-weighted neuroimaging, utilizes the well-known relative intensities of major
-tissues types (i.e., cerebrospinal fluid, gray matter, and white matter), which
+tissues types (i.e., cerebrospinal fluid (CSF), gray matter (GM), and white matter(WM)), which
 characteristically correspond to visible histogram peaks, as landmarks to
 determine the nonlinear intensity mapping between histograms. However, in
 hyperpolarized gas imaging of the lung, no such characteristic structural
@@ -194,8 +194,9 @@ assessment of the image can remain largely unchanged.
   as the SSIM values remain close to 1.  This is in contrast to the
   corresponding range in histogram similarity which is much larger.
   Although not as great, the range in histogram differences with simulated noise
-  is much greater than the range in SSIM.  Both point to the potential lack of
-  robustness to distortions in the histogram domain vs. the image domain.}
+  is much greater than the range in SSIM.  Both sets of observations are evidence of
+  the lack of robustness to distortions in the histogram domain in comparison with
+  the original image domain.}
   \label{fig:similarity}
 \end{figure}
 
@@ -226,7 +227,7 @@ optimizing directly in the image domain. [^100]
 
 [^100]: This point should be obvious even without the simulation experiments.
 Imagine, dear reader, the reality of the future clinical application of
-functional lung imaging beyond mere research activity.  In fact, imagine
+functional lung imaging beyond research activity.  In fact, imagine
 yourself being a patient on the receiving end of an imaging battery which
 includes hyperpolarized gas imaging.  Now imagine that, upon receiving the
 images for assessment, the radiologist declares "Yes, these are nice but I'd

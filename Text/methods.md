@@ -50,6 +50,32 @@ study:
   sharing agreement.  All other data, including additional evaluation plots are available,
   in the previously specified GitHub repository.
 
+* An extremely important and characteristic hyperparameter is the number of
+  ventilation clusters.  In order to minimize differences in our set of
+  evaluations and ensure a fair comparison, we optimized the segmentation based
+  on the specified number of clusters. For the evaluations involving multiple
+  algorithms, these were merged post-optimization to
+  only three clusters:  "ventilation defect," "hypo-ventilation," and "other
+  ventilation" where the first two clusters for each output are the same as the
+  original implementations and the remaining clusters are merged into a third
+  category.  It is important to note that none of the evaluations use these
+  categorical definitions in a cross-algorithmic fashion.  They are only used to
+  assess within-algorithm consistency.
+
+* One important issue was whether or not to use the N4 bias correction algorithm
+  as a preprocessing step.  We ultimately decided to include it for a couple
+  reasons.  It is explicitly used in multiple algorithms (e.g.,
+  [@Tustison:2011aa;@He:2016aa;@Shammi:2021aa]) despite the issues raised
+  previously and elsewhere [@He:2020aa] due to the fact that it qualitatively
+  improves image appearance.[^4]  Another practical consideration for N4 preprocessing
+  was due to the parameters of the reference distribution required by the linear binning
+  algorithm.  Additional details are provided in the Results section.
+
+[^4]:  This assessment is based on multiple conversations between the first
+author (as the developer of N4 and Atropos) and co-author Dr. Talissa Altes, one
+of the most experienced individuals in the field.
+
+
 [^2]:  https://github.com/ntustison/Histograms
 
 ## Introduction of "El Bicho"
@@ -74,7 +100,13 @@ one slice direction and the results subsequently averaged. Four total network
 layers were employed with 32 filters at the base layer which was doubled at each
 subsequent layer.  Multiple training runs were performed where initial runs
 employed categorical cross entropy as the loss function.  Upon convergence,
-training continued with a multi-label Dice loss function [@Crum:2006aa].
+training continued with the multi-label Dice function [@Crum:2006aa]
+
+\begin{equation}
+   Dice = 2 \frac{\sum_r| S_r \cap T_r|}{\sum_r |S_r| + |T_r|}
+\end{equation}
+
+where $S_r$ and $T_r$ refer to the source and target regions, respectively.
 
 \begin{figure}[!htb]
   \centering
@@ -112,7 +144,7 @@ segmentation approach by using the encoder-decoder structure of the U-net
 architecture as a dimensionality reduction technique.  None of the evaluation
 data used in this work were used as training data.  Responses from two subjects
 at the last layer of the network (with $n = 32$ filters) are illustrated in Figure
-\ref{figure:featureImages} which demonstrates the image-based approach to
+\ref{fig:featureImages} which demonstrates the image-based approach to
 segmentation optimization.
 
 A total of five random slices per image were selected in the acquisition
@@ -172,7 +204,7 @@ in all three canonical directions and averaged to produce the final solution.
         language=python,
         floatplacement=!h,
         caption={\small ANTsR/ANTsRNet command calls for processing
-        a single ventilation image using ElBicho.
+        a single ventilation image using El Bicho.
         },
         captionpos=b,
         label=listing:elBicho
