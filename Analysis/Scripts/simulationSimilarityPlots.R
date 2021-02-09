@@ -22,8 +22,8 @@ similarityDataFrame <- data.frame(
 
 similarityPlot <- ggplot( data = similarityDataFrame, aes( x = SSIM, y = HistCorr, fill = Type, shape = Type ) ) +
                   geom_point( size = 2, alpha = 0.5 ) +
-                  scale_x_continuous( "Structural Similarity Index Measure", limits = c( -0.25, 1. ) ) +
-                  scale_y_continuous( "Histogram Correlation", limits = c( -0.25, 1. ) ) +
+                  scale_x_continuous( "Structural similarity index measure", limits = c( -0.25, 1. ) ) +
+                  scale_y_continuous( "Histogram correlation", limits = c( -0.25, 1. ) ) +
                   scale_fill_manual( name = "Simulation", values=c( "blue", "red", "green" ), breaks = simulationTypes, labels = c( "Noise", "Noise and nonlinearities", "Nonlinearities" ) ) +
                   scale_shape_manual( name = "Simulation", values= c(21, 22, 23), breaks = simulationTypes, labels = c( "Noise", "Noise and nonlinearities", "Nonlinearities" ) )
 ggsave( paste0( figuresDirectory, "similarity.pdf" ), similarityPlot, width = 5, height = 3, units = "in" )

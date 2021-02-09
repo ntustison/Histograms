@@ -1,7 +1,7 @@
 
-\begin{table}
+\begin{table}[!htb]
  \centering
-   \begin{tabular}{c c c c}
+ \begin{tabular*}{0.95\textwidth}{c c c c}
    \toprule
    {} & {\bf CF vs. Healthy} & {\bf COPD vs. Healthy} & {\bf ILD vs. Healthy} \\
    \hline
@@ -11,7 +11,11 @@
    {\bf El Bicho} &  0.90  &  0.94  &  0.74  \\
    \hline
    \bottomrule
-   \end{tabular}
- \caption{}
- \label{table:variance}
+   \end{tabular*}
+ \caption{AUC values describing the algorithmic performance for each set of binary
+          classification simulations: CF vs. Healthy, COPD vs. Healthy, and
+          ILD vs. Healthy.  All four algorithms perform significantly better than a
+          random classifier.
+          }
+ \label{table:auc}
 \end{table}

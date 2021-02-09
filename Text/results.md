@@ -1,7 +1,34 @@
 
 # Results
 
+We perform different compae rative evaluations to probe previously mentioned
+algorithmic issues.  We first demonstrat
+
+ We focus initially on some of the issues unique to linear
+binning, specifically its susceptibility to MR nonlinearity artefacts as well as
+the additional requirement of a reference distribution.  The latter is motivated
+qualitatively through the analogous application of T1-weighted brain MR
+segmentation.  This component is strictly qualitative as the visual evidence and
+previous developmental history within that field should be sufficiently
+compelling in motivating subsequent quantitative exploration within
+hyperpolarized gas lung imaging.  We use these qualitative results as a segue to
+quantifying the effects of the choice of reference cohort on the clustering
+parameters for the linear binning algorithm.
+
+We then incorporate the trained CNN model in exploring additional aspects of
+measurement variance based on simulating both MR noise and intensity
+nonlinearities.  Finally, we investigate algorithmic accuracy (i.e., bias) in
+the absence of ground-truth segmentations, by using a clinical diagnostic
+prediction approach and employing the simultaneous truth and performance level
+estimation (STAPLE) [@Warfield:2004aa].
+
+
+
 Evaluations:
+
+* Algorithmic bias (in the absence of ground truth)
+
+    * Dx prediction
 
 * Algorithmic precision
 
@@ -9,17 +36,22 @@ Evaluations:
     * Input variance of reference distribution $\longrightarrow$ output variance (linear binning only)
     * Effects of simulated MR artefacts
 
-* Algorithmic bias (in the absence of ground truth)
 
-    * Dx prediction
-    * STAPLE
+## Diagnostic prediction
 
-## Dx prediction
+\begin{equation}
+  Diagnosis \sim \sum_{i=1}^3 \frac{Volume_i}{Total\,\,volume}
+\end{equation}
+
 
 \begin{figure}[!htb]
   \centering
   \includegraphics[width=0.99\linewidth]{Figures/volumeXRocDx.pdf}
-  \caption{}
+  \caption{AUC curves resulting from the diagnostic prediction evaluation
+  strategy involving randomly permuted training/testing data sets and resulting
+  random forest models. Summary values are provided in Table \ref{table:auc}.
+  These results support the general utility of these tools for research
+  involving such global measurements.}
   \label{fig:DxPrediction}
 \end{figure}
 
@@ -118,14 +150,21 @@ for all ten healthy controls for both the (e) original and (f) N4 images.}
   \begin{subfigure}{0.5\textwidth}
     \centering
     \includegraphics[width=0.95\linewidth]{Figures/referencePlot_10_1.pdf}
-    \caption{Original:  clustered reference distribution.}
+    \caption{Reference distribution (original images).}
   \end{subfigure}%
   \begin{subfigure}{0.5\textwidth}
     \centering
     \includegraphics[width=0.95\linewidth]{Figures/referencePlot_10_1_N4.pdf}
-    \caption{N4:  clustered reference distribution.}
+    \caption{Reference distribution (N4 images).}
   \end{subfigure}
-\caption{}
+  \caption{Ten young healthy subjects were combined to create two reference
+        distributions, one based on the original images and the other using N4
+        preprocessing.  Based on the generated mean and standard deviation of the
+        aggregated samples, we label the resulting clusters in the respective
+        histograms.  Due to the lower mean and higher standard deviation of the
+        original image set, Cluster 1 is not within the range of $[0, 1]$ for that
+        clustering which motivated the use of the N4-preprocessed image set.
+         }
 \label{fig:n4ornot}
 \end{figure}
 
@@ -143,7 +182,14 @@ one of the most experienced individuals in the field.
 \begin{figure}[!h]
   \centering
   \includegraphics[width=0.99\textwidth]{Figures/referenceVariation.pdf}
-  \caption{}
+  \caption{(Top) Variation of the mean (left) and standard deviation (right)
+  over choice of reference set based on all different combinations of young
+  healthy subjects per specified number of subjects. Although these parameters
+  demonstrate convergence, there is still non-zero variation for any given set.
+  (Bottom) This input variance is a source of output variance in the cluster
+  volume plotted as the maximum range per subject as a percentage of total lung
+  volume.  We limit this exploration to reference sets with eight or nine images.
+  }
   \label{fig:referenceVariance}
 \end{figure}
 
@@ -155,12 +201,12 @@ deviation of the intensity distribution and can also result in an histogram
 shift. Using the original set of 10 young healthy data with no N4 preprocessing,
 we created a reference distribution according to [@He:2016aa], which resulted in
 an approximate distribution of $\mathcal{N}(0.45, 0.24)$.  This produced 0
-voxels being classified as belonging to cluster 1 (i.e., ventilation defect)
-because two standard deviations from the mean is less than 0 and cluster 1
+voxels being classified as belonging to Cluster 1 (i.e., ventilation defect)
+because two standard deviations from the mean is less than 0 and Cluster 1
 resides between -3 and -2 standard deviations.  However using N4-preprocessed
 images produced something closer,  $\mathcal{N}(0.56, 0.22)$, to the published
 values, $\mathcal{N}(0.52, 0.18)$, reported in [@He:2016aa], resulting in a
-non-empty set for cluster 1.
+non-empty set for that cluster.
 
 In addition to this pointing to a potential issue when applying linear binning
 to multi-site data, it prompted us to look at an associated precision issue due
@@ -172,7 +218,7 @@ to reference cohort selection.
 Need to add a SSIM calculation for each simulated image along with different
 histogram similarity measurements.  We can then rescale all measurements for
 comparison and show how the SSIM calculation has lower variance than the
-histograms.  THis shows that the image-to-histogram transformation results in
+histograms.  This shows that the image-to-histogram transformation results in
 information which is less robust than the original image.
 
 
@@ -183,7 +229,12 @@ information which is less robust than the original image.
 \begin{figure}[htb]
   \centering
   \includegraphics[width=0.99\linewidth]{Figures/VarianceStudy.pdf}
-\caption{}
+\caption{The deviation in resulting segmentation caused by distortions produced
+         noise, histogram-based intensity nonlinearities, and their combination
+         as measured by the Dice metric.  Each segmentation is reduced to three
+         labels for cross-comparison:  ``ventilation defect,'' ``hypo-ventilation,''
+         and ``other ventilation.''
+         }
 \label{fig:simulations}
 \end{figure}
 

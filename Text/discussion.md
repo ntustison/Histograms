@@ -3,13 +3,7 @@
 
 # Discussion
 
-Imagine, dear Reader, the reality of the future clinical application of
-functional lung imaging beyond mere research activity.  In fact, imagine
-yourself being a patient on the receiving end of an imaging battery which
-includes hyperpolarized gas imaging.  Now imagine that, upon receiving the
-images for assessment, the radiologist declares "Yes, these are nice but I'd
-rather work with the corresponding histograms."  If this strikes you as absurd,
-then the point that we are trying to make should be clear.
+
 
 We recognize that alternative deep learning strategies (hyperparameter
 choice, training data selection, etc.) could provide comparable and even
@@ -34,6 +28,14 @@ out that generally good modelling practice is to incorporate as much
 prior information as possible.  Histogram-only algorithms throw out a
 significant portion of that prior information.  This is a key consequence of
 the "No Free Lunch Theorem" [@Wolpert:1997aa]
+
+There's other avenues to explore:
+
+* the effects of super-resolution
+* exploration of the trained weights for classification networks---what do they
+tell us about disease?
+*
+
 
 Instead of investing time in propping up shitty algorithms, we should be
 donig things like looking at tailored network architectures/features and
