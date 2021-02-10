@@ -92,7 +92,9 @@ addition, we provide the summary area under the ROC curve (AUC) values in Table
 provide evidence that all these algorithms produce measurements which are clinically
 relevant although, it should be noted, that this is a very coarse assessment strategy
 given the global measures used (i.e., cluster volume percentage) and the general
-clinical categories employed.
+clinical categories employed.  In fact, even spirometry measures can be used to achieve
+highly accurate diagnostic predictions with machine learning techniques
+[@Badnjevic:2018aa].
 
 ## T1-weighted brain segmentation analogy
 
@@ -144,69 +146,7 @@ overestimation of the gray matter content.
 
 ## Effect of reference image set selection
 
-<!--
-\begin{figure}[!h]
-  \centering
-  \begin{subfigure}{0.5\textwidth}
-    \centering
-    \includegraphics[width=0.95\linewidth]{Figures/meanReferencePlot.pdf}
-    \caption{Original: variation of the reference mean.}
-  \end{subfigure}%
-  \begin{subfigure}{0.5\textwidth}
-    \centering
-    \includegraphics[width=0.95\linewidth]{Figures/meanReferenceN4Plot.pdf}
-    \caption{N4:  variation of the mean.}
-  \end{subfigure} \\
-  \begin{subfigure}{0.5\textwidth}
-    \centering
-    \includegraphics[width=0.95\linewidth]{Figures/sdReferencePlot.pdf}
-    \caption{Original:  variation of the standard deviation.}
-  \end{subfigure}%
-  \begin{subfigure}{0.5\textwidth}
-    \centering
-    \includegraphics[width=0.95\linewidth]{Figures/sdReferenceN4Plot.pdf}
-    \caption{N4:  variation of the standard deviation.}
-  \end{subfigure} \\
-  \begin{subfigure}{0.5\textwidth}
-    \centering
-    \includegraphics[width=0.95\linewidth]{Figures/referencePlot_10_1.pdf}
-    \caption{Original:  clustered reference distribution.}
-  \end{subfigure}%
-  \begin{subfigure}{0.5\textwidth}
-    \centering
-    \includegraphics[width=0.95\linewidth]{Figures/referencePlot_10_1_N4.pdf}
-    \caption{N4:  clustered reference distribution.}
-  \end{subfigure}
-\caption{Original (left) vs. N4-preprocessed (right) images and the effects on the
-reference distribution.  The reference distribution was generated from 10 young
-healthy controls.  Sample reference distributions were generated for all combinations
-from 1 to 9 images (both original and N4-preprocessed) and (a)-(d) plotted the resulting
-variance in reference distribution parameters (i.e., mean and standard deviation)
-which define the clusters in the linear binning algorithm. Reference distributions
-for all ten healthy controls for both the (e) original and (f) N4 images.}
-\label{fig:referenceSet}
-\end{figure}
--->
-
-One of the additional input requirements for linear binning over the other
-algorithms is the generation of a reference distribution.  In addition to the
-output measurement variation caused by choice of the reference image cohort,
-this played a role in determining whether or not to use N4 preprocessing. As
-mentioned, a significant portion of N4 processing involves the deconvolution of
-the image histogram to sharpen the histogram peaks which decreases the standard
-deviation of the intensity distribution and can also result in an histogram
-shift. Using the original set of 10 young healthy data with no N4 preprocessing,
-we created a reference distribution according to [@He:2016aa], which resulted in
-an approximate distribution of $\mathcal{N}(0.45, 0.24)$.  This produced 0
-voxels being classified as belonging to Cluster 1 (i.e., ventilation defect)
-because two standard deviations from the mean is less than 0 and Cluster 1
-resides in the region below -2 standard deviations.  However using N4-preprocessed
-images produced something closer,  $\mathcal{N}(0.56, 0.22)$, to the published
-values, $\mathcal{N}(0.52, 0.18)$, reported in [@He:2016aa], resulting in a
-non-empty set for that cluster.  This is consistent, though, with linear binning
-which does use N4 bias correction for preprocessing.
-
-\begin{figure}[!h]
+\begin{figure}[!htb]
   \centering
   \begin{subfigure}{0.5\textwidth}
     \centering
@@ -230,6 +170,38 @@ which does use N4 bias correction for preprocessing.
 \label{fig:n4ornot}
 \end{figure}
 
+One of the additional input requirements for linear binning over the other
+algorithms is the generation of a reference distribution.  In addition to the
+output measurement variation caused by choice of the reference image cohort,
+this played a role in determining whether or not to use N4 preprocessing. As
+mentioned, a significant portion of N4 processing involves the deconvolution of
+the image histogram to sharpen the histogram peaks which decreases the standard
+deviation of the intensity distribution and can also result in an histogram
+shift. Using the original set of 10 young healthy data with no N4 preprocessing,
+we created a reference distribution according to [@He:2016aa], which resulted in
+an approximate distribution of $\mathcal{N}(0.45, 0.24)$.  This produced 0
+voxels being classified as belonging to Cluster 1 (i.e., ventilation defect)
+because two standard deviations from the mean is less than 0 and Cluster 1
+resides in the region below -2 standard deviations.  However using N4-preprocessed
+images produced something closer,  $\mathcal{N}(0.56, 0.22)$, to the published
+values, $\mathcal{N}(0.52, 0.18)$, reported in [@He:2016aa], resulting in a
+non-empty set for that cluster.  This is consistent, though, with linear binning
+which does use N4 bias correction for preprocessing.
+
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=0.99\textwidth]{Figures/referenceVariation.pdf}
+  \caption{(Top) Variation of the mean (left) and standard deviation (right)
+  over choice of reference set based on all different combinations of young
+  healthy subjects per specified number of subjects. Although these parameters
+  demonstrate convergence, there is still non-zero variation for any given set.
+  (Bottom) This input variance is a source of output variance in the cluster
+  volume plotted as the maximum range per subject as a percentage of total lung
+  volume.  We limit this exploration to reference sets with eight or nine images.
+  }
+  \label{fig:referenceVariance}
+\end{figure}
+
 The previous implications of the chosen image reference set also caused us to
 look at this choice as a potential source of both input and output variance in
 the measurements utlized and produced by linear binning. Regarding the former,
@@ -246,35 +218,46 @@ on the bottom of Figure \ref{fig:referenceVariance}.  This demonstrates that
 the additional requirement of a reference distribution is a source of potential
 measurement variation for the linear binning algorithm.
 
-\begin{figure}[!h]
+
+## Effects of MR-based simulated image distortions
+
+\begin{figure}[!htb]
   \centering
-  \includegraphics[width=0.99\textwidth]{Figures/referenceVariation.pdf}
-  \caption{(Top) Variation of the mean (left) and standard deviation (right)
-  over choice of reference set based on all different combinations of young
-  healthy subjects per specified number of subjects. Although these parameters
-  demonstrate convergence, there is still non-zero variation for any given set.
-  (Bottom) This input variance is a source of output variance in the cluster
-  volume plotted as the maximum range per subject as a percentage of total lung
-  volume.  We limit this exploration to reference sets with eight or nine images.
-  }
-  \label{fig:referenceVariance}
-\end{figure}
-
-## Effects of MR-based image distortions
-
-
-
-\begin{figure}[htb]
-  \centering
-  \includegraphics[width=0.99\linewidth]{Figures/VarianceStudy.pdf}
-\caption{The deviation in resulting segmentation caused by distortions produced
+  \includegraphics[width=0.99\linewidth]{Figures/DiceVarianceStudy.pdf}
+\caption{(Left) The deviation in resulting segmentation caused by distortions produced
          noise, histogram-based intensity nonlinearities, and their combination
          as measured by the Dice metric.  Each segmentation is reduced to three
-         labels for cross-comparison:  ``ventilation defect,'' ``hypo-ventilation,''
-         and ``other ventilation.''
+         labels for comparison:  ``ventilation defect'' (Cluster 1),
+         ``hypo-ventilation'' (Cluster 2), ``other ventilation'' (Cluster 3).
+         (Right) Results from the Tukey Test following one-way ANOVA to compare
+         the deviations.  Higher positive values are indicative of increased
+         robustness to simulated image distortions.
          }
 \label{fig:simulations}
 \end{figure}
 
-\input{varianceTable}
+As we mentioned in the Introduction, noise and nonlinear intensity artefacts
+common to MRI can have a significant distortion effect on the image with even
+greater effects seen with respect to change in  the structure of the
+corresponding histogram.  This final evaluation explores the effects of these
+artefacts on the algorithmic output on a voxelwise scale using the Dice
+metric (Equation (\ref{eq:dice})) which has a range of [0,1] where 1 signifies
+perfect agreement between the segmentations and 0 is no agreement.
+
+Ten simulated images for each of the 51 subjects were generated using one of the
+three categories of randomly generated artefacts:  noise, nonlinearities, and
+combined noise and intensity nonlinearites.  The original image as well as the
+simulated images were segmented using each of the four algorithms.  Following
+our earlier protocol, we maintained the original Clusters 1 and 2 per algorithm
+and combined the remaining clusters into a single third cluster.  This allowed
+us to compare between algorithms and maintain separate those clusters which are
+the most studied and reported in the literature.  The Dice metric was used to
+quantify the amount of deviation, per cluster, between the segmentation produced
+by the original image and the corresponding simulated distorted image
+segmentation which are plotted in Figure \ref{fig:simulations} (left column).
+These results were then compared, on a per-cluster and per-artefact basis, using
+a one-way ANOVA followed by Tukey's Honest Significant Difference (HSD) test.
+95% confidence intervals are provided in the right column of Figure
+\ref{fig:simulations}.
+
 

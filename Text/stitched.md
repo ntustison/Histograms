@@ -504,6 +504,7 @@ training continued with the multi-label Dice function [@Crum:2006aa]
 
 \begin{equation}
    Dice = 2 \frac{\sum_r| S_r \cap T_r|}{\sum_r |S_r| + |T_r|}
+   \label{eq:dice}
 \end{equation}
 
 where $S_r$ and $T_r$ refer to the source and target regions, respectively.
@@ -726,7 +727,9 @@ addition, we provide the summary area under the ROC curve (AUC) values in Table
 provide evidence that all these algorithms produce measurements which are clinically
 relevant although, it should be noted, that this is a very coarse assessment strategy
 given the global measures used (i.e., cluster volume percentage) and the general
-clinical categories employed.
+clinical categories employed.  In fact, even spirometry measures can be used to achieve
+highly accurate diagnostic predictions with machine learning techniques
+[@Badnjevic:2018aa].
 
 ## T1-weighted brain segmentation analogy
 
@@ -778,69 +781,7 @@ overestimation of the gray matter content.
 
 ## Effect of reference image set selection
 
-<!--
-\begin{figure}[!h]
-  \centering
-  \begin{subfigure}{0.5\textwidth}
-    \centering
-    \includegraphics[width=0.95\linewidth]{Figures/meanReferencePlot.pdf}
-    \caption{Original: variation of the reference mean.}
-  \end{subfigure}%
-  \begin{subfigure}{0.5\textwidth}
-    \centering
-    \includegraphics[width=0.95\linewidth]{Figures/meanReferenceN4Plot.pdf}
-    \caption{N4:  variation of the mean.}
-  \end{subfigure} \\
-  \begin{subfigure}{0.5\textwidth}
-    \centering
-    \includegraphics[width=0.95\linewidth]{Figures/sdReferencePlot.pdf}
-    \caption{Original:  variation of the standard deviation.}
-  \end{subfigure}%
-  \begin{subfigure}{0.5\textwidth}
-    \centering
-    \includegraphics[width=0.95\linewidth]{Figures/sdReferenceN4Plot.pdf}
-    \caption{N4:  variation of the standard deviation.}
-  \end{subfigure} \\
-  \begin{subfigure}{0.5\textwidth}
-    \centering
-    \includegraphics[width=0.95\linewidth]{Figures/referencePlot_10_1.pdf}
-    \caption{Original:  clustered reference distribution.}
-  \end{subfigure}%
-  \begin{subfigure}{0.5\textwidth}
-    \centering
-    \includegraphics[width=0.95\linewidth]{Figures/referencePlot_10_1_N4.pdf}
-    \caption{N4:  clustered reference distribution.}
-  \end{subfigure}
-\caption{Original (left) vs. N4-preprocessed (right) images and the effects on the
-reference distribution.  The reference distribution was generated from 10 young
-healthy controls.  Sample reference distributions were generated for all combinations
-from 1 to 9 images (both original and N4-preprocessed) and (a)-(d) plotted the resulting
-variance in reference distribution parameters (i.e., mean and standard deviation)
-which define the clusters in the linear binning algorithm. Reference distributions
-for all ten healthy controls for both the (e) original and (f) N4 images.}
-\label{fig:referenceSet}
-\end{figure}
--->
-
-One of the additional input requirements for linear binning over the other
-algorithms is the generation of a reference distribution.  In addition to the
-output measurement variation caused by choice of the reference image cohort,
-this played a role in determining whether or not to use N4 preprocessing. As
-mentioned, a significant portion of N4 processing involves the deconvolution of
-the image histogram to sharpen the histogram peaks which decreases the standard
-deviation of the intensity distribution and can also result in an histogram
-shift. Using the original set of 10 young healthy data with no N4 preprocessing,
-we created a reference distribution according to [@He:2016aa], which resulted in
-an approximate distribution of $\mathcal{N}(0.45, 0.24)$.  This produced 0
-voxels being classified as belonging to Cluster 1 (i.e., ventilation defect)
-because two standard deviations from the mean is less than 0 and Cluster 1
-resides in the region below -2 standard deviations.  However using N4-preprocessed
-images produced something closer,  $\mathcal{N}(0.56, 0.22)$, to the published
-values, $\mathcal{N}(0.52, 0.18)$, reported in [@He:2016aa], resulting in a
-non-empty set for that cluster.  This is consistent, though, with linear binning
-which does use N4 bias correction for preprocessing.
-
-\begin{figure}[!h]
+\begin{figure}[!htb]
   \centering
   \begin{subfigure}{0.5\textwidth}
     \centering
@@ -864,6 +805,38 @@ which does use N4 bias correction for preprocessing.
 \label{fig:n4ornot}
 \end{figure}
 
+One of the additional input requirements for linear binning over the other
+algorithms is the generation of a reference distribution.  In addition to the
+output measurement variation caused by choice of the reference image cohort,
+this played a role in determining whether or not to use N4 preprocessing. As
+mentioned, a significant portion of N4 processing involves the deconvolution of
+the image histogram to sharpen the histogram peaks which decreases the standard
+deviation of the intensity distribution and can also result in an histogram
+shift. Using the original set of 10 young healthy data with no N4 preprocessing,
+we created a reference distribution according to [@He:2016aa], which resulted in
+an approximate distribution of $\mathcal{N}(0.45, 0.24)$.  This produced 0
+voxels being classified as belonging to Cluster 1 (i.e., ventilation defect)
+because two standard deviations from the mean is less than 0 and Cluster 1
+resides in the region below -2 standard deviations.  However using N4-preprocessed
+images produced something closer,  $\mathcal{N}(0.56, 0.22)$, to the published
+values, $\mathcal{N}(0.52, 0.18)$, reported in [@He:2016aa], resulting in a
+non-empty set for that cluster.  This is consistent, though, with linear binning
+which does use N4 bias correction for preprocessing.
+
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=0.99\textwidth]{Figures/referenceVariation.pdf}
+  \caption{(Top) Variation of the mean (left) and standard deviation (right)
+  over choice of reference set based on all different combinations of young
+  healthy subjects per specified number of subjects. Although these parameters
+  demonstrate convergence, there is still non-zero variation for any given set.
+  (Bottom) This input variance is a source of output variance in the cluster
+  volume plotted as the maximum range per subject as a percentage of total lung
+  volume.  We limit this exploration to reference sets with eight or nine images.
+  }
+  \label{fig:referenceVariance}
+\end{figure}
+
 The previous implications of the chosen image reference set also caused us to
 look at this choice as a potential source of both input and output variance in
 the measurements utlized and produced by linear binning. Regarding the former,
@@ -880,106 +853,134 @@ on the bottom of Figure \ref{fig:referenceVariance}.  This demonstrates that
 the additional requirement of a reference distribution is a source of potential
 measurement variation for the linear binning algorithm.
 
-\begin{figure}[!h]
+
+## Effects of MR-based simulated image distortions
+
+\begin{figure}[!htb]
   \centering
-  \includegraphics[width=0.99\textwidth]{Figures/referenceVariation.pdf}
-  \caption{(Top) Variation of the mean (left) and standard deviation (right)
-  over choice of reference set based on all different combinations of young
-  healthy subjects per specified number of subjects. Although these parameters
-  demonstrate convergence, there is still non-zero variation for any given set.
-  (Bottom) This input variance is a source of output variance in the cluster
-  volume plotted as the maximum range per subject as a percentage of total lung
-  volume.  We limit this exploration to reference sets with eight or nine images.
-  }
-  \label{fig:referenceVariance}
-\end{figure}
-
-## Effects of MR-based image distortions
-
-
-
-\begin{figure}[htb]
-  \centering
-  \includegraphics[width=0.99\linewidth]{Figures/VarianceStudy.pdf}
-\caption{The deviation in resulting segmentation caused by distortions produced
+  \includegraphics[width=0.99\linewidth]{Figures/DiceVarianceStudy.pdf}
+\caption{(Left) The deviation in resulting segmentation caused by distortions produced
          noise, histogram-based intensity nonlinearities, and their combination
          as measured by the Dice metric.  Each segmentation is reduced to three
-         labels for cross-comparison:  ``ventilation defect,'' ``hypo-ventilation,''
-         and ``other ventilation.''
+         labels for comparison:  ``ventilation defect'' (Cluster 1),
+         ``hypo-ventilation'' (Cluster 2), ``other ventilation'' (Cluster 3).
+         (Right) Results from the Tukey Test following one-way ANOVA to compare
+         the deviations.  Higher positive values are indicative of increased
+         robustness to simulated image distortions.
          }
 \label{fig:simulations}
 \end{figure}
 
-\input{varianceTable}
+As we mentioned in the Introduction, noise and nonlinear intensity artefacts
+common to MRI can have a significant distortion effect on the image with even
+greater effects seen with respect to change in  the structure of the
+corresponding histogram.  This final evaluation explores the effects of these
+artefacts on the algorithmic output on a voxelwise scale using the Dice
+metric (Equation (\ref{eq:dice})) which has a range of [0,1] where 1 signifies
+perfect agreement between the segmentations and 0 is no agreement.
 
+Ten simulated images for each of the 51 subjects were generated using one of the
+three categories of randomly generated artefacts:  noise, nonlinearities, and
+combined noise and intensity nonlinearites.  The original image as well as the
+simulated images were segmented using each of the four algorithms.  Following
+our earlier protocol, we maintained the original Clusters 1 and 2 per algorithm
+and combined the remaining clusters into a single third cluster.  This allowed
+us to compare between algorithms and maintain separate those clusters which are
+the most studied and reported in the literature.  The Dice metric was used to
+quantify the amount of deviation, per cluster, between the segmentation produced
+by the original image and the corresponding simulated distorted image
+segmentation which are plotted in Figure \ref{fig:simulations} (left column).
+These results were then compared, on a per-cluster and per-artefact basis, using
+a one-way ANOVA followed by Tukey's Honest Significant Difference (HSD) test.
+95% confidence intervals are provided in the right column of Figure
+\ref{fig:simulations}.
 
 
 
 # Discussion
 
-
-
-We recognize that alternative deep learning strategies (hyperparameter
-choice, training data selection, etc.) could provide comparable and even
-superior performance to what was presented.  However, that is precisely
-our point---deep learning, generally, presents a much better alternative
-than histogram approaches as network training directly takes place in
-the image (i.e., spatial) domain and not in a transformed space where
-key information has been discarded.
-
-As we mentioned previously, although susceptible to varyious levels of
-bias and lack of precision, these algorithms are decent for what they've been
-used for---global measurements, no more granular than spirometry, for
-doing research (while providing pretty visuals for publications.)
-However, if you want to do more sophisticated studies involving, for
-example, the spatial manifestation and/or growth of disease aided
-by advanced statistical techniques (such as similarity-driven multivariate
-linear reconstruction, then one should move beyond these shitty algorithms
-
-
-not take advanta.  For example, spirometry measures
-alone can be used to achieve highly accurate predictions using machine learning
- techniques [@Badnjevic:2018aa].
-
-
-
-In addition to the fundamental issues of precision and bias, we also point
-out that generally good modelling practice is to incorporate as much
-prior information as possible.  Histogram-only algorithms throw out a
-significant portion of that prior information.  This is a key consequence of
-the "No Free Lunch Theorem" [@Wolpert:1997aa]
-
-There's other avenues to explore:
-
-* the effects of super-resolution
-* exploration of the trained weights for classification networks---what do they
-tell us about disease?
-*
-
-
-Instead of investing time in propping up shitty algorithms, we should be
-donig things like looking at tailored network architectures/features and
-data augmentation strategies.
-
-So, in summary:
+Over the past decade, multiple segmentation algorithms have been proposed for
+hyperpolarized gas images which, as we have pointed out, are all highly
+dependent on the image intensity histogram for optimization.  The
+majority use the histogram information *exclusively* much to the detriment of
+algorithmic robustness and segmentation quality.  This is due to the simple
+observation that these approaches discard a vital piece of information
+essential for image interpretation, i.e., the spatial relationships between
+voxel intensities.  A brief summary of criticisms related to current algorithms
+is as follows:
 
 * In addition to completely discarding spatial information, linear binning is
   based on overly simplistic assumptions, especially given common MR artefacts.
   The additional requirement of a reference distribution, with its questionable
-  assumption of Gaussianity, is also a potential source of output variance.
+  assumption of Gaussianity and known distributional parameters for healthy
+  controls, is also a potential source of output variance.
 
 * Hierarchical k-means also ignores spatial information and, although it does
   use a principled optimization criterion, this criterion is not adequately
-  tailored for hyperpolarized gas imaging and relatively more susceptible to
-  various levels of noise than competing approaches.
+  tailored for hyperpolarized gas imaging and susceptible to various levels of
+  noise.
 
 * The GMM-MRF approach does employ spatial considerations in the form of Markov
-  random fields but these are highly simplistic prior modeling of local voxel
-  neighborhoods which do not capture the complexity of ventilation
+  random fields but these are highly simplistic, based on prior modeling of local
+  voxel neighborhoods which do not capture the complexity of ventilation
   defects/heterogeneity appearance in the images.  Although the simplistic
   assumptions provide some robustness to noise, the highly variable histogram
-  structure in the presence of MR nonlinearities causes significant variance in
+  structure in the presence of MR nonlinearities can cause significant variation in
   the resulting GMM fitting.
+
+While simplifying the underlying complexity of the segmentation problem, all of
+these algorithms are deficient in leveraging the general modelling principle of
+incorporating as much prior information as possible to any solution method.
+In fact, this is a fundamental implication of the  "No Free Lunch Theorem"
+[@Wolpert:1997aa]---algorithmic performance hinges on available prior
+information.
+
+As illustrated in Figure \ref{fig:similarity}, measures based on the human
+visual system seem to quantify what is understood intuitively that image domain
+information is much more robust than histogram domain information in the
+presence of image transformations, such as distortions.  This appears to also be
+supported in our simulation experiments illustrated in Figure
+\ref{fig:simulations} where the histogram-based algorithms, overall, performed
+worse than El Bicho.  As a CNN, El Bicho optimizes the governing network weights
+over image features as opposed to strictly relative intensities.  This work
+could potentially motivate additional exploration focusing on issues related to
+algorithmic bias on a voxelwise scale which would require going beyond simple
+globally-based assessment measures (such as the diagnostic prediction evaluation
+detailed above using global volume proportions).  This would enable investigating
+differentiating spatial patterns within the images as evidence of disease and/or
+growth and correlations with non-imaging data using sophisticated voxel-scale
+statistical techniques (e.g., symmetric multivariate linear reconstruction
+[@Stone:2020aa]).
+
+It should be noted that El Bicho was developed in parallel with the writing of
+this manuscript merely to showcase the incredible potential that deep learning
+can have in the field of hyperpolarized gas imaging (as well as to update our
+earlier work [@Tustison:2019ac]).   We certainly recognize and expect that
+alternative deep learning strategies (e.g., hyperparameter choice, training data
+selection, data augmentation, etc.) would provide comparable and even superior
+performance to what was presented with El Bicho.  However, that is precisely our
+point---deep learning, generally, presents a much better alternative than
+histogram approaches as network training directly takes place in the image
+(i.e., spatial) domain and not in a transformed space where key information has
+been discarded.
+
+Just as important, deep learning provides other avenues for research exploration
+and development. For example, given the relatively lower resolution of the
+acquisition image, exploration of the effects of deep learning-based
+super-resolution might prove worthy of application-specific investigation
+[@Li:2020aa] (see, for example, ``ANTsRNet::mriSuperResolution``).  Also, with
+the same network software libraries, high-performing classification networks can
+be constructed and trained which might yield novel insights regarding
+image-based characterization of disease.  One additional modification that we
+did not explore in this work, but is extremely important, is the confound caused
+by multi-site data which has yet to be explored in-depth.  With neural networks,
+such confounds can be handled as part of the training process or as an explicit
+network modification.  Either would be important to consider for future work.
+Needless to say, there are other potentially interesting avenues for exploration
+beyond histogram-based segmentation of hyperpolarized gas images.
+
+
+
 \newpage
 
 # References {-}

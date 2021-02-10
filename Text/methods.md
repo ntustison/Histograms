@@ -104,6 +104,7 @@ training continued with the multi-label Dice function [@Crum:2006aa]
 
 \begin{equation}
    Dice = 2 \frac{\sum_r| S_r \cap T_r|}{\sum_r |S_r| + |T_r|}
+   \label{eq:dice}
 \end{equation}
 
 where $S_r$ and $T_r$ refer to the source and target regions, respectively.
