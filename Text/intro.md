@@ -39,7 +39,7 @@ increasing algorithmic sophistication as follows:
   binning" [@He:2016aa;@He:2020aa],
 * nonlinear intensity standardization based on piecewise affine transformation
   of the intensity histogram using a customized hierarchical k-means algorithm
-  [@Kirby:2012aa;@Kirby:2012ab], and
+  [@Kirby:2012aa;@Kirby:2012ab;@Zha:2016aa], and
 * Gaussian mixture modeling (GMM) of the intensity histogram with Markov random
   field (MRF) spatial prior modeling [@Tustison:2011aa]
 
@@ -240,7 +240,7 @@ respect to ventilation versus non-ventilation in various clinical categories and
 these algorithms have certainly demonstrated the capacity for advancing such
 research.  However, the aforementioned issues influence quantitation in terms of
 core scientific measurement principles such as precision (e.g., reproducibility
-and repeatability [@Svenningsen:2020aa]) and bias which become increasingly
+and repeatability [@Zha:2016aa;@Svenningsen:2020aa]) and bias which become increasingly
 significant with multi-site [@Couch:2019aa] and large-scale studies.  In addition, generally
 speaking, refinements in measuring capabilities correlate with scientific
 advancement so as acquisition and analysis methodologies improve, so should the
