@@ -117,128 +117,131 @@ elBichoLungSegmentation <- function( image, mask )
   return( elBichoSeg$segmentationImage )
   }
 
-fuzzySpatialCMeansSegmentation <- function( image, mask, numberOfClusters = 4,
-  m = 2, p = 1, q = 1, radius = 2, maxNumberOfIterations = 20, convergenceThreshold = 0.2,
-  verbose = FALSE )
-  {
+# fuzzySpatialCMeansSegmentation <- function( image, mask = NULL, numberOfClusters = 4,
+#   m = 2, p = 1, q = 1, radius = 2, maxNumberOfIterations = 20, convergenceThreshold = 0.2,
+#   verbose = FALSE )
+#   {
+#   if( is.na( mask ) )
+#     {
+#     mask <- antsImageClone( image ) * 0 + 1
+#     }
 
-  x <- image[mask != 0]
+#   x <- image[mask != 0]
 
-  v <- seq( from = 0, to = 1, length.out = numberOfClusters + 2 )[2:(numberOfClusters + 1)]
-  v <- v * ( max( x ) - min( x ) ) + min( x )
-  cc <- length( v )
+#   v <- seq( from = 0, to = 1, length.out = numberOfClusters + 2 )[2:(numberOfClusters + 1)]
+#   v <- v * ( max( x ) - min( x ) ) + min( x )
+#   cc <- length( v )
 
-  if( verbose == TRUE )
-    {
-    cat( "Cluster centers: ", v, "\n" )
-    }
+#   xx <- matrix()
+#   for( i in seq.int( cc ) )
+#     {
+#     if( i == 1 )
+#       {
+#       xx <- x
+#       } else {
+#       xx <- rbind( xx, x )
+#       }
+#     }
 
-  if( length( radius ) == 1 )
-    {
-    radius <- rep( radius, image@dimension )
-    }
+#   if( verbose == TRUE )
+#     {
+#     cat( "Cluster centers: ", v, "\n" )
+#     }
 
-  segmentation <- antsImageClone( image ) * 0
-  probabilityImages <- list()
+#   if( length( radius ) == 1 )
+#     {
+#     radius <- rep( radius, image@dimension )
+#     }
 
-  iter <- 0
-  diceValue <- 0
-  while( iter < maxNumberOfIterations && diceValue < 1.0 - convergenceThreshold )
-    {
+#   segmentation <- antsImageClone( image ) * 0
+#   probabilityImages <- list()
 
-    # update membership values
+#   iter <- 0
+#   diceValue <- 0
+#   while( iter < maxNumberOfIterations && diceValue < 1.0 - convergenceThreshold )
+#     {
 
-    xv <- matrix()
-    for( k in seq.int( cc ) )
-      {
-      if( k == 1 )
-        {
-        xv <- abs( x - v[k] )
-        } else {
-        xv <- rbind( xv, abs( x - v[k] ) )
-        }
-      }
+#     # update membership values
 
-    u <- matrix( data = 0, nrow = nrow( xv ), ncol = ncol( xv ) )
-    for( i in seq.int( cc ) )
-      {
-      n <- xv[i,]
+#     xv <- matrix()
+#     for( k in seq.int( cc ) )
+#       {
+#       if( k == 1 )
+#         {
+#         xv <- abs( x - v[k] )
+#         } else {
+#         xv <- rbind( xv, abs( x - v[k] ) )
+#         }
+#       }
 
-      d <- n * 0
-      for( k in seq.int( cc ) )
-        {
-        d <- d + ( n / xv[k,] ) ^ ( 2 / ( m - 1 ) )
-        }
-      u[i,] <- 1 / d
-      }
-    u[is.nan(u)] <- 1
+#     u <- matrix( data = 0, nrow = nrow( xv ), ncol = ncol( xv ) )
+#     for( i in seq.int( cc ) )
+#       {
+#       n <- xv[i,]
 
-    # Update cluster centers
+#       d <- n * 0
+#       for( k in seq.int( cc ) )
+#         {
+#         d <- d + ( n / xv[k,] ) ^ ( 2 / ( m - 1 ) )
+#         }
+#       u[i,] <- 1 / d
+#       }
+#     u[is.nan( u )] <- 1
 
-    xx <- matrix()
-    for( i in seq.int( cc ) )
-      {
-      if( i == 1 )
-        {
-        xx <- x
-        } else {
-        xx <- rbind( xx, x )
-        }
-      }
-    v <- rowSums( ( u ^ m ) * xx, na.rm = TRUE ) / rowSums( u ^ m, na.rm = TRUE )
+#     # Update cluster centers
 
-    # spatial function
+#     v <- rowSums( ( u ^ m ) * xx, na.rm = TRUE ) / rowSums( u ^ m, na.rm = TRUE )
 
-    h <- matrix( data = 0, nrow = nrow( u ), ncol = ncol( u ) )
-    for( i in seq.int( cc ) )
-      {
-      uimage <- antsImageClone( image ) * 0
-      uimage[mask != 0] <- u[i,]
-      probabilityImages[[i]] <- uimage
-      uneighborhoods <- getNeighborhoodInMask( uimage, mask, radius )
-      h[i,] <- colSums( uneighborhoods, na.rm = TRUE )
-      }
+#     # spatial function
 
-    # u prime
+#     h <- matrix( data = 0, nrow = nrow( u ), ncol = ncol( u ) )
+#     for( i in seq.int( cc ) )
+#       {
+#       uimage <- antsImageClone( image ) * 0
+#       uimage[mask != 0] <- u[i,]
+#       probabilityImages[[i]] <- uimage
+#       uneighborhoods <- getNeighborhoodInMask( uimage, mask, radius )
+#       h[i,] <- colSums( uneighborhoods, na.rm = TRUE )
+#       }
 
-    d <- rep( 0, ncol( u ) )
-    for( k in seq.int( cc ) )
-      {
-      d <- ( d + u[k,] ^ p ) * ( h[k,] ^ q )
-      }
+#     # u prime
 
-    uprime <- matrix( data = 0, nrow = nrow( u ), ncol = ncol( u ) )
-    for( i in seq.int( cc ) )
-      {
-      uprime[i,] <- ( u[i,] ^ p * h[i,] ^ q ) / d
-      }
+#     d <- rep( 0, ncol( u ) )
+#     for( k in seq.int( cc ) )
+#       {
+#       d <- ( d + u[k,] ^ p ) * ( h[k,] ^ q )
+#       }
 
-    tmpSegmentation <- antsImageClone( image ) * 0
-    tmpSegmentation[mask != 0] <- max.col( t( uprime ) )
+#     uprime <- matrix( data = 0, nrow = nrow( u ), ncol = ncol( u ) )
+#     for( i in seq.int( cc ) )
+#       {
+#       uprime[i,] <- ( u[i,] ^ p * h[i,] ^ q ) / d
+#       }
 
-    diceValue <- labelOverlapMeasures( segmentation, tmpSegmentation )$MeanOverlap[1]
-    iter <- iter + 1
+#     tmpSegmentation <- antsImageClone( image ) * 0
+#     tmpSegmentation[mask != 0] <- max.col( t( uprime ) )
 
-    if( verbose == TRUE )
-      {
-      cat( "Iteration ", iter, " (out of ", maxNumberOfIterations, "):  ",
-           "Dice overlap = ", diceValue, "\n", sep = "" )
-      }
-    segmentation <- tmpSegmentation
-    }
-  return( list( segmentationImage = segmentation,
-                probabilityImages = probabilityImages ) )
-  }
+#     diceValue <- labelOverlapMeasures( segmentation, tmpSegmentation )$MeanOverlap[1]
+#     iter <- iter + 1
+
+#     if( verbose == TRUE )
+#       {
+#       cat( "Iteration ", iter, " (out of ", maxNumberOfIterations, "):  ",
+#            "Dice overlap = ", diceValue, "\n", sep = "" )
+#       }
+#     segmentation <- tmpSegmentation
+#     }
+#   return( list( segmentationImage = segmentation,
+#                 probabilityImages = probabilityImages ) )
+#   }
 
 
 fuzzySpatialCMeansLungSegmentation <- function( image, mask )
   {
-  m <- 2  # fuzziness
-  p <- 1
-  q <- 1
-  radius <- rep( 2, 2 )
-  maxNumberOfIterations <- 20
-
+  fspcm <- fuzzySpatialCMeansSegmentation( image, mask, numberOfClusters = 4,
+    m = 2, p = 1, q = 1, radius = 2, maxNumberOfIterations = 20, convergenceThreshold = 0.01,
+    verbose = FALSE )
+  return( fspcm$segmentationImage )
   }
 
 

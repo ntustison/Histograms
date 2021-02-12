@@ -12,7 +12,7 @@ for( i in seq.int( length( simulationTypes ) ) )
   variance[[i]] <- read.csv( paste0( "../Data/SimulationExperiments_", simulationTypes[i], "/varianceStudy.csv" ) )
   variance[[i]]$SimulationType <- simulationTypes[i]
 
-  variance[[i]]$Segmentation <- factor( variance[[i]]$Segmentation, levels = c( "LinearBinning", "Kmeans", "Atropos", "ElBicho" ) )
+  variance[[i]]$Segmentation <- factor( variance[[i]]$Segmentation, levels = c( "LinearBinning", "Kmeans", "Fuzzy", "Atropos", "ElBicho" ) )
   variance[[i]]$Dx <- factor( variance[[i]]$Dx, levels = c( "YoungHealthy", "OldHealthy", "CF", "COPD", "ILD" ) )
 
   diceVariancePlot <- ggplot( data = variance[[i]] ) +
@@ -146,14 +146,14 @@ for( j in seq.int( length( columnIndices ) ) )
       allDataFrame <- rbind( allDataFrame, dice.tukey.df )
       }
     }
-  dice.tukey.plot <- ggplot( data = allDataFrame, aes( linetype = cut(`p adj`, c( 0, 0.01, 0.05, 1 ),
+  dice.tukey.plot <- ggplot( data = allDataFrame, aes( linetype = cut(`p adj`, c( -0.001, 0.01, 0.05, 1 ),
                           label = c( " p<0.01", "p<0.05", "nonsignificant" ) ), fill = SimulationType ) ) +
                       geom_vline( xintercept = 0, lty = "11", colour = "black" ) +
-                      geom_errorbarh( aes( y = pair, xmin = lwr, xmax = upr, colour = SimulationType ), position = position_dodge( 0.5 ), height = 0.0, size = 1. ) +
-                      geom_point( aes( diff, pair, shape = SimulationType ), size = 3, position = position_dodge( 0.5 ) ) +
+                      geom_errorbarh( aes( y = pair, xmin = lwr, xmax = upr, colour = SimulationType ), position = position_dodge( 0.75 ), height = 0.0, size = 1. ) +
+                      geom_point( aes( diff, pair, shape = SimulationType ), size = 3, position = position_dodge( 0.75 ) ) +
                       ylab( "" ) +
-                      xlab( diceYLabels[j] ) +
                       xlim( c( -0.35, 0.55 ) ) +
+                      xlab( diceYLabels[j] ) +
                       theme( legend.title = element_blank() ) +
                       theme( legend.position = "bottom" ) +
                       theme( axis.text.y = element_text( size = 12, face = "bold" ) ) +

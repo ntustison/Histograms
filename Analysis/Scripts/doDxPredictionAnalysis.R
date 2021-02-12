@@ -32,7 +32,7 @@ figuresDirectory <- paste0( baseDirectory, "../../Text/Figures/" )
 #
 
 
-pipelineType <- c( "LinearBinning", "KMeans", "Atropos", "ElBicho" )
+pipelineType <- c( "LinearBinning", "KMeans", "Fuzzy", "Atropos", "ElBicho" )
 diagnosisType <- c( "CF", "COPD", "ILD" )
 
 allPredictions <- list()
@@ -136,12 +136,12 @@ for( l in seq.int( length( diagnosisType ) ) )
 
       rf <- randomForest( diagnosis ~ ., data = trainingData, importance = TRUE )
 
-      if( i == 1 )
-        {
-        rfImportance[[p]] <- importance( rf, type = 1 )
-        } else {
-        rfImportance[[p]] <- rfImportance[[p]] + importance( rf, type = 1 )
-        }
+      # if( i == 1 )
+      #   {
+      #   rfImportance[[p]] <- importance( rf, type = 1 )
+      #   } else {
+      #   rfImportance[[p]] <- rfImportance[[p]] + importance( rf, type = 1 )
+      #   }
 
       predictions <- as.data.frame( predict( rf, newdata = testingData, type = "prob" ) )
 
@@ -204,7 +204,7 @@ for( l in seq.int( length( diagnosisType ) ) )
     roc.dx[[p]] <- roc( allPredictions[[p]]$observed, as.numeric( allPredictions[[p]][,1] ) )
     cat( pipelineType[p], ": AUC = ", roc.dx[[p]]$auc, "\n", sep = "" )
     }
-  g <- ggroc( list( LinearBinning = roc.dx[[1]], Kmeans = roc.dx[[2]], Atropos = roc.dx[[3]], ElBicho = roc.dx[[4]] ), size = 1, legacy.axes = "TRUE" ) +
+  g <- ggroc( list( LinearBinning = roc.dx[[1]], Kmeans = roc.dx[[2]], Fuzzy = roc.dx[[3]], Atropos = roc.dx[[4]], ElBicho = roc.dx[[5]] ), size = 1, legacy.axes = "TRUE" ) +
     geom_abline( intercept = 0, slope = 1, color = "darkgrey", linetype = "dashed" ) +
     labs( color = "Pipeline" ) +
     ggtitle( paste0( diagnosisType[l], " vs. Healthy" ) ) +
@@ -215,32 +215,32 @@ for( l in seq.int( length( diagnosisType ) ) )
 
   # Plot importance
 
-  for( p in seq.int( length( rfImportance ) ) )
-    {
-    rfImportance[[p]] <- rfImportance[[p]] / numberOfRuns
-    rfImportance.df <- data.frame( Statistic = rownames( rfImportance[[p]] ), Importance = as.numeric( rfImportance[[p]][,1] ) )
-    rfImportance.df <- rfImportance.df[order( rfImportance.df$Statistic, decreasing = TRUE ),]
-    rfImportance.df$Statistic <- factor( x = rfImportance.df$Statistic, levels = rfImportance.df$Statistic )
+  # for( p in seq.int( length( rfImportance ) ) )
+  #   {
+  #   rfImportance[[p]] <- rfImportance[[p]] / numberOfRuns
+  #   rfImportance.df <- data.frame( Statistic = rownames( rfImportance[[p]] ), Importance = as.numeric( rfImportance[[p]][,1] ) )
+  #   rfImportance.df <- rfImportance.df[order( rfImportance.df$Statistic, decreasing = TRUE ),]
+  #   rfImportance.df$Statistic <- factor( x = rfImportance.df$Statistic, levels = rfImportance.df$Statistic )
 
-    localColormap <-  rev( c( "red", "green", "blue", "yellow", "cyan", "magenta" ) )
-    if( length( rfImportance.df$Statistic ) == 3 )
-      {
-      localColormap <-  rev( c( "red", "green", "magenta" ) )
-      }
+  #   localColormap <-  rev( c( "red", "green", "blue", "yellow", "cyan", "magenta" ) )
+  #   if( length( rfImportance.df$Statistic ) == 3 )
+  #     {
+  #     localColormap <-  rev( c( "red", "green", "magenta" ) )
+  #     }
 
-    importancePlot <- ggplot( data = rfImportance.df, aes( x = Importance, y = Statistic ) ) +
-                      geom_point( aes( fill = Statistic ), shape = 21, colour = "black", stroke = 1, size = 4, alpha = 1.0 ) +
-                      ylab( "" ) +
-                      scale_fill_manual( values = localColormap ) +
-                      theme( axis.text.x = element_text( size = 8 ) ) +
-                      theme( axis.text.y = element_text( size = 8 ) ) +
-                      theme( axis.title = element_text( size = 7 ) ) +
-                      theme( legend.position = "none" ) +
-                      ggtitle( pipelineType[p] )
-    ggsave( file = paste0( figuresDirectory, "/impX", pipelineType[p], "_", diagnosisType[l], ".pdf" ),
-            importancePlot, width = 2.5, height = 4, units = "in" )
+  #   importancePlot <- ggplot( data = rfImportance.df, aes( x = Importance, y = Statistic ) ) +
+  #                     geom_point( aes( fill = Statistic ), shape = 21, colour = "black", stroke = 1, size = 4, alpha = 1.0 ) +
+  #                     ylab( "" ) +
+  #                     scale_fill_manual( values = localColormap ) +
+  #                     theme( axis.text.x = element_text( size = 8 ) ) +
+  #                     theme( axis.text.y = element_text( size = 8 ) ) +
+  #                     theme( axis.title = element_text( size = 7 ) ) +
+  #                     theme( legend.position = "none" ) +
+  #                     ggtitle( pipelineType[p] )
+  #   ggsave( file = paste0( figuresDirectory, "/impX", pipelineType[p], "_", diagnosisType[l], ".pdf" ),
+  #           importancePlot, width = 2.5, height = 4, units = "in" )
 
-    }
+  #   }
   }
 
 # analysis <- data.frame( Accuracy = acc,

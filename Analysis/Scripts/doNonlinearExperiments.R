@@ -41,12 +41,9 @@ if( useN4Images == FALSE )
   gasFiles <- gsub( "N4", "", gasFiles )
   }
 
-for( s in length( artefacts ) )
+for( s in seq.int( length( artefacts ) ) )
   {
-  if( s != 3 )
-    {
-    next
-    }
+
   doNoise <- artefacts[[s]][1]
   doNonlinearities <- artefacts[[s]][2]
 
@@ -218,6 +215,22 @@ for( s in length( artefacts ) )
     if( ! file.exists( histogramFile ) )
       {
       makeSegmentationHistogram( image, kmeansSegmentationOriginal, histogramFile, TRUE )
+      }
+
+    # Do fuzzy
+    cat( "       (original) fuzzy spatial c-means...\n" )
+    imageFile <- paste0( outputPrefix, "_Fuzzy.nii.gz" )
+    if( ! file.exists( imageFile ) )
+      {
+      fuzzySegmentationOriginal <- fuzzySpatialCMeansLungSegmentation( image, mask )
+      antsImageWrite( fuzzySegmentationOriginal, imageFile )
+      } else {
+      fuzzySegmentationOriginal <- antsImageRead( imageFile )
+      }
+    histogramFile <- paste0( outputPrefix, "_FuzzyHistogram.pdf" )
+    if( ! file.exists( histogramFile ) )
+      {
+      makeSegmentationHistogram( image, fuzzySegmentationOriginal, histogramFile, TRUE )
       }
 
     ########################################
@@ -435,6 +448,38 @@ for( s in length( artefacts ) )
       dice1 <- append( dice1, overlap$MeanOverlap[2] )
       dice2 <- append( dice2, overlap$MeanOverlap[3] )
       dice3 <- append( dice3, overlap$MeanOverlap[4] )
+
+      # Do fuzzy
+      cat( "       fuzzy spatial c-means...\n" )
+
+      imageFile <- paste0( outputPrefixSimulation, "Fuzzy.nii.gz" )
+      if( ! file.exists( imageFile ) )
+        {
+        fuzzySegmentation <- fuzzySpatialCMeansLungSegmentation( transformedImage, mask )
+        antsImageWrite( fuzzySegmentation, imageFile )
+        } else {
+        fuzzySegmentation <- antsImageRead( imageFile )
+        }
+      histogramFile <- paste0( outputPrefix, "FuzzyHistogram.pdf" )
+      if( ! file.exists( histogramFile ) )
+        {
+        makeSegmentationHistogram( transformedImage, fuzzySegmentation, histogramFile, TRUE )
+        }
+
+      simulationNumber <- append( simulationNumber, j )
+      diagnosis <- append( diagnosis, subjectDiagnosis )
+      subject <- append( subject, subjectId )
+      segmentation <- append( segmentation, "Fuzzy" )
+
+      vdp <-  append( vdp,
+        length( fuzzySegmentation[fuzzySegmentation == 1] ) / length( mask[mask == 1] ) )
+      overlap <- labelOverlapMeasures( groupClusters( fuzzySegmentationOriginal ),
+                                      groupClusters( fuzzySegmentation ) )
+      diceAll <- append( diceAll, overlap$MeanOverlap[1] )
+      dice1 <- append( dice1, overlap$MeanOverlap[2] )
+      dice2 <- append( dice2, overlap$MeanOverlap[3] )
+      dice3 <- append( dice3, overlap$MeanOverlap[4] )
+
       }
 
     #
