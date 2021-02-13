@@ -39,7 +39,9 @@ increasing algorithmic sophistication as follows:
   binning" [@He:2016aa;@He:2020aa],
 * nonlinear intensity standardization based on piecewise affine transformation
   of the intensity histogram using a customized hierarchical k-means algorithm
-  [@Kirby:2012aa;@Kirby:2012ab;@Zha:2016aa], and
+  [@Kirby:2012aa;@Kirby:2012ab;@Zha:2016aa],
+* fuzzy c-means with spatial considerations in the form of local neighborhoods
+  [@Hughes:2018aa],
 * Gaussian mixture modeling (GMM) of the intensity histogram with Markov random
   field (MRF) spatial prior modeling [@Tustison:2011aa]
 
