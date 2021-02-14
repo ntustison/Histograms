@@ -93,24 +93,24 @@ In conjunction with the innovations associated with image acquisition, multiple
 image analysis strategies have been proposed and refined for the quantification
 of such lung imaging with much research effort devoted to semantic segmentation,
 or voxelwise classification, into clinically-oriented categories based on
-ventilation levels. Given the functional aspect of these images and the
+ventilation levels. Given the functional nature of these images and the
 consequent sophistication of the segmentation task, many of these algorithmic
-approaches reduce the complex spatial image intensity information to
-intensity-only considerations, which can be contextualized in terms of the
-intensity histogram. Although facilitating computational processing, this
-simplifying transformation results in the loss of important spatial cues for
-identifying salient image features, such as ventilation defects (a well-studied
-correlate of lung pathophysiology), as spatial objects.  In this work, we
-discuss the interrelatedness of the most common approaches for histogram-based
-segmentation of hyperpolarized gas lung imaging and evaluate the underlying
-assumptions associated with each approach demonstrating how these assumptions
-lead to suboptimal performance, particularly in terms of measurement precision.
-We then illustrate how a convolutional neural network can be trained to leverage
-multi-scale spatial information which circumvents the problematic issues
-associated with these approaches.  Importantly, we provide the entire processing
-and evaluation framework, including the newly reported deep learning
-functionality, as open-source through the well-known Advanced Normalization
-Tools ecosystem (ANTsX).
+approaches reduce the complex spatial image information to intensity-only
+considerations, which can be contextualized in terms of the intensity histogram.
+Although facilitating computational processing, this simplifying transformation
+results in the loss of important spatial cues for identifying salient image
+features, such as ventilation defects (a well-studied correlate of lung
+pathophysiology), as spatial objects.  In this work, we discuss the underlying
+assumptions and interrelatedness of the most common approaches for
+histogram-based optimization of hyperpolarized gas lung imaging segmentation and
+demonstrate how certain assumptions lead to suboptimal performance, particularly
+in terms of measurement precision. In contrast, we illustrate how a
+convolutional neural network is optimized (i.e., trained) directly within the
+image domain to leverage multi-scale spatial information which circumvents the
+problematic issues associated with histogram-based approaches.  Importantly, we
+provide the entire processing and evaluation framework, including the newly
+reported deep learning functionality, as open-source through the well-known
+Advanced Normalization Tools ecosystem (ANTsX).
 
 \newpage
 
@@ -164,19 +164,16 @@ increasing algorithmic sophistication as follows:
 
 * binary thresholding based on relative intensities
   [@Woodhouse:2005aa;@Shammi:2021aa],
-* linear intensity standardization based on global rescaling of the intensity
+* linear intensity standardization based on a global rescaling of the intensity
   histogram to a reference distribution based on healthy controls, i.e., "linear
   binning" [@He:2016aa;@He:2020aa],
 * nonlinear intensity standardization based on piecewise affine transformation
   of the intensity histogram using a customized hierarchical k-means algorithm
   [@Kirby:2012aa;@Kirby:2012ab;@Zha:2016aa],
-* fuzzy c-means with spatial considerations in the form of local neighborhoods
-  [@Hughes:2018aa],
+* nonlinear intensity standardization using fuzzy c-means [@Ray:2003aa] with spatial
+  considerations based on local voxel neighborhoods [@Hughes:2018aa], and
 * Gaussian mixture modeling (GMM) of the intensity histogram with Markov random
-  field (MRF) spatial prior modeling [@Tustison:2011aa]
-
-where each of these algorithms has been purposely contextualized in terms of the
-intensity histogram for facilitating comparison.
+  field (MRF) spatial prior modeling [@Tustison:2011aa].
 
 An early semi-automated technique used to compare smokers and never-smokers
 relied on manually drawn regions to determine a threshold based on the
@@ -214,7 +211,7 @@ the same subject.  As stated in [@Collewet:2004aa]:
 > slice location, B0 intensity, and the receiver gain value. The consequences of
 > intensity variation are greater when different scanners are used.
 
-As we illustrate in subsequent sections, ignoring these nonlinearities are known
+As we illustrate in subsequent sections, ignoring these nonlinearities is known
 to have significant consequences in the well-studied (and somewhat analogous)
 area of brain tissue segmentation in T1-weighted MRI (e.g.,
 [@Zhang:2001aa;@Ashburner:2005aa;@Avants:2011aa]) and we demonstrate its effects
@@ -223,7 +220,7 @@ noise considerations.  In addition, the reference distribution required by
 linear binning assumes sufficient agreement as to what constitutes a "healthy
 control", whether a Gaussian fit is appropriate, and, even assuming the latter,
 whether or not the parameter values can be combined in a linear fashion to
-constitute a single reference standard. Of more concrete concern, though, is
+constitute a single reference standard. Of additional concern, though, is
 that the requirement for a healthy cohort for determination of algorithmic
 parameters introduces a non-negligible source of measurement variance, as we
 will also demonstrate.
@@ -233,44 +230,56 @@ light of MR intensity nonlinearities have relied on 1-D piecewise affine
 mappings between corresponding structural features found within the histograms
 themselves (e.g., peaks and valleys).  For example, structural MRI, such as
 T1-weighted neuroimaging, utilizes the well-known relative intensities of major
-tissues types (i.e., cerebrospinal fluid (CSF), gray matter (GM), and white matter(WM)), which
-characteristically correspond to visible histogram peaks, as landmarks to
-determine the nonlinear intensity mapping between histograms. However, in
-hyperpolarized gas imaging of the lung, no such characteristic structural
-features exist, generally speaking, between histograms.  This is most likely due
-to the primarily functional utility (vs. anatomical) nature of these images. The
-approach used by some groups [@Cooley:2010aa;@Kirby:2012aa] of employing some
-variant of the well-known k-means algorithm as a clustering strategy
-[@Hartigan:1979aa] to minimize the within-class variance of its intensities can
-be viewed as an alternative optimization strategy for determining a nonlinear
-mapping between histograms for a clinically-based MR intensity standardization.
-K-means does constitute an algorithmic approach with additional degrees of
-flexibility and sophistication over linear binning as it employs basic prior
-knowledge in the form of a generic clustering desideratum for optimizing a type
-of MR intensity standardization.[^1]
+tissues types (i.e., cerebrospinal fluid (CSF), gray matter (GM), and white
+matter(WM)), which characteristically correspond to visible histogram peaks, as
+landmarks to determine the nonlinear intensity mapping between histograms.
+However, in hyperpolarized gas imaging of the lung, no such characteristic
+structural features exist, generally speaking, between histograms.  This is most
+likely due to the primarily functional utility (vs. anatomical) nature of these
+images. The approach used by some groups [@Cooley:2010aa;@Kirby:2012aa] of
+employing some variant of the well-known k-means algorithm as a clustering
+strategy [@Hartigan:1979aa] to minimize the within-class variance of its
+intensities can be viewed as an alternative optimization strategy for
+determining a nonlinear mapping between histograms for a possible approach to MR
+intensity standardization. K-means does constitute an algorithmic approach with
+additional degrees of flexibility and sophistication over linear binning as it
+employs basic prior knowledge in the form of a generic clustering desideratum
+for optimizing a type of MR intensity standardization.[^1]
 
 [^1]: The prior knowledge for histogram mapping is the general machine learning
 heuristic of clustering samples based on the minimizing within-class distance
 while simultaneously maximizing the between-class distance.  In the case of
 k-means, this "distance" is the intensity variance.
 
+Similar to k-means, fuzzy c-means seeks to minimize the within-class sample
+variance but includes a per-sample membership weighting [@Bezdek:1981aa]. Later
+innovations included the incorporation of spatial considerations using
+membership values of the local voxel neighborhood [@Chuang:2006aa].  Both
+k-means and fuzzy spatial c-means were compared for segmentation of
+hyperpolarized He-3 and Xe-129 images in [@Hughes:2018aa] with the latter
+evidencing improved performance over the former which is due, at least in part,
+to the additional spatial considerations.  Despite relatively good performance,
+however, fuzzy c-means also seeks cluster membership in the histogram (i.e.,
+intensity-only) domain with only simplistic neighborhood modeling during
+optimization.
+
 Histogram-based optimization is used in conjunction with spatial considerations
 in the segmentation algorithm detailed in [@Tustison:2011aa].  Based on a
 well-established iterative approach originally used for NASA satellite image
 processing and subsequently appropriated for brain tissue segmentation in
-[@Vannier:1985aa], a GMM is used to model the intensity clusters
-of the histogram with class modulation in the form of probabilistic voxelwise
-label considerations, i.e., MRF modeling,  within image neighborhoods
-[@Besag:1986aa] using the expectation-maximization (EM) algorithm
-[@Dempster:1977aa]. Initialization for this particular application is in the
-form of k-means clustering.  This has the advantage, in contrast to k-means
-and the other algorithms outlined, that it does not use hard intensity
-thresholds for distinguishing class labels which demonstrates robustness to
-certain imaging distortions, such as noise.  However, as we will demonstrate,
-this algorithm is also flawed in that it implicitly assumes, incorrectly, that
-meaningful structure is found, and can be adequately characterized, within the
-associated image histogram in order to optimize a multi-class labeling.  In particular,
-this algorithm is susceptible to MR nonlinear intensity artefacts.
+[@Vannier:1985aa], a GMM is used to model the intensity clusters of the
+histogram with class modulation in the form of probabilistic voxelwise label
+considerations, i.e., MRF modeling,  within image neighborhoods [@Besag:1986aa]
+optimized with the expectation-maximization (EM) algorithm [@Dempster:1977aa].
+Initialization for this particular application is in the form of k-means
+clustering.  This has the advantage, in contrast to k-means, that it does not
+use hard intensity thresholds for distinguishing class labels which demonstrates
+robustness to certain imaging distortions, such as noise.  However, as we will
+demonstrate, this algorithm is also flawed in that it implicitly assumes,
+incorrectly, that meaningful structure is found, and can be adequately
+characterized, within the associated image histogram in order to optimize a
+multi-class labeling.  In particular, this algorithm is susceptible to MR
+nonlinear intensity artefacts.
 
 Additionally, many of these segmentation algorithms use N4 bias correction
 [@Tustison:2010ac], an extension of the nonuniform intensity normalization (N3)
@@ -286,7 +295,7 @@ histogram peaks which presumably correspond to tissue types. While such
 assumptions are appropriate for the domain in which N3/N4 was developed (i.e.,
 T1-weighted brain tissue segmentation) and while it is assumed that the
 enforcement of low-frequency modulation of the intensity mapping prevents new
-image features from being generated, it is not clear what effects N4 parameter
+image feanottures from being generated, it is not clear what effects N4 parameter
 choices have on the final segmentation solution, particularly for those
 algorithms that are limited to intensity-only considerations and not robust to
 the aforementioned MR intensity nonlinearities.
@@ -315,7 +324,7 @@ algorithms (e.g., ventilation defect percentage).  Figure \ref{fig:motivation}
 provides a sample visualization representing some of the structural changes that
 we observed when simulating these nonlinear mappings.  It is important to notice
 that even relatively small alterations in the image intensities can have
-significant effects on the histogram even though a visual, clinically-based
+significant effects on the histogram even though a visual
 assessment of the image can remain largely unchanged.
 
 \begin{figure}[!htb] \centering
@@ -337,7 +346,7 @@ additional experimentation, we provide a summary illustration from a set of
 image simulations in Figure \ref{fig:similarity} which are detailed later in
 this work and used for algorithmic comparison.  Simulated MR artefacts were
 applied to each image which included both noise and nonlinear intensity mappings
-(and their combination) which made for a total simulated cohort of ~50 images
+(and their combination) which made for a total simulated cohort of 51 images
 ($\times 10$ simulations per image $\times 3$ types of artefact simulations).
 Prior to any algorithmic comparative analysis, we quantified the difference of
 each simulated image with the corresponding original image using the structural
@@ -348,7 +357,7 @@ visual system.  SSIM has a range $[-1,1]$ where 0 indicates no structural
 similarity and 1 indicates perfect structural similarity. We also generated the
 histograms corresponding to these images. Although several histogram similarity
 measures exist, we chose Pearson's correlation primarily as it resides in the
-same [min, max] range as SSIM with analogous significance. In addition to the
+same min/max range as SSIM with analogous significance. In addition to the
 fact that the image-to-histogram transformation discards important spatial
 information, from Figure \ref{fig:similarity} it should be apparent that this
 transformation also results in greater variance in the resulting information
@@ -381,14 +390,16 @@ level of sophistication and performance of the underlying measurement tools.
 In assessing these segmentation algorithms for hyperpolarized gas imaging, it is
 important to note that human expertise leverages more than relative intensity
 values to identify salient, clinically relevant features in images---something
-more akin to the complex neural network structure versus the 1-D intensity
-histogram.  The increased popularity of deep-layered neural networks
-[@LeCun:2015aa], particularly convolutional neural networks (CNN), is due to
-their outstanding performance in certain computational tasks, including
-classification and semantic segmentation in medical imaging [@Shen:2017aa].
-Their potential for leveraging spatial information from images surpasses the
-perceptual capabilities of previous approaches and even rivals that of human
-raters [@Zhang:2018aa].  We introduced a deep learning approach in
+more akin to the complex structure of deep-layered neural networks
+[@LeCun:2015aa], particularly convolutional neural networks (CNN).  Such models
+have demonstrated outstanding performance in certain computational tasks,
+including classification and semantic segmentation in medical imaging
+[@Shen:2017aa]. Their potential for leveraging spatial information from images
+surpasses the perceptual capabilities of previous approaches and even rivals
+that of human raters [@Zhang:2018aa].  Importantly, CNN optimization occurs
+directly in the image space to learn complex spatial features, in contrast to
+the previously discussed methods where optimization (primarily) concerns image
+intensity only information.  We introduced a deep learning approach in
 [@Tustison:2019ac] and further expand on that work for comparison with existing
 approaches in this work.  In the spirit of open science, we have made the entire
 evaluation framework, including our novel contributions, available within the
@@ -430,19 +441,20 @@ In support of the discussion in the Introduction, we performed various
 experiments to showcase the effects of both nonlinear intensity variation and
 noise artefacts on the resulting measurements using the algorithms described
 previously, specifically linear binning [@He:2016aa], hierarchical k-means
-[@@Kirby:2012aa], GMM-MRF (specifically, ANTs-based Atropos tailored for
-functional lung imaging) [@Tustison:2011aa], and a trained CNN with roots in our
-earlier work [@Tustison:2019ac], which we have dubbed "El Bicho".  A fair and
-accurate comparison between algorithms necessitates several considerations which
-have been outlined previously [@Tustison:2013aa].  In designing the evaluation
-study:
+[@Kirby:2012aa], fuzzy spatial c-means [@Hughes:2018aa], GMM-MRF (specifically,
+ANTs-based Atropos tailored for functional lung imaging) [@Tustison:2011aa], and
+a trained CNN with roots in our earlier work [@Tustison:2019ac], which we have
+dubbed "El Bicho".  A fair and accurate comparison between algorithms
+necessitates several considerations which have been outlined previously
+[@Tustison:2013aa].  In designing the evaluation study:
 
 * All algorithms and evaluation scripts have been implemented using open-source
   tools by the first author.  The linear binning and hierarchical k-means
   algorithms were recreated using existing R functionality.  These have been made
   available as part of the GitHub repository corresponding to this work.[^2]
-  Similarly, N4, Atropos-based lung segmentation, and the trained CNN approach are
+  Similarly, N4, fuzzy spatial c-means, Atropos-based lung segmentation, and the trained CNN approach are
   all available through ANTsR/ANTsRNet: ``ANTsR::n4BiasFieldCorrection``,
+  ``ANTsR::fuzzySpatialCMeansSegmentation``,
   ``ANTsR::functionalLungSegmentation``, and ``ANTsRNet::elBicho``, respectively.
   Python versions are also available through ANTsPy/ANTsPyNet.
   The trained weights for the CNN are publicly available and are automatically

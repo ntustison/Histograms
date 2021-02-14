@@ -28,19 +28,20 @@ In support of the discussion in the Introduction, we performed various
 experiments to showcase the effects of both nonlinear intensity variation and
 noise artefacts on the resulting measurements using the algorithms described
 previously, specifically linear binning [@He:2016aa], hierarchical k-means
-[@@Kirby:2012aa], GMM-MRF (specifically, ANTs-based Atropos tailored for
-functional lung imaging) [@Tustison:2011aa], and a trained CNN with roots in our
-earlier work [@Tustison:2019ac], which we have dubbed "El Bicho".  A fair and
-accurate comparison between algorithms necessitates several considerations which
-have been outlined previously [@Tustison:2013aa].  In designing the evaluation
-study:
+[@Kirby:2012aa], fuzzy spatial c-means [@Hughes:2018aa], GMM-MRF (specifically,
+ANTs-based Atropos tailored for functional lung imaging) [@Tustison:2011aa], and
+a trained CNN with roots in our earlier work [@Tustison:2019ac], which we have
+dubbed "El Bicho".  A fair and accurate comparison between algorithms
+necessitates several considerations which have been outlined previously
+[@Tustison:2013aa].  In designing the evaluation study:
 
 * All algorithms and evaluation scripts have been implemented using open-source
   tools by the first author.  The linear binning and hierarchical k-means
   algorithms were recreated using existing R functionality.  These have been made
   available as part of the GitHub repository corresponding to this work.[^2]
-  Similarly, N4, Atropos-based lung segmentation, and the trained CNN approach are
+  Similarly, N4, fuzzy spatial c-means, Atropos-based lung segmentation, and the trained CNN approach are
   all available through ANTsR/ANTsRNet: ``ANTsR::n4BiasFieldCorrection``,
+  ``ANTsR::fuzzySpatialCMeansSegmentation``,
   ``ANTsR::functionalLungSegmentation``, and ``ANTsRNet::elBicho``, respectively.
   Python versions are also available through ANTsPy/ANTsPyNet.
   The trained weights for the CNN are publicly available and are automatically
