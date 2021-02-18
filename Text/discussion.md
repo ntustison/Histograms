@@ -3,8 +3,8 @@
 
 Over the past decade, multiple segmentation algorithms have been proposed for
 hyperpolarized gas images which, as we have pointed out, are all highly
-dependent on the image intensity histogram for optimization.  The
-majority use the histogram information *exclusively* much to the detriment of
+dependent on the image intensity histogram for optimization.  Many
+use the histogram information *exclusively* much to the detriment of
 algorithmic robustness and segmentation quality.  This is due to the simple
 observation that these approaches discard a vital piece of information
 essential for image interpretation, i.e., the spatial relationships between
@@ -21,6 +21,12 @@ is as follows:
   use a principled optimization criterion, this criterion is not adequately
   tailored for hyperpolarized gas imaging and susceptible to various levels of
   noise.
+
+* Similar to k-means, spatial fuzzy c-means is optimized to minimize the
+  within-class intensity variance but does incorporate spatial considerations
+  which softens the hard threshold values and demonstrates improved robustness
+  to noise.  However, it is susceptible to variations caused by MR nonlinear
+  intensity variation, similar to the GMM-MRF technique.
 
 * The GMM-MRF approach does employ spatial considerations in the form of Markov
   random fields but these are highly simplistic, based on prior modeling of local
@@ -45,7 +51,7 @@ supported in our simulation experiments illustrated in Figure
 \ref{fig:simulations} where the histogram-based algorithms, overall, performed
 worse than El Bicho.  As a CNN, El Bicho optimizes the governing network weights
 over image features as opposed to strictly relative intensities.  This work
-could potentially motivate additional exploration focusing on issues related to
+should motivate additional exploration focusing on issues related to
 algorithmic bias on a voxelwise scale which would require going beyond simple
 globally-based assessment measures (such as the diagnostic prediction evaluation
 detailed above using global volume proportions).  This would enable investigating
@@ -61,10 +67,10 @@ earlier work [@Tustison:2019ac]).   We certainly recognize and expect that
 alternative deep learning strategies (e.g., hyperparameter choice, training data
 selection, data augmentation, etc.) would provide comparable and even superior
 performance to what was presented with El Bicho.  However, that is precisely our
-point---deep learning, generally, presents a much better alternative than
-histogram approaches as network training directly takes place in the image
-(i.e., spatial) domain and not in a transformed space where key information has
-been discarded.
+motivation for presenting this work---deep learning, generally, presents a much
+better alternative than histogram approaches as network training directly takes
+place in the image (i.e., spatial) domain and not in a transformed space where
+key information has been discarded.
 
 Just as important, deep learning provides other avenues for research exploration
 and development. For example, given the relatively lower resolution of the
@@ -78,7 +84,5 @@ did not explore in this work, but is extremely important, is the confound caused
 by multi-site data which has yet to be explored in-depth.  With neural networks,
 such confounds can be handled as part of the training process or as an explicit
 network modification.  Either would be important to consider for future work.
-Needless to say, there are other potentially interesting avenues for exploration
-beyond histogram-based segmentation of hyperpolarized gas images.
 
 

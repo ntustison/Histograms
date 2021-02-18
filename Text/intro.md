@@ -28,9 +28,9 @@ Descriptions:
 
 Early attempts at quantification of ventilation images were limited to
 enumerating the number of ventilation defects or estimating the proportion of
-ventilated lung [@Lange:1999aa;@Altes:2001aa;@Samee:2003aa].  This early work
-has evolved to current techniques which can be generally categorized in order of
-increasing algorithmic sophistication as follows:
+ventilated lung [@Lange:1999aa;@Altes:2001aa;@Samee:2003aa] which has
+evolved to more sophisticated techniques used currently.  A brief outline of
+major contributions can be roughly sketched to include:
 
 * binary thresholding based on relative intensities
   [@Woodhouse:2005aa;@Shammi:2021aa],
@@ -110,9 +110,9 @@ images. The approach used by some groups [@Cooley:2010aa;@Kirby:2012aa] of
 employing some variant of the well-known k-means algorithm as a clustering
 strategy [@Hartigan:1979aa] to minimize the within-class variance of its
 intensities can be viewed as an alternative optimization strategy for
-determining a nonlinear mapping between histograms for a possible approach to MR
-intensity standardization. K-means does constitute an algorithmic approach with
-additional degrees of flexibility and sophistication over linear binning as it
+determining a nonlinear mapping between histograms for a type of  MR
+intensity standardization. K-means constitutes an algorithmic approach with
+additional flexibility and sophistication over linear binning as it
 employs basic prior knowledge in the form of a generic clustering desideratum
 for optimizing a type of MR intensity standardization.[^1]
 
@@ -124,7 +124,7 @@ k-means, this "distance" is the intensity variance.
 Similar to k-means, fuzzy c-means seeks to minimize the within-class sample
 variance but includes a per-sample membership weighting [@Bezdek:1981aa]. Later
 innovations included the incorporation of spatial considerations using
-membership values of the local voxel neighborhood [@Chuang:2006aa].  Both
+class membership values of the local voxel neighborhood [@Chuang:2006aa].  Both
 k-means and fuzzy spatial c-means were compared for segmentation of
 hyperpolarized He-3 and Xe-129 images in [@Hughes:2018aa] with the latter
 evidencing improved performance over the former which is due, at least in part,
@@ -142,8 +142,8 @@ histogram with class modulation in the form of probabilistic voxelwise label
 considerations, i.e., MRF modeling,  within image neighborhoods [@Besag:1986aa]
 optimized with the expectation-maximization (EM) algorithm [@Dempster:1977aa].
 Initialization for this particular application is in the form of k-means
-clustering.  This has the advantage, in contrast to k-means, that it does not
-use hard intensity thresholds for distinguishing class labels which demonstrates
+clustering.  This has the advantage, in contrast to k-means, that it softens
+the intensity thresholds between class labels which demonstrates
 robustness to certain imaging distortions, such as noise.  However, as we will
 demonstrate, this algorithm is also flawed in that it implicitly assumes,
 incorrectly, that meaningful structure is found, and can be adequately
@@ -165,7 +165,7 @@ histogram peaks which presumably correspond to tissue types. While such
 assumptions are appropriate for the domain in which N3/N4 was developed (i.e.,
 T1-weighted brain tissue segmentation) and while it is assumed that the
 enforcement of low-frequency modulation of the intensity mapping prevents new
-image feanottures from being generated, it is not clear what effects N4 parameter
+image features from being generated, it is not clear what effects N4 parameter
 choices have on the final segmentation solution, particularly for those
 algorithms that are limited to intensity-only considerations and not robust to
 the aforementioned MR intensity nonlinearities.
@@ -271,9 +271,14 @@ directly in the image space to learn complex spatial features, in contrast to
 the previously discussed methods where optimization (primarily) concerns image
 intensity only information.  We introduced a deep learning approach in
 [@Tustison:2019ac] and further expand on that work for comparison with existing
-approaches in this work.  In the spirit of open science, we have made the entire
-evaluation framework, including our novel contributions, available within the
-Advanced Normalization Tools software ecosystem (ANTsX) [@Tustison:2020aa].
+approaches below.  Although we find its performance to be quite promising, more
+fundamental to this work than the network itself is simply pointing to the
+general potential associated with  deep learning for analyzing hyperpolarized
+gas images *as spatial samplings of real world objects*, as opposed to lossy
+representations of such objects.  In the spirit of open science, we have made
+the entire evaluation framework, including our novel contributions, available
+within the Advanced Normalization Tools software ecosystem (ANTsX)
+[@Tustison:2020aa].
 
 
 

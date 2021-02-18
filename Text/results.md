@@ -30,7 +30,7 @@ application of T1-weighted brain MR segmentation.  This component is strictly
 qualitative as the visual evidence and previous developmental history within
 that field should be sufficiently compelling in motivating subsequent
 quantitative exploration with hyperpolarized gas lung imaging.  These
-qualitative results as a segue to quantifying the effects of the choice of
+qualitative results segue to quantifying the effects of the choice of
 reference cohort on the clustering parameters for the linear binning algorithm.
 We then incorporate the trained El Bicho model in exploring additional aspects of
 measurement variance based on simulating both MR noise and intensity
@@ -49,7 +49,7 @@ So, in summary, we perform the following evaluations/experiments:[^103]
     * Effects of simulated MR artefacts
 
 [^103]: It is important to note that, although these experiments provide supporting
-evidence, our principal contention stands prior to the results and are based on
+evidence, our principal contention stands prior to these results and are based on
 the self-evidentiary observations mentioned in the Introduction.
 
 ## Diagnostic prediction
@@ -101,8 +101,8 @@ highly accurate diagnostic predictions with machine learning techniques
 \begin{figure}[!h]
   \centering
   \includegraphics[width=0.95\linewidth]{Figures/BrainAnalogy.pdf}
-  \caption{T1-weighted three-tissue brain segmentation analogy. Placing the
-  three segmentation algorithms (i.e., linear binning, k-means, and GMM-MRF) in
+  \caption{T1-weighted three-tissue brain segmentation analogy. Placing
+  three of the four segmentation algorithms (i.e., linear binning, k-means, and GMM-MRF) in
   the context of brain tissue segmentation provides an alternative perspective
   for comparison.  In the style of linear binning, we randomly select an image
   reference set using structurally normal individuals which is then used to
@@ -141,7 +141,7 @@ this analogy further and use the aggregated reference distribution to segment a
 different subject, we can see that, in this particular case, whereas the
 optimization criterion leveraged by k-means and GMM-MRF provide an adequate
 segmentation, the misalignment in cluster boundaries yield a significant
-overestimation of the gray matter content.
+overestimation of the gray matter volume.
 
 
 ## Effect of reference image set selection
@@ -165,7 +165,7 @@ overestimation of the gray matter content.
         histograms.  Due to the lower mean and higher standard deviation of the
         original image set, Cluster 1 is not within the range of $[0, 1]$ for the
         resulting reference distribution which motivated the use of the
-        N4-preprocessed image set.
+        N4 preprocessed image set.
          }
 \label{fig:n4ornot}
 \end{figure}
@@ -208,15 +208,15 @@ the measurements utlized and produced by linear binning. Regarding the former,
 we took all possible combinations of our young healthy control subject images
 and looked at the resulting mean and standard deviation values.  As expected,
 there is quite a bit of variation for both mean and standard deviation values
-(see top portion of Figure \ref{fig:referenceVariance} which are used to derive
+(see top portion of Figure \ref{fig:referenceVariance}) which are used to derive
 the cluster threshold values.  This directly impacts output measurements such as
 ventilation defect percentage. For the reference sets comprising eight or nine
 images, we compute the corresponding linear binning segmentation and
 estimate the volumetric percentage for each cluster.  Then, for each subject, we
 compute the min/max range for these values and plot those results cluster-wise
 on the bottom of Figure \ref{fig:referenceVariance}.  This demonstrates that
-the additional requirement of a reference distribution is a source of potential
-measurement variation for the linear binning algorithm.
+the additional requirement of a reference distribution is a source of potentially
+significant measurement variation for the linear binning algorithm.
 
 
 ## Effects of MR-based simulated image distortions
@@ -244,7 +244,7 @@ artefacts on the algorithmic output on a voxelwise scale using the Dice
 metric (Equation (\ref{eq:dice})) which has a range of [0,1] where 1 signifies
 perfect agreement between the segmentations and 0 is no agreement.
 
-Ten simulated images for each of the 51 subjects were generated using one of the
+Ten simulated images for each of the 51 subjects were generated for each of the
 three categories of randomly generated artefacts:  noise, nonlinearities, and
 combined noise and intensity nonlinearites.  The original image as well as the
 simulated images were segmented using each of the four algorithms.  Following

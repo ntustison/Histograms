@@ -25,56 +25,56 @@ were deidentified prior to analysis.
 ## Algorithmic implementations
 
 In support of the discussion in the Introduction, we performed various
-experiments to showcase the effects of both nonlinear intensity variation and
-noise artefacts on the resulting measurements using the algorithms described
-previously, specifically linear binning [@He:2016aa], hierarchical k-means
+experiments to compare the algorithms described
+previously, viz. linear binning [@He:2016aa], hierarchical k-means
 [@Kirby:2012aa], fuzzy spatial c-means [@Hughes:2018aa], GMM-MRF (specifically,
 ANTs-based Atropos tailored for functional lung imaging) [@Tustison:2011aa], and
 a trained CNN with roots in our earlier work [@Tustison:2019ac], which we have
-dubbed "El Bicho".  A fair and accurate comparison between algorithms
+dubbed "El Bicho".[^3]  A fair and accurate comparison between algorithms
 necessitates several considerations which have been outlined previously
 [@Tustison:2013aa].  In designing the evaluation study:
 
 * All algorithms and evaluation scripts have been implemented using open-source
   tools by the first author.  The linear binning and hierarchical k-means
-  algorithms were recreated using existing R functionality.  These have been made
-  available as part of the GitHub repository corresponding to this work.[^2]
-  Similarly, N4, fuzzy spatial c-means, Atropos-based lung segmentation, and the trained CNN approach are
-  all available through ANTsR/ANTsRNet: ``ANTsR::n4BiasFieldCorrection``,
+  algorithms were recreated using existing R functionality.  These have been
+  made available as part of the GitHub repository corresponding to this
+  work.[^2] Similarly, N4, fuzzy spatial c-means, Atropos-based lung
+  segmentation, and the trained CNN approach are all available through
+  ANTsR/ANTsRNet: ``ANTsR::n4BiasFieldCorrection``,
   ``ANTsR::fuzzySpatialCMeansSegmentation``,
-  ``ANTsR::functionalLungSegmentation``, and ``ANTsRNet::elBicho``, respectively.
-  Python versions are also available through ANTsPy/ANTsPyNet.
-  The trained weights for the CNN are publicly available and are automatically
+  ``ANTsR::functionalLungSegmentation``, and ``ANTsRNet::elBicho``,
+  respectively. Python versions are also available through ANTsPy/ANTsPyNet. The
+  trained weights for the CNN are publicly available and are automatically
   downloaded when running the program.
 
-* The imaging data used for the evaluation is available upon request and through a data
-  sharing agreement.  All other data, including additional evaluation plots are available,
-  in the previously specified GitHub repository.
+* The imaging data used for the evaluation is available upon request and through
+  a data sharing agreement.  All other data, including additional evaluation
+  plots are available, in the previously specified GitHub repository.
 
-* An extremely important and characteristic hyperparameter is the number of
-  ventilation clusters.  In order to minimize differences in our set of
-  evaluations and ensure a fair comparison, we optimized the segmentation based
-  on the specified number of clusters. For the evaluations involving multiple
-  algorithms, these were merged post-optimization to
-  only three clusters:  "ventilation defect," "hypo-ventilation," and "other
-  ventilation" where the first two clusters for each output are the same as the
-  original implementations and the remaining clusters are merged into a third
-  category.  It is important to note that none of the evaluations use these
-  categorical definitions in a cross-algorithmic fashion.  They are only used to
-  assess within-algorithm consistency.
+* An extremely important algorithmic hyperparameter is the number of ventilation
+  clusters.  In order to minimize differences in our set of evaluations, we
+  merged the number of resulting clusters, post-optimization, to only three
+  clusters: "ventilation defect," "hypo-ventilation," and "other ventilation"
+  where the first two clusters for each output are the same as the original
+  implementations and the remaining clusters are merged into a third category.
+  It is important to note that none of the evaluations use these categorical
+  definitions in a cross-algorithmic fashion.  They are only used to assess
+  within-algorithm consistency.
 
 * One important issue was whether or not to use the N4 bias correction algorithm
-  as a preprocessing step.  We ultimately decided to include it for a couple
-  reasons.  It is explicitly used in multiple algorithms (e.g.,
-  [@Tustison:2011aa;@He:2016aa;@Shammi:2021aa]) despite the issues raised
-  previously and elsewhere [@He:2020aa] due to the fact that it qualitatively
+  as a preprocessing step.  We ultimately decided to include it for two
+  reasons.  First, it is explicitly used in multiple algorithms (e.g.,
+  [@Tustison:2011aa;@He:2016aa;@Santyr:2019aa;@Zha:2016aa;@Shammi:2021aa]) despite the issues raised
+  previously due to the fact that it qualitatively
   improves image appearance.[^4]  Another practical consideration for N4 preprocessing
   was due to the parameters of the reference distribution required by the linear binning
   algorithm.  Additional details are provided in the Results section.
 
+[^3]:  A software codename designating a work in progress simply based on a shared
+admiration between the first and last authors of Portuguese futebol.
+
 [^4]:  This assessment is based on multiple conversations between the first
-author (as the developer of N4 and Atropos) and co-author Dr. Talissa Altes, one
-of the most experienced individuals in the field.
+author (as the developer of N4 and Atropos) and co-author Dr. Talissa Altes.
 
 
 [^2]:  https://github.com/ntustison/Histograms
@@ -91,7 +91,7 @@ strategy.
 
 ### Network training
 
-"El Bicho" is a 2-D U-net network was trained with several parameters
+"El Bicho" is a 2-D U-net network which was trained with several parameters
 recommended by recent exploratory work [@Isensee:2020aa].  The images are
 sufficiently small such that 3-D training is possible.  However, given the large
 voxel anisotropy for much of our data (both coronal and axial), we found a 2-D
@@ -146,8 +146,7 @@ segmentation approach by using the encoder-decoder structure of the U-net
 architecture as a dimensionality reduction technique.  None of the evaluation
 data used in this work were used as training data.  Responses from two subjects
 at the last layer of the network (with $n = 32$ filters) are illustrated in Figure
-\ref{fig:featureImages} which demonstrates the image-based approach to
-segmentation optimization.
+\ref{fig:featureImages}.
 
 A total of five random slices per image were selected in the acquisition
 direction (both axial and coronal) for inclusion within a given batch (batch
