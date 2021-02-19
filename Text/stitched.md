@@ -169,8 +169,8 @@ major contributions can be roughly sketched to include:
   histogram to a reference distribution based on healthy controls, i.e., "linear
   binning" [@He:2016aa;@He:2020aa],
 * nonlinear intensity standardization based on piecewise affine transformation
-  of the intensity histogram using a customized hierarchical k-means algorithm
-  [@Kirby:2012aa;@Kirby:2012ab;@Zha:2016aa],
+  of the intensity histogram using a customized hierarchical
+  [@Kirby:2012aa;@Kirby:2012ab] or adaptive [@@Zha:2016aa] k-means algorithm,
 * nonlinear intensity standardization using fuzzy c-means [@Ray:2003aa] with spatial
   considerations based on local voxel neighborhoods [@Hughes:2018aa], and
 * Gaussian mixture modeling (GMM) of the intensity histogram with Markov random
