@@ -329,8 +329,10 @@ significant effects on the histogram even though a visual
 assessment of the image can remain largely unchanged.
 
 \begin{figure}[!htb] \centering
-  \includegraphics[width=0.95\textwidth]{Figures/similarity.pdf}
-  \caption{Image-based SSIM vs. histogram-based Pearson's correlation differences
+  \includegraphics[width=0.95\textwidth]{Figures/similarityMultisite.pdf}
+  \caption{Multi-site:  (left) University of Virginia (UVa) and (right) 
+  He 2019 data.  
+  Image-based SSIM vs. histogram-based Pearson's correlation differences
   under distortions induced by the common MR artefacts of noise and intensity nonlinearities.  For the
   nonlinearity-only simulations, the images maintain their structural integrity
   as the SSIM values remain close to 1.  This is in contrast to the
@@ -347,7 +349,11 @@ additional experimentation, we provide a summary illustration from a set of
 image simulations in Figure \ref{fig:similarity} which are detailed later in
 this work and used for algorithmic comparison.  Simulated MR artefacts were
 applied to each image which included both noise and nonlinear intensity mappings
-(and their combination) which made for a total simulated cohort of 51 images
+(and their combination) using two separate data sets:  one in-house data set
+consisting of 51 hyperpolarized gas lung images and the publicly available data described in 
+[@He:2019aa] and made available at Harvard's Dataverse online repository
+[@He_dataverse:2018] consisting of 29 hyperpolarized gas lung images.  These
+two data sets resulted in a total simulated cohort of 51 + 29 = 80 images
 ($\times 10$ simulations per image $\times 3$ types of artefact simulations).
 Prior to any algorithmic comparative analysis, we quantified the difference of
 each simulated image with the corresponding original image using the structural
