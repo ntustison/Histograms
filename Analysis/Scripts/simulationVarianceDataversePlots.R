@@ -2,7 +2,7 @@ library( ggplot2 )
 
 
 baseDirectory <- './'
-figuresDirectory <- paste0( baseDirectory, "../../Text/FiguresX/" )
+figuresDirectory <- paste0( baseDirectory, "../../Text/FiguresDataverse/" )
 
 simulationTypes <- c( "Noise", "Nonlinearities", "NoiseAndNonlinearities" )
 
