@@ -244,6 +244,21 @@ artefacts on the algorithmic output on a voxelwise scale using the Dice
 metric (Equation (\ref{eq:dice})) which has a range of [0,1] where 1 signifies
 perfect agreement between the segmentations and 0 is no agreement.
 
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=0.99\linewidth]{FiguresDataverse/DiceVarianceStudy.pdf}
+\caption{(Left) The deviation in resulting segmentation caused by distortions produced
+         noise, histogram-based intensity nonlinearities, and their combination
+         as measured by the Dice metric.  Each segmentation is reduced to three
+         labels for comparison:  ``ventilation defect'' (Cluster 1),
+         ``hypo-ventilation'' (Cluster 2), ``other ventilation'' (Cluster 3).
+         (Right) Results from the Tukey Test following one-way ANOVA to compare
+         the deviations.  Higher positive values are indicative of increased
+         robustness to simulated image distortions.
+         }
+\label{fig:simulations}
+\end{figure}
+
 Ten simulated images for each of the 51 subjects were generated for each of the
 three categories of randomly generated artefacts:  noise, nonlinearities, and
 combined noise and intensity nonlinearites.  The original image as well as the
