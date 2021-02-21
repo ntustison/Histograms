@@ -3,13 +3,13 @@
 
 Over the past decade, multiple segmentation algorithms have been proposed for
 hyperpolarized gas images which, as we have pointed out, are all highly
-dependent on the image intensity histogram for optimization.  Many
-use the histogram information *exclusively* much to the detriment of
-algorithmic robustness and segmentation quality.  This is due to the simple
-observation that these approaches discard a vital piece of information
-essential for image interpretation, i.e., the spatial relationships between
-voxel intensities.  A brief summary of criticisms related to current algorithms
-is as follows:
+dependent on the image intensity histogram for optimization.  All these
+algorithms use the histogram information *primarily* (with many using it
+*exclusively*) for optimization  much to the detriment of algorithmic robustness
+and segmentation quality.  This is due to the simple observation that these
+approaches discard a vital piece of information essential for image
+interpretation, i.e., the spatial relationships between voxel intensities.  A
+brief summary of criticisms related to current algorithms is as follows:
 
 * In addition to completely discarding spatial information, linear binning is
   based on overly simplistic assumptions, especially given common MR artefacts.
@@ -17,10 +17,10 @@ is as follows:
   assumption of Gaussianity and known distributional parameters for healthy
   controls, is also a potential source of output variance.
 
-* Hierarchical k-means also ignores spatial information and, although it does
-  use a principled optimization criterion, this criterion is not adequately
-  tailored for hyperpolarized gas imaging and susceptible to various levels of
-  noise.
+* Both hierarchical and adaptive k-means also ignore spatial information and,
+  although they does use a principled optimization criterion, this criterion is
+  not adequately tailored for hyperpolarized gas imaging and susceptible to
+  various levels of noise.
 
 * Similar to k-means, spatial fuzzy c-means is optimized to minimize the
   within-class intensity variance but does incorporate spatial considerations

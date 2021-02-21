@@ -420,7 +420,9 @@ within the Advanced Normalization Tools software ecosystem (ANTsX)
 
 # Materials and methods
 
-## Hyperpolarized gas image cohort
+## Hyperpolarized gas imaging acquisition
+
+### University of Virginia cohort
 
 A retrospective dataset was collected consisting of young healthy ($n=10$),
 older healthy ($n=7$), cystic fibrosis (CF) ($n=14$), interstitial lung disease
@@ -440,6 +442,18 @@ sequence for 3He MRI were as follows: repetition time msec / echo time msec,
 7/3; flip angle, 10$^{\circ}$; matrix, 80 $\times$ 128; field of view, 26 80
 $\times$ 42 cm; section thickness, 10 mm; and intersection gap, none. The data
 were deidentified prior to analysis.
+
+### He 2019 Harvard Dataverse cohort
+
+In addition to these data acquired at the University of Virginia, we also
+processed a publicly available lung dataset [@He_dataverse:2018] available at
+the Harvard Dataverse and detailed in [@He:2019aa].  These data comprised
+the original Xe129 acquisitions from 29 subjects (10 healthy controls
+and 19 mild intermittent asthmatic individuals) with corresponding lung masks.
+In addition, seven artificially SNR-degraded images per acquisition were also
+included but not used for the analyses reported below.  The image headers were
+corrected for proper canonical anatomical orientation according to Nifti
+standards and provided to the GitHub repository associated with this work.
 
 ## Algorithmic implementations
 
@@ -677,18 +691,17 @@ the level of the algorithmic output (i.e., voxelwise segmentation).
 
 Having established the general validity of the gross algorithmic output, we then
 switch to our primary focus which is the comparison of measurement precision
-between algorithms.   We first analyze
-the unique requirement of a reference distribution for the linear binning
-algorithm.  The latter is motivated qualitatively through the analogous
-application of T1-weighted brain MR segmentation.  This component is strictly
-qualitative as the visual evidence and previous developmental history within
-that field should be sufficiently compelling in motivating subsequent
-quantitative exploration with hyperpolarized gas lung imaging.  These
-qualitative results segue to quantifying the effects of the choice of
-reference cohort on the clustering parameters for the linear binning algorithm.
-We then incorporate the trained El Bicho model in exploring additional aspects of
-measurement variance based on simulating both MR noise and intensity
-nonlinearities.
+between algorithms.   We first analyze the unique requirement of a reference
+distribution for the linear binning algorithm.  The latter is motivated
+qualitatively through the analogous application of T1-weighted brain MR
+segmentation.  This component is strictly qualitative as the visual evidence and
+previous developmental history within that field should be sufficiently
+compelling in motivating subsequent quantitative exploration with hyperpolarized
+gas lung imaging.  These qualitative results segue to quantifying the effects of
+the choice of reference cohort on the clustering parameters for the linear
+binning algorithm. We then incorporate the trained El Bicho model in exploring
+additional aspects of measurement variance based on simulating both MR noise and
+intensity nonlinearities.
 
 So, in summary, we perform the following evaluations/experiments:[^103]
 
@@ -700,7 +713,7 @@ So, in summary, we perform the following evaluations/experiments:[^103]
 
     * Three-tissue T1-weighted brain MRI segmentation (qualitative analog)
     * Input/output variance based on reference distribution (linear binning only)
-    * Effects of simulated MR artefacts
+    * Effects of simulated MR artefacts on multi-site data
 
 [^103]: It is important to note that, although these experiments provide supporting
 evidence, our principal contention stands prior to these results and are based on
@@ -756,7 +769,7 @@ highly accurate diagnostic predictions with machine learning techniques
   \centering
   \includegraphics[width=0.95\linewidth]{Figures/BrainAnalogy.pdf}
   \caption{T1-weighted three-tissue brain segmentation analogy. Placing
-  three of the four segmentation algorithms (i.e., linear binning, k-means, and GMM-MRF) in
+  three of the five segmentation algorithms (i.e., linear binning, k-means, and GMM-MRF) in
   the context of brain tissue segmentation provides an alternative perspective
   for comparison.  In the style of linear binning, we randomly select an image
   reference set using structurally normal individuals which is then used to
@@ -840,7 +853,13 @@ resides in the region below -2 standard deviations.  However using N4-preprocess
 images produced something closer,  $\mathcal{N}(0.56, 0.22)$, to the published
 values, $\mathcal{N}(0.52, 0.18)$, reported in [@He:2016aa], resulting in a
 non-empty set for that cluster.  This is consistent, though, with linear binning
-which does use N4 bias correction for preprocessing.
+which does use N4 bias correction for preprocessing.  We also mention that the
+He 2019 Harvard Dataverse images used were preprocessed using N4 [@He:2019aa]
+which provides a third reason for its use on the University of Virginia image
+dataset (to maximize cross cohort consistency).  In the case of the former
+image set, we did use the previously reported linear binning mean and standard
+deviation algorithm parameter values (i.e., $\mathcal{N}(0.52, 0.18)$).  This
+was the only parameter difference between analyzing the two image sets.
 
 \begin{figure}[!htb]
   \centering
@@ -858,7 +877,7 @@ which does use N4 bias correction for preprocessing.
 
 The previous implications of the chosen image reference set also caused us to
 look at this choice as a potential source of both input and output variance in
-the measurements utlized and produced by linear binning. Regarding the former,
+the measurements utilized and produced by linear binning. Regarding the former,
 we took all possible combinations of our young healthy control subject images
 and looked at the resulting mean and standard deviation values.  As expected,
 there is quite a bit of variation for both mean and standard deviation values
@@ -878,14 +897,14 @@ significant measurement variation for the linear binning algorithm.
 \begin{figure}[!htb]
   \centering
   \includegraphics[width=0.99\linewidth]{Figures/DiceVarianceStudy.pdf}
-\caption{(Left) The deviation in resulting segmentation caused by distortions produced
-         noise, histogram-based intensity nonlinearities, and their combination
-         as measured by the Dice metric.  Each segmentation is reduced to three
-         labels for comparison:  ``ventilation defect'' (Cluster 1),
-         ``hypo-ventilation'' (Cluster 2), ``other ventilation'' (Cluster 3).
-         (Right) Results from the Tukey Test following one-way ANOVA to compare
-         the deviations.  Higher positive values are indicative of increased
-         robustness to simulated image distortions.
+  \caption{University of Virginia image cohort:  (Left) The deviation in
+  resulting segmentation caused by distortions produced noise, histogram-based
+  intensity nonlinearities, and their combination as measured by the Dice
+  metric.  Each segmentation is reduced to three labels for comparison:
+  ``ventilation defect'' (Cluster 1), ``hypo-ventilation'' (Cluster 2), ``other
+  ventilation'' (Cluster 3). (Right) Results from the Tukey Test following
+  one-way ANOVA to compare the deviations.  Higher positive values are
+  indicative of increased robustness to simulated image distortions.
          }
 \label{fig:simulations}
 \end{figure}
@@ -901,22 +920,23 @@ perfect agreement between the segmentations and 0 is no agreement.
 \begin{figure}[!htb]
   \centering
   \includegraphics[width=0.99\linewidth]{FiguresDataverse/DiceVarianceStudy.pdf}
-\caption{(Left) The deviation in resulting segmentation caused by distortions produced
-         noise, histogram-based intensity nonlinearities, and their combination
-         as measured by the Dice metric.  Each segmentation is reduced to three
-         labels for comparison:  ``ventilation defect'' (Cluster 1),
-         ``hypo-ventilation'' (Cluster 2), ``other ventilation'' (Cluster 3).
-         (Right) Results from the Tukey Test following one-way ANOVA to compare
-         the deviations.  Higher positive values are indicative of increased
-         robustness to simulated image distortions.
+  \caption{He 2019 Harvard Dataverse image cohort:  (Left) The deviation in
+  resulting segmentation caused by distortions produced noise, histogram-based
+  intensity nonlinearities, and their combination as measured by the Dice
+  metric.  Each segmentation is reduced to three labels for comparison:
+  ``ventilation defect'' (Cluster 1), ``hypo-ventilation'' (Cluster 2), ``other
+  ventilation'' (Cluster 3). (Right) Results from the Tukey Test following
+  one-way ANOVA to compare the deviations.  Higher positive values are
+  indicative of increased robustness to simulated image distortions.
          }
 \label{fig:simulations}
 \end{figure}
 
-Ten simulated images for each of the 51 subjects were generated for each of the
+Ten simulated images for each of the subjects of both the University of Virginia
+and He 2019 Harvard Dataverse cohort were generated for each of the
 three categories of randomly generated artefacts:  noise, nonlinearities, and
 combined noise and intensity nonlinearites.  The original image as well as the
-simulated images were segmented using each of the four algorithms.  Following
+simulated images were segmented using each of the five algorithms.  Following
 our earlier protocol, we maintained the original Clusters 1 and 2 per algorithm
 and combined the remaining clusters into a single third cluster.  This allowed
 us to compare between algorithms and maintain separate those clusters which are
@@ -935,13 +955,13 @@ a one-way ANOVA followed by Tukey's Honest Significant Difference (HSD) test.
 
 Over the past decade, multiple segmentation algorithms have been proposed for
 hyperpolarized gas images which, as we have pointed out, are all highly
-dependent on the image intensity histogram for optimization.  Many
-use the histogram information *exclusively* much to the detriment of
-algorithmic robustness and segmentation quality.  This is due to the simple
-observation that these approaches discard a vital piece of information
-essential for image interpretation, i.e., the spatial relationships between
-voxel intensities.  A brief summary of criticisms related to current algorithms
-is as follows:
+dependent on the image intensity histogram for optimization.  All these
+algorithms use the histogram information *primarily* (with many using it
+*exclusively*) for optimization  much to the detriment of algorithmic robustness
+and segmentation quality.  This is due to the simple observation that these
+approaches discard a vital piece of information essential for image
+interpretation, i.e., the spatial relationships between voxel intensities.  A
+brief summary of criticisms related to current algorithms is as follows:
 
 * In addition to completely discarding spatial information, linear binning is
   based on overly simplistic assumptions, especially given common MR artefacts.
@@ -949,10 +969,10 @@ is as follows:
   assumption of Gaussianity and known distributional parameters for healthy
   controls, is also a potential source of output variance.
 
-* Hierarchical k-means also ignores spatial information and, although it does
-  use a principled optimization criterion, this criterion is not adequately
-  tailored for hyperpolarized gas imaging and susceptible to various levels of
-  noise.
+* Both hierarchical and adaptive k-means also ignore spatial information and,
+  although they does use a principled optimization criterion, this criterion is
+  not adequately tailored for hyperpolarized gas imaging and susceptible to
+  various levels of noise.
 
 * Similar to k-means, spatial fuzzy c-means is optimized to minimize the
   within-class intensity variance but does incorporate spatial considerations

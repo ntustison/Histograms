@@ -1,7 +1,9 @@
 
 # Materials and methods
 
-## Hyperpolarized gas image cohort
+## Hyperpolarized gas imaging acquisition
+
+### University of Virginia cohort
 
 A retrospective dataset was collected consisting of young healthy ($n=10$),
 older healthy ($n=7$), cystic fibrosis (CF) ($n=14$), interstitial lung disease
@@ -21,6 +23,18 @@ sequence for 3He MRI were as follows: repetition time msec / echo time msec,
 7/3; flip angle, 10$^{\circ}$; matrix, 80 $\times$ 128; field of view, 26 80
 $\times$ 42 cm; section thickness, 10 mm; and intersection gap, none. The data
 were deidentified prior to analysis.
+
+### He 2019 Harvard Dataverse cohort
+
+In addition to these data acquired at the University of Virginia, we also
+processed a publicly available lung dataset [@He_dataverse:2018] available at
+the Harvard Dataverse and detailed in [@He:2019aa].  These data comprised
+the original Xe129 acquisitions from 29 subjects (10 healthy controls
+and 19 mild intermittent asthmatic individuals) with corresponding lung masks.
+In addition, seven artificially SNR-degraded images per acquisition were also
+included but not used for the analyses reported below.  The image headers were
+corrected for proper canonical anatomical orientation according to Nifti
+standards and provided to the GitHub repository associated with this work.
 
 ## Algorithmic implementations
 
