@@ -501,7 +501,7 @@ for( s in seq.int( length( artefacts ) ) )
                                     Correlation = pearson,
                                     ChiSq = chi
                                     )
-    write.csv( similarityResults, file = paste0( outputDirectory, "/../../similarityStudy.csv" ), row.names = FALSE )
+    write.csv( similarityResults, file = paste0( outputDirectory, "/../similarityStudy.csv" ), row.names = FALSE )
 
     nonlinearResults <- data.frame( SubjectID = subject,
                                     Dx = diagnosis,
@@ -512,104 +512,104 @@ for( s in seq.int( length( artefacts ) ) )
                                     Dice1 = dice1,
                                     Dice2 = dice2,
                                     Dice3 = dice3 )
-    write.csv( nonlinearResults, file = paste0( outputDirectory, "/../../varianceStudy.csv" ), row.names = FALSE )
+    write.csv( nonlinearResults, file = paste0( outputDirectory, "/../varianceStudy.csv" ), row.names = FALSE )
 
-    nonlinearResults <- read.csv( paste0( outputDirectory, "/../../varianceStudy.csv" ) )
+    nonlinearResults <- read.csv( paste0( outputDirectory, "/../varianceStudy.csv" ) )
 
-    dxTypes <- unique( nonlinearResults$Dx )
-    for( l in seq.int( length( dxTypes ) ) )
-      {
-      dxResults <- nonlinearResults[which( nonlinearResults$Dx == dxTypes[l] ),]
+    # dxTypes <- unique( nonlinearResults$Dx )
+    # for( l in seq.int( length( dxTypes ) ) )
+    #   {
+    #   dxResults <- nonlinearResults[which( nonlinearResults$Dx == dxTypes[l] ),]
 
-      plotDataFrame <- data.frame( SubjectID = as.factor( dxResults$SubjectID ),
-                                  Pipeline = dxResults$Segmentation,
-                                  VDP = dxResults$Dice1,
-                                  Dice = dxResults$DiceAll )
-      vdpVariancePlot <- ggplot( data = plotDataFrame ) +
-                        geom_boxplot( aes( x = SubjectID, y = VDP, fill = Pipeline ) )  +
-                        theme( axis.text.x = element_text( angle = 45 ) ) +
-                        ggtitle( paste0( "Per subject:  ", dxTypes[l] ) )
-      ggsave( filename = paste0( outputDirectory, "/../../vdpVarianceStudy_", dxTypes[l], ".pdf" ),
-        plot = vdpVariancePlot, width = 7, height = 4, units = 'in' )
+    #   plotDataFrame <- data.frame( SubjectID = as.factor( dxResults$SubjectID ),
+    #                               Pipeline = dxResults$Segmentation,
+    #                               VDP = dxResults$Dice1,
+    #                               Dice = dxResults$DiceAll )
+    #   vdpVariancePlot <- ggplot( data = plotDataFrame ) +
+    #                     geom_boxplot( aes( x = SubjectID, y = VDP, fill = Pipeline ) )  +
+    #                     theme( axis.text.x = element_text( angle = 45 ) ) +
+    #                     ggtitle( paste0( "Per subject:  ", dxTypes[l] ) )
+    #   ggsave( filename = paste0( outputDirectory, "/../../vdpVarianceStudy_", dxTypes[l], ".pdf" ),
+    #     plot = vdpVariancePlot, width = 7, height = 4, units = 'in' )
 
-      diceVariancePlot <- ggplot( data = plotDataFrame ) +
-                        geom_boxplot( aes( x = SubjectID, y = Dice, fill = Pipeline ) )  +
-                        theme( axis.text.x = element_text( angle = 45 ) ) +
-                        ggtitle( paste0( "Per subject:  ", dxTypes[l] ) )
-      ggsave( filename = paste0( outputDirectory, "/../../diceVarianceStudy_", dxTypes[l], ".pdf" ),
-        plot = diceVariancePlot, width = 7, height = 4, units = 'in' )
-      }
+    #   diceVariancePlot <- ggplot( data = plotDataFrame ) +
+    #                     geom_boxplot( aes( x = SubjectID, y = Dice, fill = Pipeline ) )  +
+    #                     theme( axis.text.x = element_text( angle = 45 ) ) +
+    #                     ggtitle( paste0( "Per subject:  ", dxTypes[l] ) )
+    #   ggsave( filename = paste0( outputDirectory, "/../../diceVarianceStudy_", dxTypes[l], ".pdf" ),
+    #     plot = diceVariancePlot, width = 7, height = 4, units = 'in' )
+    #   }
 
 
     subjects <- unique( nonlinearResults$SubjectID )
     pipelines <- unique( nonlinearResults$Segmentation )
 
-    for( l in seq.int( length( dxTypes ) ) )
-      {
-      dxResults <- nonlinearResults[which( nonlinearResults$Dx == dxTypes[l] ),]
+    # for( l in seq.int( length( dxTypes ) ) )
+    #   {
+    #   dxResults <- nonlinearResults[which( nonlinearResults$Dx == dxTypes[l] ),]
 
-      vdpSd <- c()
-      diceMean <- c()
-      pipeline <- c()
-      for( m in seq.int( length( subjects ) ) )
-        {
-        for( n in seq.int( length( pipelines ) ) )
-          {
-          vdpSd <- append( vdpSd,
-            sd( dxResults$VDP[which( dxResults$SubjectID == subjects[m] & dxResults$Segmentation == pipelines[n] )] ) )
-          pipeline <- append( pipeline, pipelines[n] )
-          diceMean <- append( diceMean,
-            mean( dxResults$DiceAll[which( dxResults$SubjectID == subjects[m] & dxResults$Segmentation == pipelines[n] )] ) )
-          }
-        }
+    #   vdpSd <- c()
+    #   diceMean <- c()
+    #   pipeline <- c()
+    #   for( m in seq.int( length( subjects ) ) )
+    #     {
+    #     for( n in seq.int( length( pipelines ) ) )
+    #       {
+    #       vdpSd <- append( vdpSd,
+    #         sd( dxResults$VDP[which( dxResults$SubjectID == subjects[m] & dxResults$Segmentation == pipelines[n] )] ) )
+    #       pipeline <- append( pipeline, pipelines[n] )
+    #       diceMean <- append( diceMean,
+    #         mean( dxResults$DiceAll[which( dxResults$SubjectID == subjects[m] & dxResults$Segmentation == pipelines[n] )] ) )
+    #       }
+    #     }
 
-      plotDataFrame <- data.frame( Pipeline = pipeline,
-                                  VDP.sd = vdpSd,
-                                  Dice.mean = diceMean )
-      vdpSdPlot <- ggplot( data = plotDataFrame ) +
-                        geom_boxplot( aes( x = Pipeline, y = VDP.sd, fill = Pipeline ) ) +
-                        ggtitle( paste0( "Overall:  ", dxTypes[l] ) ) +
-                        ylim( 0, 0.05 )
-      ggsave( filename = paste0( outputDirectory, "/../../vdpSdOverall_", dxTypes[l], ".pdf" ),
-        plot = vdpSdPlot, width = 5, height = 4, units = 'in' )
-      diceMeanPlot <- ggplot( data = plotDataFrame ) +
-                        geom_boxplot( aes( x = Pipeline, y = Dice.mean, fill = Pipeline ) ) +
-                        ggtitle( paste0( "Overall:  ", dxTypes[l] ) )
-      ggsave( filename = paste0( outputDirectory, "/../../diceMeanOverall_", dxTypes[l], ".pdf" ),
-        plot = diceMeanPlot, width = 5, height = 4, units = 'in' )
-      }
+    #   plotDataFrame <- data.frame( Pipeline = pipeline,
+    #                               VDP.sd = vdpSd,
+    #                               Dice.mean = diceMean )
+    #   vdpSdPlot <- ggplot( data = plotDataFrame ) +
+    #                     geom_boxplot( aes( x = Pipeline, y = VDP.sd, fill = Pipeline ) ) +
+    #                     ggtitle( paste0( "Overall:  ", dxTypes[l] ) ) +
+    #                     ylim( 0, 0.05 )
+    #   ggsave( filename = paste0( outputDirectory, "/../../vdpSdOverall_", dxTypes[l], ".pdf" ),
+    #     plot = vdpSdPlot, width = 5, height = 4, units = 'in' )
+    #   diceMeanPlot <- ggplot( data = plotDataFrame ) +
+    #                     geom_boxplot( aes( x = Pipeline, y = Dice.mean, fill = Pipeline ) ) +
+    #                     ggtitle( paste0( "Overall:  ", dxTypes[l] ) )
+    #   ggsave( filename = paste0( outputDirectory, "/../../diceMeanOverall_", dxTypes[l], ".pdf" ),
+    #     plot = diceMeanPlot, width = 5, height = 4, units = 'in' )
+    #   }
 
 
-    vdpSd <- c()
-    diceMean <- c()
-    pipeline <- c()
-    dxResults <- nonlinearResults
-    for( m in seq.int( length( subjects ) ) )
-      {
-      for( n in seq.int( length( pipelines ) ) )
-        {
-        vdpSd <- append( vdpSd,
-          sd( dxResults$VDP[which( dxResults$SubjectID == subjects[m] & dxResults$Segmentation == pipelines[n] )] ) )
-        pipeline <- append( pipeline, pipelines[n] )
-        diceMean <- append( diceMean,
-          mean( dxResults$DiceAll[which( dxResults$SubjectID == subjects[m] & dxResults$Segmentation == pipelines[n] )] ) )
-        }
-      }
+    # vdpSd <- c()
+    # diceMean <- c()
+    # pipeline <- c()
+    # dxResults <- nonlinearResults
+    # for( m in seq.int( length( subjects ) ) )
+    #   {
+    #   for( n in seq.int( length( pipelines ) ) )
+    #     {
+    #     vdpSd <- append( vdpSd,
+    #       sd( dxResults$VDP[which( dxResults$SubjectID == subjects[m] & dxResults$Segmentation == pipelines[n] )] ) )
+    #     pipeline <- append( pipeline, pipelines[n] )
+    #     diceMean <- append( diceMean,
+    #       mean( dxResults$DiceAll[which( dxResults$SubjectID == subjects[m] & dxResults$Segmentation == pipelines[n] )] ) )
+    #     }
+    #   }
 
-    plotDataFrame <- data.frame( Pipeline = pipeline,
-                                VDP.sd = vdpSd,
-                                Dice.Mean = diceMean )
-    vdpSdPlot <- ggplot( data = plotDataFrame ) +
-                      geom_boxplot( aes( x = Pipeline, y = VDP.sd, fill = Pipeline ) ) +
-                      ggtitle( paste0( "Overall" ) ) +
-                        ylim( 0, 0.05 )
-    ggsave( filename = paste0( outputDirectory, "/../../vdpSdOverall.pdf" ),
-      plot = vdpSdPlot, width = 5, height = 4, units = 'in' )
+    # plotDataFrame <- data.frame( Pipeline = pipeline,
+    #                             VDP.sd = vdpSd,
+    #                             Dice.Mean = diceMean )
+    # vdpSdPlot <- ggplot( data = plotDataFrame ) +
+    #                   geom_boxplot( aes( x = Pipeline, y = VDP.sd, fill = Pipeline ) ) +
+    #                   ggtitle( paste0( "Overall" ) ) +
+    #                     ylim( 0, 0.05 )
+    # ggsave( filename = paste0( outputDirectory, "/../../vdpSdOverall.pdf" ),
+    #   plot = vdpSdPlot, width = 5, height = 4, units = 'in' )
 
-    diceMeanPlot <- ggplot( data = plotDataFrame ) +
-                      geom_boxplot( aes( x = Pipeline, y = Dice.Mean, fill = Pipeline ) ) +
-                      ggtitle( paste0( "Overall" ) )
-    ggsave( filename = paste0( outputDirectory, "/../../diceMeanOverall.pdf" ),
-      plot = diceMeanPlot, width = 5, height = 4, units = 'in' )
+    # diceMeanPlot <- ggplot( data = plotDataFrame ) +
+    #                   geom_boxplot( aes( x = Pipeline, y = Dice.Mean, fill = Pipeline ) ) +
+    #                   ggtitle( paste0( "Overall" ) )
+    # ggsave( filename = paste0( outputDirectory, "/../../diceMeanOverall.pdf" ),
+    #   plot = diceMeanPlot, width = 5, height = 4, units = 'in' )
     }
   }

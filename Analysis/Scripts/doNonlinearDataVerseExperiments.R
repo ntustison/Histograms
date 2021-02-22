@@ -517,20 +517,20 @@ for( s in seq.int( length( artefacts ) ) )
         }
       }
 
-    plotDataFrame <- data.frame( Pipeline = pipeline,
-                                VDP.sd = vdpSd,
-                                Dice.Mean = diceMean )
-    vdpSdPlot <- ggplot( data = plotDataFrame ) +
-                      geom_boxplot( aes( x = Pipeline, y = VDP.sd, fill = Pipeline ) ) +
-                      ggtitle( paste0( "Overall" ) ) +
-                        ylim( 0, 0.05 )
-    ggsave( filename = paste0( outputDirectory, "/../vdpSdOverall.pdf" ),
-      plot = vdpSdPlot, width = 5, height = 4, units = 'in' )
+    # plotDataFrame <- data.frame( Pipeline = pipeline,
+    #                             VDP.sd = vdpSd,
+    #                             Dice.Mean = diceMean )
+    # vdpSdPlot <- ggplot( data = plotDataFrame ) +
+    #                   geom_boxplot( aes( x = Pipeline, y = VDP.sd, fill = Pipeline ) ) +
+    #                   ggtitle( paste0( "Overall" ) ) +
+    #                     ylim( 0, 0.05 )
+    # ggsave( filename = paste0( outputDirectory, "/../vdpSdOverall.pdf" ),
+    #   plot = vdpSdPlot, width = 5, height = 4, units = 'in' )
 
-    diceMeanPlot <- ggplot( data = plotDataFrame ) +
-                      geom_boxplot( aes( x = Pipeline, y = Dice.Mean, fill = Pipeline ) ) +
-                      ggtitle( paste0( "Overall" ) )
-    ggsave( filename = paste0( outputDirectory, "/../diceMeanOverall.pdf" ),
-      plot = diceMeanPlot, width = 5, height = 4, units = 'in' )
+    # diceMeanPlot <- ggplot( data = plotDataFrame ) +
+    #                   geom_boxplot( aes( x = Pipeline, y = Dice.Mean, fill = Pipeline ) ) +
+    #                   ggtitle( paste0( "Overall" ) )
+    # ggsave( filename = paste0( outputDirectory, "/../diceMeanOverall.pdf" ),
+    #   plot = diceMeanPlot, width = 5, height = 4, units = 'in' )
     }
   }
