@@ -239,8 +239,8 @@ information, from Figure \ref{fig:similarity} it should be apparent that this
 transformation also results in greater variance in the resulting information
 under common MR imaging artefacts, according to these measures.  Thus, prior to
 any algorithmic considerations, these observations point to the fact that
-optimizing in the domain of the histogram will be generally less robust than
-optimizing directly in the image domain. [^100]
+optimizing in the domain of the histogram will be generally less informative and
+less robust than optimizing directly in the image domain. [^100]
 
 [^100]: This point should be obvious even without the simulation experiments.
 Imagine, dear reader, the reality of the future clinical application of
