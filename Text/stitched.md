@@ -55,12 +55,17 @@ $ $
 
 {\bf Histograms should not be used to segment hyperpolarized gas images of the lung}
 
+or
+
+{\bf Spatial information should be exploited to segment hyperpolarized gas images of the lung}
+
 \vspace{1.5 cm}
 
 \normalsize
 
 Nicholas J. Tustison,
 E. Alia,
+John P. Mugler III,
 Jaime F. Mata
 
 \footnotesize
@@ -69,7 +74,7 @@ Department of Radiology and Medical Imaging, University of Virginia, Charlottesv
 
 \end{centering}
 
-\vspace{9 cm}
+\vspace{5 cm}
 
 \scriptsize
 Corresponding author: \
@@ -132,7 +137,7 @@ as open-source through the well-known Advanced Normalization Tools ecosystem
 \newpage
 # Introduction
 
-## Early acquisition and development
+<!-- ## Early acquisition and development
 
 Early hyperpolarized gas pulmonary imaging research reported findings in
 qualitative terms.
@@ -152,7 +157,7 @@ Descriptions:
 * "ventilation defects" [@Altes:2001aa]
 
 * "defects were pleural-based, frequently wedge-shaped, and varied in size from
-  tiny to segmental" [@Altes:2001aa]
+  tiny to segmental" [@Altes:2001aa] -->
 
 
 ## Historical overview of quantification
@@ -330,8 +335,8 @@ assessment of the image can remain largely unchanged.
 
 \begin{figure}[!htb] \centering
   \includegraphics[width=0.95\textwidth]{Figures/similarityMultisite.pdf}
-  \caption{Multi-site:  (left) University of Virginia (UVa) and (right) 
-  He 2019 data.  
+  \caption{Multi-site:  (left) University of Virginia (UVa) and (right)
+  He 2019 data.
   Image-based SSIM vs. histogram-based Pearson's correlation differences
   under distortions induced by the common MR artefacts of noise and intensity nonlinearities.  For the
   nonlinearity-only simulations, the images maintain their structural integrity
@@ -350,7 +355,7 @@ image simulations in Figure \ref{fig:similarity} which are detailed later in
 this work and used for algorithmic comparison.  Simulated MR artefacts were
 applied to each image which included both noise and nonlinear intensity mappings
 (and their combination) using two separate data sets:  one in-house data set
-consisting of 51 hyperpolarized gas lung images and the publicly available data described in 
+consisting of 51 hyperpolarized gas lung images and the publicly available data described in
 [@He:2019aa] and made available at Harvard's Dataverse online repository
 [@He_dataverse:2018] consisting of 29 hyperpolarized gas lung images.  These
 two data sets resulted in a total simulated cohort of 51 + 29 = 80 images
