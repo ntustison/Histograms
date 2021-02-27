@@ -48,7 +48,7 @@ visual system seem to quantify what is understood intuitively that image domain
 information is much more robust than histogram domain information in the
 presence of image transformations, such as distortions.  This appears to also be
 supported in our simulation experiments illustrated in Figure
-\ref{fig:simulations} where the histogram-based algorithms, overall, performed
+\ref{fig:simulations} and \ref{fig:simulationsDataverse} where the histogram-based algorithms, overall, performed
 worse than El Bicho.  As a CNN, El Bicho optimizes the governing network weights
 over image features as opposed to strictly relative intensities.  This work
 should motivate additional exploration focusing on issues related to

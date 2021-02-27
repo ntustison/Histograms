@@ -11,7 +11,7 @@ $ $
 
 \LARGE
 
-{\bf Spatial information should be exploited to segment hyperpolarized gas images of the lung}
+{Image- vs. histogram-based considerations in semantic segmentation of pulmonary hyperpolarized gas images}
 
 \vspace{1.5 cm}
 

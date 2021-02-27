@@ -179,7 +179,7 @@ deviation of the intensity distribution and can also result in an histogram
 shift. Using the original set of 10 young healthy data with no N4 preprocessing,
 we created a reference distribution according to [@He:2016aa], which resulted in
 an approximate distribution of $\mathcal{N}(0.45, 0.24)$.  This produced 0
-voxels being classified as belonging to Cluster 1 (i.e., ventilation defect)
+voxels being classified as belonging to Cluster 1 (cf Figure \ref{fig:referenceVariance})
 because two standard deviations from the mean is less than 0 and Cluster 1
 resides in the region below -2 standard deviations.  However using N4-preprocessed
 images produced something closer,  $\mathcal{N}(0.56, 0.22)$, to the published

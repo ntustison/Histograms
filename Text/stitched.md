@@ -53,11 +53,7 @@ $ $
 
 \LARGE
 
-{\bf Histograms should not be used to segment hyperpolarized gas images of the lung}
-
-or
-
-{\bf Spatial information should be exploited to segment hyperpolarized gas images of the lung}
+{Image- vs. histogram-based considerations in semantic segmentation of pulmonary hyperpolarized gas images}
 
 \vspace{1.5 cm}
 
@@ -391,13 +387,32 @@ Ultimately, we are not claiming that these algorithms are erroneous, per se.
 Much of the relevant research has been limited to quantifying differences with
 respect to ventilation versus non-ventilation in various clinical categories and
 these algorithms have certainly demonstrated the capacity for advancing such
-research.  However, the aforementioned issues influence quantitation in terms of
+research.  Furthermore, as the sample segmentations in Figure
+\ref{fig:sampleSegmentations} illustrate, when considered qualitatively, each
+segmentation algorithm appears to produce a reasonable segmentation even though
+the voxelwise differences are significant (as are the corresponding histograms).
+However, the aforementioned artefact issues influence quantitation in terms of
 core scientific measurement principles such as precision (e.g., reproducibility
-and repeatability [@Zha:2016aa;@Svenningsen:2020aa]) and bias which become increasingly
-significant with multi-site [@Couch:2019aa] and large-scale studies.  In addition, generally
-speaking, refinements in measuring capabilities correlate with scientific
-advancement so as acquisition and analysis methodologies improve, so should the
-level of sophistication and performance of the underlying measurement tools.
+and repeatability [@Zha:2016aa;@Svenningsen:2020aa]) and bias which are obscured
+in isolated considerations but become increasingly significant with multi-site
+[@Couch:2019aa] and large-scale studies.  In addition, generally speaking,
+refinements in measuring capabilities correlate with scientific advancement so
+as acquisition and analysis methodologies improve, so should the level of
+sophistication and performance of the underlying measurement tools.
+
+\begin{figure}[!h] \centering
+  \includegraphics[width=0.9\linewidth]{Figures/sampleSegmentations.pdf}
+  \caption{Illustration of sample segmentations produced by the four algorithms
+  described above (i.e., linear binning, hierarchical k-means, spatial fuzzy
+  c-means, and GMM-MRF) and the deep learning algorithm (``El Bicho'')
+  described below on a single cystic fibrosis subject.  Also included are
+  the corresponding segmentation histograms.  Although quite disparate in
+  the actual labeling of the lung and resulting histogram, each algorithm
+  produces a reasonable parcellation.
+  }
+  \label{fig:sampleSegmentations}
+\end{figure}
+
 
 In assessing these segmentation algorithms for hyperpolarized gas imaging, it is
 important to note that human expertise leverages more than relative intensity
@@ -858,7 +873,7 @@ deviation of the intensity distribution and can also result in an histogram
 shift. Using the original set of 10 young healthy data with no N4 preprocessing,
 we created a reference distribution according to [@He:2016aa], which resulted in
 an approximate distribution of $\mathcal{N}(0.45, 0.24)$.  This produced 0
-voxels being classified as belonging to Cluster 1 (i.e., ventilation defect)
+voxels being classified as belonging to Cluster 1 (cf Figure \ref{fig:referenceVariance})
 because two standard deviations from the mean is less than 0 and Cluster 1
 resides in the region below -2 standard deviations.  However using N4-preprocessed
 images produced something closer,  $\mathcal{N}(0.56, 0.22)$, to the published
@@ -1012,7 +1027,7 @@ visual system seem to quantify what is understood intuitively that image domain
 information is much more robust than histogram domain information in the
 presence of image transformations, such as distortions.  This appears to also be
 supported in our simulation experiments illustrated in Figure
-\ref{fig:simulations} where the histogram-based algorithms, overall, performed
+\ref{fig:simulations} and \ref{fig:simulationsDataverse} where the histogram-based algorithms, overall, performed
 worse than El Bicho.  As a CNN, El Bicho optimizes the governing network weights
 over image features as opposed to strictly relative intensities.  This work
 should motivate additional exploration focusing on issues related to

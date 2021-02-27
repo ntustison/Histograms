@@ -255,13 +255,32 @@ Ultimately, we are not claiming that these algorithms are erroneous, per se.
 Much of the relevant research has been limited to quantifying differences with
 respect to ventilation versus non-ventilation in various clinical categories and
 these algorithms have certainly demonstrated the capacity for advancing such
-research.  However, the aforementioned issues influence quantitation in terms of
+research.  Furthermore, as the sample segmentations in Figure
+\ref{fig:sampleSegmentations} illustrate, when considered qualitatively, each
+segmentation algorithm appears to produce a reasonable segmentation even though
+the voxelwise differences are significant (as are the corresponding histograms).
+However, the aforementioned artefact issues influence quantitation in terms of
 core scientific measurement principles such as precision (e.g., reproducibility
-and repeatability [@Zha:2016aa;@Svenningsen:2020aa]) and bias which become increasingly
-significant with multi-site [@Couch:2019aa] and large-scale studies.  In addition, generally
-speaking, refinements in measuring capabilities correlate with scientific
-advancement so as acquisition and analysis methodologies improve, so should the
-level of sophistication and performance of the underlying measurement tools.
+and repeatability [@Zha:2016aa;@Svenningsen:2020aa]) and bias which are obscured
+in isolated considerations but become increasingly significant with multi-site
+[@Couch:2019aa] and large-scale studies.  In addition, generally speaking,
+refinements in measuring capabilities correlate with scientific advancement so
+as acquisition and analysis methodologies improve, so should the level of
+sophistication and performance of the underlying measurement tools.
+
+\begin{figure}[!h] \centering
+  \includegraphics[width=0.9\linewidth]{Figures/sampleSegmentations.pdf}
+  \caption{Illustration of sample segmentations produced by the four algorithms
+  described above (i.e., linear binning, hierarchical k-means, spatial fuzzy
+  c-means, and GMM-MRF) and the deep learning algorithm (``El Bicho'')
+  described below on a single cystic fibrosis subject.  Also included are
+  the corresponding segmentation histograms.  Although quite disparate in
+  the actual labeling of the lung and resulting histogram, each algorithm
+  produces a reasonable parcellation.
+  }
+  \label{fig:sampleSegmentations}
+\end{figure}
+
 
 In assessing these segmentation algorithms for hyperpolarized gas imaging, it is
 important to note that human expertise leverages more than relative intensity
