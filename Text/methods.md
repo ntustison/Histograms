@@ -61,9 +61,12 @@ necessitates several considerations which have been outlined previously
   trained weights for the CNN are publicly available and are automatically
   downloaded when running the program.
 
-* The imaging data used for the evaluation is available upon request and through
-  a data sharing agreement.  All other data, including additional evaluation
-  plots are available, in the previously specified GitHub repository.
+* The University of Virginia imaging data used for the evaluation is available
+  upon request and through a data sharing agreement.  In addition to the citation
+  providing the online location of the original He 2019 Dataverse data, a
+  header-modified version of these data is available in the GitHub repository
+  associated with this manuscript.  Additional evaluation plots are also
+  available at this location.
 
 * An extremely important algorithmic hyperparameter is the number of ventilation
   clusters.  In order to minimize differences in our set of evaluations, we
@@ -75,20 +78,21 @@ necessitates several considerations which have been outlined previously
   definitions in a cross-algorithmic fashion.  They are only used to assess
   within-algorithm consistency.
 
-* One important issue was whether or not to use the N4 bias correction algorithm
-  as a preprocessing step.  We ultimately decided to include it for two
-  reasons.  First, it is explicitly used in multiple algorithms (e.g.,
-  [@Tustison:2011aa;@He:2016aa;@Santyr:2019aa;@Zha:2016aa;@Shammi:2021aa]) despite the issues raised
-  previously due to the fact that it qualitatively
-  improves image appearance.[^4]  Another practical consideration for N4 preprocessing
-  was due to the parameters of the reference distribution required by the linear binning
-  algorithm.  Additional details are provided in the Results section.
+* A significant issue was whether or not to use the N4 bias correction algorithm
+  as a preprocessing step.  We ultimately decided to include it for two reasons.
+  First, it is explicitly used in multiple algorithms (e.g.,
+  [@Tustison:2011aa;@He:2016aa;@Santyr:2019aa;@Zha:2016aa;@Shammi:2021aa])
+  despite the issues raised previously due to the fact that it qualitatively
+  improves image appearance.[^4]  Another practical consideration for N4
+  preprocessing was due to the parameters of the reference distribution required
+  by the linear binning algorithm.  Additional details are provided in the
+  Results section.
 
 [^3]:  A software codename designating a work in progress simply based on a shared
 admiration between the first and last authors of Portuguese futebol.
 
 [^4]:  This assessment is based on multiple conversations between the first
-author (as the developer of N4 and Atropos) and co-author Dr. Talissa Altes.
+author (as the co-developer of N4 and Atropos) and co-author \ldots .
 
 
 [^2]:  https://github.com/ntustison/Histograms

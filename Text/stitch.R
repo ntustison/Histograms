@@ -11,7 +11,7 @@ rmdFiles <- c( "format.md",
                "methods.md",
                "results.md",
                "discussion.md",
-              #  "acknowledgments.md",
+               "acknowledgments.md",
                "references.md"
              )
 

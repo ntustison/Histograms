@@ -18,8 +18,7 @@ $ $
 \normalsize
 
 Nicholas J. Tustison,
-E. Alia,
-John P. Mugler III,
+\ldots,
 Jaime F. Mata
 
 \footnotesize
@@ -28,7 +27,7 @@ Department of Radiology and Medical Imaging, University of Virginia, Charlottesv
 
 \end{centering}
 
-\vspace{5 cm}
+\vspace{7 cm}
 
 \scriptsize
 Corresponding author: \
