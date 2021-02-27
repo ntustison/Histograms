@@ -13,12 +13,17 @@ $ $
 
 {\bf Histograms should not be used to segment hyperpolarized gas images of the lung}
 
+or
+
+{\bf Spatial information should be exploited to segment hyperpolarized gas images of the lung}
+
 \vspace{1.5 cm}
 
 \normalsize
 
 Nicholas J. Tustison,
 E. Alia,
+John P. Mugler III,
 Jaime F. Mata
 
 \footnotesize
@@ -27,7 +32,7 @@ Department of Radiology and Medical Imaging, University of Virginia, Charlottesv
 
 \end{centering}
 
-\vspace{9 cm}
+\vspace{5 cm}
 
 \scriptsize
 Corresponding author: \

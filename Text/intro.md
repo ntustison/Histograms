@@ -1,7 +1,7 @@
 
 # Introduction
 
-## Early acquisition and development
+<!-- ## Early acquisition and development
 
 Early hyperpolarized gas pulmonary imaging research reported findings in
 qualitative terms.
@@ -21,7 +21,7 @@ Descriptions:
 * "ventilation defects" [@Altes:2001aa]
 
 * "defects were pleural-based, frequently wedge-shaped, and varied in size from
-  tiny to segmental" [@Altes:2001aa]
+  tiny to segmental" [@Altes:2001aa] -->
 
 
 ## Historical overview of quantification
@@ -199,8 +199,8 @@ assessment of the image can remain largely unchanged.
 
 \begin{figure}[!htb] \centering
   \includegraphics[width=0.95\textwidth]{Figures/similarityMultisite.pdf}
-  \caption{Multi-site:  (left) University of Virginia (UVa) and (right) 
-  He 2019 data.  
+  \caption{Multi-site:  (left) University of Virginia (UVa) and (right)
+  He 2019 data.
   Image-based SSIM vs. histogram-based Pearson's correlation differences
   under distortions induced by the common MR artefacts of noise and intensity nonlinearities.  For the
   nonlinearity-only simulations, the images maintain their structural integrity
@@ -219,7 +219,7 @@ image simulations in Figure \ref{fig:similarity} which are detailed later in
 this work and used for algorithmic comparison.  Simulated MR artefacts were
 applied to each image which included both noise and nonlinear intensity mappings
 (and their combination) using two separate data sets:  one in-house data set
-consisting of 51 hyperpolarized gas lung images and the publicly available data described in 
+consisting of 51 hyperpolarized gas lung images and the publicly available data described in
 [@He:2019aa] and made available at Harvard's Dataverse online repository
 [@He_dataverse:2018] consisting of 29 hyperpolarized gas lung images.  These
 two data sets resulted in a total simulated cohort of 51 + 29 = 80 images
@@ -239,8 +239,8 @@ information, from Figure \ref{fig:similarity} it should be apparent that this
 transformation also results in greater variance in the resulting information
 under common MR imaging artefacts, according to these measures.  Thus, prior to
 any algorithmic considerations, these observations point to the fact that
-optimizing in the domain of the histogram will be generally less robust than
-optimizing directly in the image domain. [^100]
+optimizing in the domain of the histogram will be generally less informative and
+less robust than optimizing directly in the image domain. [^100]
 
 [^100]: This point should be obvious even without the simulation experiments.
 Imagine, dear reader, the reality of the future clinical application of

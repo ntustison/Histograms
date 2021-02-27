@@ -55,12 +55,17 @@ $ $
 
 {\bf Histograms should not be used to segment hyperpolarized gas images of the lung}
 
+or
+
+{\bf Spatial information should be exploited to segment hyperpolarized gas images of the lung}
+
 \vspace{1.5 cm}
 
 \normalsize
 
 Nicholas J. Tustison,
 E. Alia,
+John P. Mugler III,
 Jaime F. Mata
 
 \footnotesize
@@ -69,7 +74,7 @@ Department of Radiology and Medical Imaging, University of Virginia, Charlottesv
 
 \end{centering}
 
-\vspace{9 cm}
+\vspace{5 cm}
 
 \scriptsize
 Corresponding author: \
@@ -132,7 +137,7 @@ as open-source through the well-known Advanced Normalization Tools ecosystem
 \newpage
 # Introduction
 
-## Early acquisition and development
+<!-- ## Early acquisition and development
 
 Early hyperpolarized gas pulmonary imaging research reported findings in
 qualitative terms.
@@ -152,7 +157,7 @@ Descriptions:
 * "ventilation defects" [@Altes:2001aa]
 
 * "defects were pleural-based, frequently wedge-shaped, and varied in size from
-  tiny to segmental" [@Altes:2001aa]
+  tiny to segmental" [@Altes:2001aa] -->
 
 
 ## Historical overview of quantification
@@ -330,8 +335,8 @@ assessment of the image can remain largely unchanged.
 
 \begin{figure}[!htb] \centering
   \includegraphics[width=0.95\textwidth]{Figures/similarityMultisite.pdf}
-  \caption{Multi-site:  (left) University of Virginia (UVa) and (right) 
-  He 2019 data.  
+  \caption{Multi-site:  (left) University of Virginia (UVa) and (right)
+  He 2019 data.
   Image-based SSIM vs. histogram-based Pearson's correlation differences
   under distortions induced by the common MR artefacts of noise and intensity nonlinearities.  For the
   nonlinearity-only simulations, the images maintain their structural integrity
@@ -350,7 +355,7 @@ image simulations in Figure \ref{fig:similarity} which are detailed later in
 this work and used for algorithmic comparison.  Simulated MR artefacts were
 applied to each image which included both noise and nonlinear intensity mappings
 (and their combination) using two separate data sets:  one in-house data set
-consisting of 51 hyperpolarized gas lung images and the publicly available data described in 
+consisting of 51 hyperpolarized gas lung images and the publicly available data described in
 [@He:2019aa] and made available at Harvard's Dataverse online repository
 [@He_dataverse:2018] consisting of 29 hyperpolarized gas lung images.  These
 two data sets resulted in a total simulated cohort of 51 + 29 = 80 images
@@ -370,8 +375,8 @@ information, from Figure \ref{fig:similarity} it should be apparent that this
 transformation also results in greater variance in the resulting information
 under common MR imaging artefacts, according to these measures.  Thus, prior to
 any algorithmic considerations, these observations point to the fact that
-optimizing in the domain of the histogram will be generally less robust than
-optimizing directly in the image domain. [^100]
+optimizing in the domain of the histogram will be generally less informative and
+less robust than optimizing directly in the image domain. [^100]
 
 [^100]: This point should be obvious even without the simulation experiments.
 Imagine, dear reader, the reality of the future clinical application of
@@ -886,7 +891,7 @@ look at this choice as a potential source of both input and output variance in
 the measurements utilized and produced by linear binning. Regarding the former,
 we took all possible combinations of our young healthy control subject images
 and looked at the resulting mean and standard deviation values.  As expected,
-there is quite a bit of variation for both mean and standard deviation values
+there is significant variation for both mean and standard deviation values
 (see top portion of Figure \ref{fig:referenceVariance}) which are used to derive
 the cluster threshold values.  This directly impacts output measurements such as
 ventilation defect percentage. For the reference sets comprising eight or nine
@@ -935,25 +940,26 @@ perfect agreement between the segmentations and 0 is no agreement.
   one-way ANOVA to compare the deviations.  Higher positive values are
   indicative of increased robustness to simulated image distortions.
          }
-\label{fig:simulations}
+\label{fig:simulationsDataverse}
 \end{figure}
 
 Ten simulated images for each of the subjects of both the University of Virginia
-and He 2019 Harvard Dataverse cohort were generated for each of the
-three categories of randomly generated artefacts:  noise, nonlinearities, and
-combined noise and intensity nonlinearites.  The original image as well as the
-simulated images were segmented using each of the five algorithms.  Following
-our earlier protocol, we maintained the original Clusters 1 and 2 per algorithm
-and combined the remaining clusters into a single third cluster.  This allowed
-us to compare between algorithms and maintain separate those clusters which are
-the most studied and reported in the literature.  The Dice metric was used to
-quantify the amount of deviation, per cluster, between the segmentation produced
-by the original image and the corresponding simulated distorted image
-segmentation which are plotted in Figure \ref{fig:simulations} (left column).
-These results were then compared, on a per-cluster and per-artefact basis, using
-a one-way ANOVA followed by Tukey's Honest Significant Difference (HSD) test.
-95% confidence intervals are provided in the right column of Figure
-\ref{fig:simulations}.
+and He 2019 Harvard Dataverse cohort were generated for each of the three
+categories of randomly generated artefacts:  noise, nonlinearities, and combined
+noise and intensity nonlinearites.  The original image as well as the simulated
+images were segmented using each of the five algorithms.  Following our earlier
+protocol, we maintained the original Clusters 1 and 2 per algorithm and combined
+the remaining clusters into a single third cluster.  This allowed us to compare
+between algorithms and maintain separate those clusters which are the most
+studied and reported in the literature.  The Dice metric was used to quantify
+the amount of deviation, per cluster, between the segmentation produced by the
+original image and the corresponding simulated distorted image segmentation
+which are plotted in Figures \ref{fig:simulations} and
+\ref{fig:simulationsDataverse} (left column). These results were then compared,
+on a per-cluster and per-artefact basis, using a one-way ANOVA followed by
+Tukey's Honest Significant Difference (HSD) test. 95% confidence intervals are
+provided in the right column of Figures \ref{fig:simulations} and
+\ref{fig:simulationsDataverse}.
 
 
 
