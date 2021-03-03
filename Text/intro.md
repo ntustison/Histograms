@@ -100,7 +100,7 @@ light of MR intensity nonlinearities have relied on 1-D piecewise affine
 mappings between corresponding structural features found within the histograms
 themselves (e.g., peaks and valleys).  For example, structural MRI, such as
 T1-weighted neuroimaging, utilizes the well-known relative intensities of major
-tissues types (i.e., cerebrospinal fluid (CSF), gray matter (GM), and white
+tissue types (i.e., cerebrospinal fluid (CSF), gray matter (GM), and white
 matter(WM)), which characteristically correspond to visible histogram peaks, as
 landmarks to determine the nonlinear intensity mapping between histograms.
 However, in hyperpolarized gas imaging of the lung, no such characteristic
