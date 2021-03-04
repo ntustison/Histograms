@@ -65,7 +65,7 @@ batchGenerator <- function( batchSize = 32L,
         imageA <- as.array( batchImage )[dim(batchImage)[1]:1,,]
         segmentationA <- as.array( batchsegmentation )[dim(batchsegmentation)[1]:1,,]
 
-      	image <- as.antsImage( imageA, reference = batchImage )  
+      	image <- as.antsImage( imageA, reference = batchImage )
         segmentation <- as.antsImage( segmentationA, reference = batchsegmentation )
         } else {
       	image <- batchImage
@@ -74,8 +74,16 @@ batchGenerator <- function( batchSize = 32L,
 
       if( doHistogramIntensityWarping && sample( c( TRUE, FALSE ), 1 ) )
         {
-        image <- histogramWarpImageIntensities( image, clampEndPoints = c( TRUE, FALSE ), sdDisplacements = 0.05 ) 
-        }  
+	      breakPoints <- c( 0.2, 0.4, 0.6, 0.8 )
+        displacements <- abs( rnorm( length( breakPoints ), 0, 0.175 ) )
+        if( sample( c( TRUE, FALSE ), 1 ) )
+          {
+          displacements <- displacements * -1
+          }
+        image <- histogramWarpImageIntensities( image, breakPoints = breakPoints,
+					        clampEndPoints = c( TRUE, TRUE ),
+					        displacements = displacements )
+        }
 
       imageX <- image
       segmentationX <- segmentation
@@ -104,26 +112,26 @@ batchGenerator <- function( batchSize = 32L,
       imageX <- ( imageX - mean( imageX ) ) / sd( imageX )
       if( doAddNoise && sample( c( TRUE, FALSE ), 1 ) )
         {
-        imageX <- addNoiseToImage( imageX, noiseModel = "additivegaussian", c( 0, runif( 1, 0, 0.05 ) ) )  
+        imageX <- addNoiseToImage( imageX, noiseModel = "additivegaussian", c( 0, runif( 1, 0, 0.05 ) ) )
         imageX <- ( imageX - mean( imageX ) ) / sd( imageX )
         }
 
       segmentationArrayX <- as.array( segmentationX )
       imageArrayX <- as.array( imageX )
 
-      maskX <- thresholdImage( segmentationX, 0, 0, 0, 1 ) 
+      maskX <- thresholdImage( segmentationX, 0, 0, 0, 1 )
 
       geoms <- labelGeometryMeasures( maskX )
       if( length( geoms$Label ) == 0 )
         {
         next
-        }		
-    
+        }
+
       whichDimensionMaxSpacing <- which.max( antsGetSpacing( imageX ) )[1]
       if( whichDimensionMaxSpacing == 1 )
         {
         lowerSlice <- geoms$BoundingBoxLower_x[1] + 1
-        upperSlice <- geoms$BoundingBoxUpper_x[1] 
+        upperSlice <- geoms$BoundingBoxUpper_x[1]
         } else if( whichDimensionMaxSpacing == 2 ) {
         lowerSlice <- geoms$BoundingBoxLower_y[1] + 1
         upperSlice <- geoms$BoundingBoxUpper_y[1]
@@ -134,9 +142,9 @@ batchGenerator <- function( batchSize = 32L,
       if( lowerSlice >= upperSlice )
         {
         next
-        }		
+        }
 
-      whichRandomSlices <- sample( seq.int( from = lowerSlice, to = upperSlice, by = 1 ), 
+      whichRandomSlices <- sample( seq.int( from = lowerSlice, to = upperSlice, by = 1 ),
         min( numberOfSlicesPerImage, upperSlice - lowerSlice + 1 ) )
       for( j in seq.int( length( whichRandomSlices ) ) )
         {
@@ -156,8 +164,8 @@ batchGenerator <- function( batchSize = 32L,
           segmentationSlice <- as.antsImage( drop( segmentationArrayX[,,whichSlice] ) )
           }
 
-        imageSlice <- padOrCropImageToSize( imageSlice, templateSize )
-        segmentationSlice <- padOrCropImageToSize( segmentationSlice, templateSize )
+        imageSlice <- padOrCropImageToSize( imageSlice, imageSize )
+        segmentationSlice <- padOrCropImageToSize( segmentationSlice, imageSize )
         maskSlice <- smoothImage( thresholdImage( segmentationSlice, 0, 0, 0, 1 ), 1.0 )
 
         X[i,,,1] <- as.array( imageSlice )
