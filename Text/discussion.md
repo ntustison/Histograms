@@ -38,7 +38,7 @@ brief summary of criticisms related to current algorithms is as follows:
 
 While simplifying the underlying complexity of the segmentation problem, all of
 these algorithms are deficient in leveraging the general modelling principle of
-incorporating as much prior information as possible to any solution method.
+incorporating as much available prior information to any solution method.
 In fact, this is a fundamental implication of the  "No Free Lunch Theorem"
 [@Wolpert:1997aa]---algorithmic performance hinges on available prior
 information.
@@ -53,7 +53,7 @@ worse than El Bicho.  As a CNN, El Bicho optimizes the governing network weights
 over image features as opposed to strictly relative intensities.  This work
 should motivate additional exploration focusing on issues related to
 algorithmic bias on a voxelwise scale which would require going beyond simple
-globally-based assessment measures (such as the diagnostic prediction evaluation
+globally based assessment measures (such as the diagnostic prediction evaluation
 detailed above using global volume proportions).  This would enable investigating
 differentiating spatial patterns within the images as evidence of disease and/or
 growth and correlations with non-imaging data using sophisticated voxel-scale
