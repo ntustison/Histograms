@@ -523,7 +523,7 @@ necessitates several considerations which have been outlined previously
   within-algorithm consistency.
 
 * A significant issue was whether or not to use the N4 bias correction algorithm
-  as a preprocessing step.  We ultimately decided to include it for two reasons.
+  as a preprocessing step.  We ultimately decided to include it for two reasons.[^5]
   First, it is explicitly used in multiple algorithms (e.g.,
   [@Tustison:2011aa;@He:2016aa;@Santyr:2019aa;@Zha:2016aa;@Shammi:2021aa])
   despite the issues raised previously due to the fact that it qualitatively
@@ -531,6 +531,10 @@ necessitates several considerations which have been outlined previously
   preprocessing was due to the parameters of the reference distribution required
   by the linear binning algorithm.  Additional details are provided in the
   Results section.
+
+[^5]: For completeness, we did run the same experiments detailed below using the uncorrected UVa images (and the previously reported parameters
+for linear binning) and the results were similar.  These results can be
+found in the GitHub repository associated with this work.
 
 [^3]:  A software codename designating a work in progress simply based on a shared
 admiration between the first and last authors of Portuguese futebol.
