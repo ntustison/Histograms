@@ -21,8 +21,10 @@ Nicholas J. Tustison$^1$,
 Talissa A. Altes$^2$,
 Kun Qing$^3$,
 G. Wilson Miller$^1$,
+Mu He$^1$,
 Brian B. Avants$^1$,
 James C. Gee$^3$,
+Yun M. Shim$^1$,
 John P. Mugler III$^1$,
 Jaime F. Mata$^1$
 
