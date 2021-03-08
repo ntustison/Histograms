@@ -19,7 +19,7 @@ brief summary of criticisms related to current algorithms is as follows:
 
 * Both hierarchical and adaptive k-means also ignore spatial information and,
   although they do use a principled optimization criterion, this criterion is
-  not adequately tailored for hyperpolarized gas imaging and susceptible to
+  not adequately tailored for hyperpolarized gas imaging and is susceptible to
   various levels of noise.
 
 * Similar to k-means, spatial fuzzy c-means is optimized to minimize the
@@ -58,7 +58,7 @@ as the diagnostic prediction evaluation detailed above using global volume
 proportions).  This would enable investigating differentiating spatial patterns
 within the images as evidence of disease and/or growth and correlations with
 non-imaging data using sophisticated voxel-scale statistical techniques (e.g.,
-symmetric multivariate linear reconstruction [@Stone:2020aa]).
+similarity-driven multivariate linear reconstruction [@Avants:2021un;@Stone:2020aa]).
 
 It should be noted that El Bicho was developed in parallel with the writing of
 this manuscript merely to showcase the incredible potential that deep learning

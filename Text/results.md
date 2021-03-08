@@ -23,19 +23,19 @@ the level of the algorithmic output (i.e., voxelwise segmentation).
 
 Having established the general validity of the gross algorithmic output, we then
 switch to our primary focus which is the comparison of measurement precision
-between algorithms.   We first analyze the unique requirement of a reference
+between algorithms.   We first analyzed the unique requirement of a reference
 distribution for the linear binning algorithm.  The latter is motivated
 qualitatively through the analogous application of T1-weighted brain MR
 segmentation.  This component is strictly qualitative as the visual evidence and
 previous developmental history within that field should be sufficiently
 compelling in motivating subsequent quantitative exploration with hyperpolarized
-gas lung imaging.  These qualitative results segue to quantifying the effects of
+gas lung imaging.  These qualitative results segue to quantification of the effects of
 the choice of reference cohort on the clustering parameters for the linear
-binning algorithm. We then incorporate the trained El Bicho model in exploring
+binning algorithm. We then incorporated the trained El Bicho model in exploring
 additional aspects of measurement variance based on simulating both MR noise and
 intensity nonlinearities.
 
-So, in summary, we perform the following evaluations/experiments:[^103]
+So, in summary, we performed the following evaluations/experiments:[^103]
 
 * Global algorithmic bias (in the absence of ground truth)
 
@@ -48,7 +48,7 @@ So, in summary, we perform the following evaluations/experiments:[^103]
     * Effects of simulated MR artefacts on multi-site data
 
 [^103]: It is important to note that, although these experiments provide supporting
-evidence, our principal contention stands prior to these results and are based on
+evidence, our principal contentions stand prior to these results and are based on
 the self-evidentiary observations mentioned in the Introduction.
 
 ## Diagnostic prediction
@@ -186,7 +186,7 @@ images produced something closer,  $\mathcal{N}(0.56, 0.22)$, to the published
 values, $\mathcal{N}(0.52, 0.18)$, reported in [@He:2016aa], resulting in a
 non-empty set for that cluster.  This is consistent, though, with linear binning
 which does use N4 bias correction for preprocessing.  We also mention that the
-2019 Harvard Dataverse images used were preprocessed using N4 [@He:2019aa]
+Harvard Dataverse images used were preprocessed using N4 [@He:2019aa]
 which provides a third reason for its use on the University of Virginia image
 dataset (to maximize cross cohort consistency).  In the case of the former
 image set, we did use the previously reported linear binning mean and standard
@@ -252,7 +252,7 @@ perfect agreement between the segmentations and 0 is no agreement.
 \begin{figure}[!htb]
   \centering
   \includegraphics[width=0.99\linewidth]{FiguresDataverse/DiceVarianceStudy.pdf}
-  \caption{2019 Harvard Dataverse image cohort:  (Left) The deviation in
+  \caption{Harvard Dataverse image cohort:  (Left) The deviation in
   resulting segmentation caused by distortions produced noise, histogram-based
   intensity nonlinearities, and their combination as measured by the Dice
   metric.  Each segmentation is reduced to three labels for comparison:
@@ -265,7 +265,7 @@ perfect agreement between the segmentations and 0 is no agreement.
 \end{figure}
 
 Ten simulated images for each of the subjects of both the University of Virginia
-and 2019 Harvard Dataverse cohort were generated for each of the three
+and Harvard Dataverse cohort were generated for each of the three
 categories of randomly generated artefacts:  noise, nonlinearities, and combined
 noise and intensity nonlinearites.  The original image as well as the simulated
 images were segmented using each of the five algorithms.  Following our earlier

@@ -126,7 +126,7 @@ variance but includes a per-sample membership weighting [@Bezdek:1981aa]. Later
 innovations included the incorporation of spatial considerations using
 class membership values of the local voxel neighborhood [@Chuang:2006aa].  Both
 k-means and fuzzy spatial c-means were compared for segmentation of
-hyperpolarized He-3 and Xe-129 images in [@Hughes:2018aa] with the latter
+hyperpolarized 3He and 129Xe images in [@Hughes:2018aa] with the latter
 evidencing improved performance over the former which is due, at least in part,
 to the additional spatial considerations.  Despite relatively good performance,
 however, fuzzy c-means also seeks cluster membership in the histogram (i.e.,
@@ -300,7 +300,7 @@ intensity only information.  We introduced a deep learning approach in
 approaches below.  Although we find its performance to be quite promising, more
 fundamental to this work than the network itself is simply pointing to the
 general potential associated with  deep learning for analyzing hyperpolarized
-gas images *as spatial samplings of real world objects*, as opposed to lossy
+gas images *as spatial samplings of real-world objects*, as opposed to lossy
 representations of such objects.  In the spirit of open science, we have made
 the entire evaluation framework, including our novel contributions, available
 within the Advanced Normalization Tools software ecosystem (ANTsX)

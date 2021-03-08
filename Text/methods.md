@@ -6,26 +6,25 @@
 ### University of Virginia cohort
 
 A retrospective dataset was collected consisting of young healthy (n=10), older
-healthy (n=7), cystic fibrosis (CF) (n=14), interstitial lung disease (ILD)
-(n=10), and chronic obstructive pulmonary disease (n=10). MR iImaging with
-hyperpolarized 129Xe gas was performed under an Institutional Review Board
-(IRB) approved protocol with written informed consent obtained from each
-subject. In addition, all imaging was performed under a Food and Drug
-Administration (FDA) approved physician’s Investigational New Drug application
-(IND 57866) for hyperpolarized 3He. MRI data were acquired on a 1.5 T whole-body
-MRI scanner (Siemens Avanto, Siemens Medical Solutions, Malvern, PA) with
-broadband capabilities and a flexible 129Xe 3He chest radiofrequency coil (RF;
-IGC Medical Advances, Milwaukee, WI; or Clinical MR Solutions, Brookfield, WI).
-During a <10–20-second breath-hold following the inhalation of $\approx 1000$ mL of
-hyperpolarized 129Xe mixed with nitrogen up to a volume equal to
-1/3 Forced vital capacity (FVC) of the respective subject, a set of 15-17
-contiguous coronal lung slices were collected in order to cover the
-entire lungs. Parameters of the Gradient echo (GRE) sequence
-with a Spiral k-space sampling with 12 interleaves for 129Xe MRI were as
-follows: repetition time msec / echo time msec, 7/1; flip angle, 20$^{\circ}$;
-matrix, 128 $\times$ 128: in-plane voxel size, 4 $\times$ 4 mm;
-section slice thickness, 15 mm; and intersection gap, none. The data were
-deidentified prior to analysis.
+healthy ($n=7$), cystic fibrosis (CF) (n=14), interstitial lung disease (ILD)
+($n=10$), and chronic obstructive pulmonary disease ($n=10$). MR imaging with
+hyperpolarized 129Xe gas was performed under an Institutional Review Board (IRB)
+approved protocol with written informed consent obtained from each subject. In
+addition, all imaging was performed under a Food and Drug Administration (FDA)
+approved physician’s Investigational New Drug application. MRI data were
+acquired on a 1.5 T whole-body MRI scanner
+(Siemens Avanto, Siemens Medical Solutions, Malvern, PA) with broadband
+capabilities and a flexible 129Xe chest radiofrequency coil (RF; IGC Medical
+Advances, Milwaukee, WI; or Clinical MR Solutions, Brookfield, WI). During a
+$\leq 10$ breath-hold following the inhalation of $\approx 1000$ mL of
+hyperpolarized 129Xe mixed with nitrogen up to a volume equal to 1/3 forced
+vital capacity (FVC) of the respective subject, a set of 15-17 contiguous
+coronal lung slices were collected in order to cover the entire lungs.
+Parameters of the gradient echo (GRE) sequence with a spiral k-space sampling
+with 12 interleaves for 129Xe MRI were as follows: repetition time msec / echo
+time msec, 7/1; flip angle, 20$^{\circ}$; matrix, 128 $\times$ 128: in-plane
+voxel size, 4 $\times$ 4 mm; section slice thickness, 15 mm; and intersection
+gap, none. The data were deidentified prior to analysis.
 
 
 <!-- A retrospective dataset was collected consisting of young healthy ($n=10$),
@@ -47,7 +46,7 @@ sequence for 3He MRI were as follows: repetition time msec / echo time msec,
 $\times$ 42 cm; section thickness, 10 mm; and intersection gap, none. The data
 were deidentified prior to analysis. -->
 
-### He 2019 Harvard Dataverse cohort
+### Harvard Dataverse cohort
 
 In addition to these data acquired at the University of Virginia, we also
 processed a publicly available lung dataset [@He_dataverse:2018] available at
@@ -57,7 +56,7 @@ and 19 mild intermittent asthmatic individuals) with corresponding lung masks.
 In addition, seven artificially SNR-degraded images per acquisition were also
 included but not used for the analyses reported below.  The image headers were
 corrected for proper canonical anatomical orientation according to Nifti
-standards and provided to the GitHub repository associated with this work.
+standards and uploaded to the GitHub repository associated with this work.
 
 ## Algorithmic implementations
 
@@ -85,11 +84,11 @@ necessitates several considerations which have been outlined previously
   downloaded when running the program.
 
 * The University of Virginia imaging data used for the evaluation is available
-  upon request and through a data sharing agreement.  In addition to the citation
-  providing the online location of the original He 2019 Dataverse data, a
-  header-modified version of these data is available in the GitHub repository
-  associated with this manuscript.  Additional evaluation plots are also
-  available at this location.
+  upon request and through a data sharing agreement.  In addition to the
+  citation providing the online location of the original Harvard Dataverse data,
+  a header-modified version of these data is available in the GitHub repository
+  associated with this manuscript.  Additional evaluation plots have also been
+  made available.
 
 * An extremely important algorithmic hyperparameter is the number of ventilation
   clusters.  In order to minimize differences in our set of evaluations, we

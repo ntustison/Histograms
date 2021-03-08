@@ -170,7 +170,7 @@ major contributions can be roughly sketched to include:
   binning" [@He:2016aa;@He:2020aa],
 * nonlinear intensity standardization based on piecewise affine transformation
   of the intensity histogram using a customized hierarchical
-  [@Kirby:2012aa;@Kirby:2012ab] or adaptive [@@Zha:2016aa] k-means algorithm,
+  [@Kirby:2012aa;@Kirby:2012ab] or adaptive [@Zha:2016aa] k-means algorithm,
 * nonlinear intensity standardization using fuzzy c-means [@Ray:2003aa] with spatial
   considerations based on local voxel neighborhoods [@Hughes:2018aa], and
 * Gaussian mixture modeling (GMM) of the intensity histogram with Markov random
@@ -232,7 +232,7 @@ mappings between corresponding structural features found within the histograms
 themselves (e.g., peaks and valleys).  For example, structural MRI, such as
 T1-weighted neuroimaging, utilizes the well-known relative intensities of major
 tissue types (i.e., cerebrospinal fluid (CSF), gray matter (GM), and white
-matter(WM)), which characteristically correspond to visible histogram peaks, as
+matter (WM)), which characteristically correspond to visible histogram peaks, as
 landmarks to determine the nonlinear intensity mapping between histograms.
 However, in hyperpolarized gas imaging of the lung, no such characteristic
 structural features exist, generally speaking, between histograms.  This is most
@@ -257,7 +257,7 @@ variance but includes a per-sample membership weighting [@Bezdek:1981aa]. Later
 innovations included the incorporation of spatial considerations using
 class membership values of the local voxel neighborhood [@Chuang:2006aa].  Both
 k-means and fuzzy spatial c-means were compared for segmentation of
-hyperpolarized He-3 and Xe-129 images in [@Hughes:2018aa] with the latter
+hyperpolarized 3He and 129Xe images in [@Hughes:2018aa] with the latter
 evidencing improved performance over the former which is due, at least in part,
 to the additional spatial considerations.  Despite relatively good performance,
 however, fuzzy c-means also seeks cluster membership in the histogram (i.e.,
@@ -330,7 +330,7 @@ assessment of the image can remain largely unchanged.
 \begin{figure}[!htb] \centering
   \includegraphics[width=0.95\textwidth]{Figures/similarityMultisite.pdf}
   \caption{Multi-site:  (left) University of Virginia (UVa) and (right)
-  He 2019 data.
+  Harvard Dataverse 129Xe data.
   Image-based SSIM vs. histogram-based Pearson's correlation differences
   under distortions induced by the common MR artefacts of noise and intensity nonlinearities.  For the
   nonlinearity-only simulations, the images maintain their structural integrity
@@ -349,7 +349,7 @@ image simulations in Figure \ref{fig:similarity} which are detailed later in
 this work and used for algorithmic comparison.  Simulated MR artefacts were
 applied to each image which included both noise and nonlinear intensity mappings
 (and their combination) using two separate data sets:  one in-house data set
-consisting of 51 hyperpolarized gas lung images and the publicly available data
+consisting of 51 129Xe gas lung images and the publicly available data
 described in [@He:2019aa] and made available at Harvard's Dataverse online
 repository [@He_dataverse:2018] consisting of 29 hyperpolarized gas lung images.
 These two data sets resulted in a total simulated cohort of 51 + 29 = 80 images
@@ -418,7 +418,7 @@ In assessing these segmentation algorithms for hyperpolarized gas imaging, it is
 important to note that human expertise leverages more than relative intensity
 values to identify salient, clinically relevant features in images---something
 more akin to the complex structure of deep-layered neural networks
-[@LeCun:2015aa], particularly convolutional neural networks (CNN).[^101]
+[@LeCun:2015aa], particularly convolutional neural networks (CNN).
 Such models have demonstrated outstanding performance in certain computational tasks,
 including classification and semantic segmentation in medical imaging
 [@Shen:2017aa]. Their potential for leveraging spatial information from images
@@ -431,7 +431,7 @@ intensity only information.  We introduced a deep learning approach in
 approaches below.  Although we find its performance to be quite promising, more
 fundamental to this work than the network itself is simply pointing to the
 general potential associated with  deep learning for analyzing hyperpolarized
-gas images *as spatial samplings of real world objects*, as opposed to lossy
+gas images *as spatial samplings of real-world objects*, as opposed to lossy
 representations of such objects.  In the spirit of open science, we have made
 the entire evaluation framework, including our novel contributions, available
 within the Advanced Normalization Tools software ecosystem (ANTsX)
@@ -448,26 +448,25 @@ within the Advanced Normalization Tools software ecosystem (ANTsX)
 ### University of Virginia cohort
 
 A retrospective dataset was collected consisting of young healthy (n=10), older
-healthy (n=7), cystic fibrosis (CF) (n=14), interstitial lung disease (ILD)
-(n=10), and chronic obstructive pulmonary disease (n=10). MR iImaging with
-hyperpolarized 129Xe gas was performed under an Institutional Review Board
-(IRB) approved protocol with written informed consent obtained from each
-subject. In addition, all imaging was performed under a Food and Drug
-Administration (FDA) approved physician’s Investigational New Drug application
-(IND 57866) for hyperpolarized 3He. MRI data were acquired on a 1.5 T whole-body
-MRI scanner (Siemens Avanto, Siemens Medical Solutions, Malvern, PA) with
-broadband capabilities and a flexible 129Xe 3He chest radiofrequency coil (RF;
-IGC Medical Advances, Milwaukee, WI; or Clinical MR Solutions, Brookfield, WI).
-During a <10–20-second breath-hold following the inhalation of $\approx 1000$ mL of
-hyperpolarized 129Xe mixed with nitrogen up to a volume equal to
-1/3 Forced vital capacity (FVC) of the respective subject, a set of 15-17
-contiguous coronal lung slices were collected in order to cover the
-entire lungs. Parameters of the Gradient echo (GRE) sequence
-with a Spiral k-space sampling with 12 interleaves for 129Xe MRI were as
-follows: repetition time msec / echo time msec, 7/1; flip angle, 20$^{\circ}$;
-matrix, 128 $\times$ 128: in-plane voxel size, 4 $\times$ 4 mm;
-section slice thickness, 15 mm; and intersection gap, none. The data were
-deidentified prior to analysis.
+healthy ($n=7$), cystic fibrosis (CF) (n=14), interstitial lung disease (ILD)
+($n=10$), and chronic obstructive pulmonary disease ($n=10$). MR imaging with
+hyperpolarized 129Xe gas was performed under an Institutional Review Board (IRB)
+approved protocol with written informed consent obtained from each subject. In
+addition, all imaging was performed under a Food and Drug Administration (FDA)
+approved physician’s Investigational New Drug application. MRI data were
+acquired on a 1.5 T whole-body MRI scanner
+(Siemens Avanto, Siemens Medical Solutions, Malvern, PA) with broadband
+capabilities and a flexible 129Xe chest radiofrequency coil (RF; IGC Medical
+Advances, Milwaukee, WI; or Clinical MR Solutions, Brookfield, WI). During a
+$\leq 10$ breath-hold following the inhalation of $\approx 1000$ mL of
+hyperpolarized 129Xe mixed with nitrogen up to a volume equal to 1/3 forced
+vital capacity (FVC) of the respective subject, a set of 15-17 contiguous
+coronal lung slices were collected in order to cover the entire lungs.
+Parameters of the gradient echo (GRE) sequence with a spiral k-space sampling
+with 12 interleaves for 129Xe MRI were as follows: repetition time msec / echo
+time msec, 7/1; flip angle, 20$^{\circ}$; matrix, 128 $\times$ 128: in-plane
+voxel size, 4 $\times$ 4 mm; section slice thickness, 15 mm; and intersection
+gap, none. The data were deidentified prior to analysis.
 
 
 <!-- A retrospective dataset was collected consisting of young healthy ($n=10$),
@@ -489,7 +488,7 @@ sequence for 3He MRI were as follows: repetition time msec / echo time msec,
 $\times$ 42 cm; section thickness, 10 mm; and intersection gap, none. The data
 were deidentified prior to analysis. -->
 
-### He 2019 Harvard Dataverse cohort
+### Harvard Dataverse cohort
 
 In addition to these data acquired at the University of Virginia, we also
 processed a publicly available lung dataset [@He_dataverse:2018] available at
@@ -499,7 +498,7 @@ and 19 mild intermittent asthmatic individuals) with corresponding lung masks.
 In addition, seven artificially SNR-degraded images per acquisition were also
 included but not used for the analyses reported below.  The image headers were
 corrected for proper canonical anatomical orientation according to Nifti
-standards and provided to the GitHub repository associated with this work.
+standards and uploaded to the GitHub repository associated with this work.
 
 ## Algorithmic implementations
 
@@ -527,11 +526,11 @@ necessitates several considerations which have been outlined previously
   downloaded when running the program.
 
 * The University of Virginia imaging data used for the evaluation is available
-  upon request and through a data sharing agreement.  In addition to the citation
-  providing the online location of the original He 2019 Dataverse data, a
-  header-modified version of these data is available in the GitHub repository
-  associated with this manuscript.  Additional evaluation plots are also
-  available at this location.
+  upon request and through a data sharing agreement.  In addition to the
+  citation providing the online location of the original Harvard Dataverse data,
+  a header-modified version of these data is available in the GitHub repository
+  associated with this manuscript.  Additional evaluation plots have also been
+  made available.
 
 * An extremely important algorithmic hyperparameter is the number of ventilation
   clusters.  In order to minimize differences in our set of evaluations, we
@@ -745,19 +744,19 @@ the level of the algorithmic output (i.e., voxelwise segmentation).
 
 Having established the general validity of the gross algorithmic output, we then
 switch to our primary focus which is the comparison of measurement precision
-between algorithms.   We first analyze the unique requirement of a reference
+between algorithms.   We first analyzed the unique requirement of a reference
 distribution for the linear binning algorithm.  The latter is motivated
 qualitatively through the analogous application of T1-weighted brain MR
 segmentation.  This component is strictly qualitative as the visual evidence and
 previous developmental history within that field should be sufficiently
 compelling in motivating subsequent quantitative exploration with hyperpolarized
-gas lung imaging.  These qualitative results segue to quantifying the effects of
+gas lung imaging.  These qualitative results segue to quantification of the effects of
 the choice of reference cohort on the clustering parameters for the linear
-binning algorithm. We then incorporate the trained El Bicho model in exploring
+binning algorithm. We then incorporated the trained El Bicho model in exploring
 additional aspects of measurement variance based on simulating both MR noise and
 intensity nonlinearities.
 
-So, in summary, we perform the following evaluations/experiments:[^103]
+So, in summary, we performed the following evaluations/experiments:[^103]
 
 * Global algorithmic bias (in the absence of ground truth)
 
@@ -770,7 +769,7 @@ So, in summary, we perform the following evaluations/experiments:[^103]
     * Effects of simulated MR artefacts on multi-site data
 
 [^103]: It is important to note that, although these experiments provide supporting
-evidence, our principal contention stands prior to these results and are based on
+evidence, our principal contentions stand prior to these results and are based on
 the self-evidentiary observations mentioned in the Introduction.
 
 ## Diagnostic prediction
@@ -908,7 +907,7 @@ images produced something closer,  $\mathcal{N}(0.56, 0.22)$, to the published
 values, $\mathcal{N}(0.52, 0.18)$, reported in [@He:2016aa], resulting in a
 non-empty set for that cluster.  This is consistent, though, with linear binning
 which does use N4 bias correction for preprocessing.  We also mention that the
-2019 Harvard Dataverse images used were preprocessed using N4 [@He:2019aa]
+Harvard Dataverse images used were preprocessed using N4 [@He:2019aa]
 which provides a third reason for its use on the University of Virginia image
 dataset (to maximize cross cohort consistency).  In the case of the former
 image set, we did use the previously reported linear binning mean and standard
@@ -974,7 +973,7 @@ perfect agreement between the segmentations and 0 is no agreement.
 \begin{figure}[!htb]
   \centering
   \includegraphics[width=0.99\linewidth]{FiguresDataverse/DiceVarianceStudy.pdf}
-  \caption{2019 Harvard Dataverse image cohort:  (Left) The deviation in
+  \caption{Harvard Dataverse image cohort:  (Left) The deviation in
   resulting segmentation caused by distortions produced noise, histogram-based
   intensity nonlinearities, and their combination as measured by the Dice
   metric.  Each segmentation is reduced to three labels for comparison:
@@ -987,7 +986,7 @@ perfect agreement between the segmentations and 0 is no agreement.
 \end{figure}
 
 Ten simulated images for each of the subjects of both the University of Virginia
-and 2019 Harvard Dataverse cohort were generated for each of the three
+and Harvard Dataverse cohort were generated for each of the three
 categories of randomly generated artefacts:  noise, nonlinearities, and combined
 noise and intensity nonlinearites.  The original image as well as the simulated
 images were segmented using each of the five algorithms.  Following our earlier
@@ -1026,7 +1025,7 @@ brief summary of criticisms related to current algorithms is as follows:
 
 * Both hierarchical and adaptive k-means also ignore spatial information and,
   although they do use a principled optimization criterion, this criterion is
-  not adequately tailored for hyperpolarized gas imaging and susceptible to
+  not adequately tailored for hyperpolarized gas imaging and is susceptible to
   various levels of noise.
 
 * Similar to k-means, spatial fuzzy c-means is optimized to minimize the
@@ -1065,7 +1064,7 @@ as the diagnostic prediction evaluation detailed above using global volume
 proportions).  This would enable investigating differentiating spatial patterns
 within the images as evidence of disease and/or growth and correlations with
 non-imaging data using sophisticated voxel-scale statistical techniques (e.g.,
-symmetric multivariate linear reconstruction [@Stone:2020aa]).
+similarity-driven multivariate linear reconstruction [@Avants:2021un;@Stone:2020aa]).
 
 It should be noted that El Bicho was developed in parallel with the writing of
 this manuscript merely to showcase the incredible potential that deep learning
