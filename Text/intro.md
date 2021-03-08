@@ -39,7 +39,7 @@ major contributions can be roughly sketched to include:
   binning" [@He:2016aa;@He:2020aa],
 * nonlinear intensity standardization based on piecewise affine transformation
   of the intensity histogram using a customized hierarchical
-  [@Kirby:2012aa;@Kirby:2012ab] or adaptive [@@Zha:2016aa] k-means algorithm,
+  [@Kirby:2012aa;@Kirby:2012ab] or adaptive [@Zha:2016aa] k-means algorithm,
 * nonlinear intensity standardization using fuzzy c-means [@Ray:2003aa] with spatial
   considerations based on local voxel neighborhoods [@Hughes:2018aa], and
 * Gaussian mixture modeling (GMM) of the intensity histogram with Markov random
@@ -101,7 +101,7 @@ mappings between corresponding structural features found within the histograms
 themselves (e.g., peaks and valleys).  For example, structural MRI, such as
 T1-weighted neuroimaging, utilizes the well-known relative intensities of major
 tissue types (i.e., cerebrospinal fluid (CSF), gray matter (GM), and white
-matter(WM)), which characteristically correspond to visible histogram peaks, as
+matter (WM)), which characteristically correspond to visible histogram peaks, as
 landmarks to determine the nonlinear intensity mapping between histograms.
 However, in hyperpolarized gas imaging of the lung, no such characteristic
 structural features exist, generally speaking, between histograms.  This is most
@@ -199,7 +199,7 @@ assessment of the image can remain largely unchanged.
 \begin{figure}[!htb] \centering
   \includegraphics[width=0.95\textwidth]{Figures/similarityMultisite.pdf}
   \caption{Multi-site:  (left) University of Virginia (UVa) and (right)
-  He 2019 data.
+  Harvard Dataverse 129Xe data.
   Image-based SSIM vs. histogram-based Pearson's correlation differences
   under distortions induced by the common MR artefacts of noise and intensity nonlinearities.  For the
   nonlinearity-only simulations, the images maintain their structural integrity
@@ -218,7 +218,7 @@ image simulations in Figure \ref{fig:similarity} which are detailed later in
 this work and used for algorithmic comparison.  Simulated MR artefacts were
 applied to each image which included both noise and nonlinear intensity mappings
 (and their combination) using two separate data sets:  one in-house data set
-consisting of 51 hyperpolarized gas lung images and the publicly available data
+consisting of 51 129Xe gas lung images and the publicly available data
 described in [@He:2019aa] and made available at Harvard's Dataverse online
 repository [@He_dataverse:2018] consisting of 29 hyperpolarized gas lung images.
 These two data sets resulted in a total simulated cohort of 51 + 29 = 80 images
@@ -287,7 +287,7 @@ In assessing these segmentation algorithms for hyperpolarized gas imaging, it is
 important to note that human expertise leverages more than relative intensity
 values to identify salient, clinically relevant features in images---something
 more akin to the complex structure of deep-layered neural networks
-[@LeCun:2015aa], particularly convolutional neural networks (CNN).[^101]
+[@LeCun:2015aa], particularly convolutional neural networks (CNN).
 Such models have demonstrated outstanding performance in certain computational tasks,
 including classification and semantic segmentation in medical imaging
 [@Shen:2017aa]. Their potential for leveraging spatial information from images
