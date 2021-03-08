@@ -1,7 +1,7 @@
 
 # Results
 
-We perform several comparative evaluations to probe the previously mentioned
+We performed several comparative evaluations to probe the previously mentioned
 algorithmic issues which are broadly categorized in terms of measurement bias
 and precision, with most of the focus being on the latter.  Given the lack of
 ground-truth in the form of segmentation images, addressing issues of measurement
@@ -12,7 +12,7 @@ various frameworks accommodating the lack of ground-truth for segmentation perfo
 analysis (e.g., [@Warfield:2004aa]) to these data.
 
 As we mentioned in the Introduction, all the algorithms have demonstrated
-research (and potential clinical) utility based on findings using derived
+research utility and potential clinical utility based on findings using derived
 measures. This is supported by our first evaluation which is based on diagnostic
 prediction of given clinical categories assigned to the imaging cohort using
 derived random forest models [@Breiman:2001aa].  This approach also provides an
@@ -62,13 +62,13 @@ the self-evidentiary observations mentioned in the Introduction.
   \label{fig:DxPrediction}
 \end{figure}
 
-Due to the absence of ground-truth but the availability , we adopt
+Due to the absence of ground-truth, we adopted
 the strategy from previous work [@Tustison:2014ab;@Tustison:2020aa] where we
 used cross-validation to build and compare prediction models from data derived
 from the set of segmentation algorithms.  Specifically, we use pathology
 diagnosis (i.e., "CF", "COPD", and "ILD") as an established research-based
 correlate of ventilation levels from hyperpolarized gas imaging (e.g.,
-[@Myc:2020aa;@Santyr:2019aa;@Mammarappallil:2019aa]) and quantify the
+[@Myc:2020aa;@Santyr:2019aa;@Mammarappallil:2019aa]) and quantified the
 predictive capabilities of corresponding binary random forest classifiers
 [@Breiman:2001aa] of the form:
 
@@ -175,18 +175,18 @@ output measurement variation caused by choice of the reference image cohort,
 this played a role in determining whether or not to use N4 preprocessing. As
 mentioned, a significant portion of N4 processing involves the deconvolution of
 the image histogram to sharpen the histogram peaks which decreases the standard
-deviation of the intensity distribution and can also result in an histogram
+deviation of the intensity distribution and can also result in a histogram
 shift. Using the original set of 10 young healthy data with no N4 preprocessing,
 we created a reference distribution according to [@He:2016aa], which resulted in
 an approximate distribution of $\mathcal{N}(0.45, 0.24)$.  This produced 0
-voxels being classified as belonging to Cluster 1 (cf Figure \ref{fig:referenceVariance})
+voxels being classified as belonging to Cluster 1 (Figure \ref{fig:referenceVariance})
 because two standard deviations from the mean is less than 0 and Cluster 1
-resides in the region below -2 standard deviations.  However using N4-preprocessed
+resides in the region below -2 standard deviations.  However, using N4-preprocessed
 images produced something closer,  $\mathcal{N}(0.56, 0.22)$, to the published
 values, $\mathcal{N}(0.52, 0.18)$, reported in [@He:2016aa], resulting in a
 non-empty set for that cluster.  This is consistent, though, with linear binning
 which does use N4 bias correction for preprocessing.  We also mention that the
-He 2019 Harvard Dataverse images used were preprocessed using N4 [@He:2019aa]
+2019 Harvard Dataverse images used were preprocessed using N4 [@He:2019aa]
 which provides a third reason for its use on the University of Virginia image
 dataset (to maximize cross cohort consistency).  In the case of the former
 image set, we did use the previously reported linear binning mean and standard
@@ -218,7 +218,7 @@ the cluster threshold values.  This directly impacts output measurements such as
 ventilation defect percentage. For the reference sets comprising eight or nine
 images, we compute the corresponding linear binning segmentation and
 estimate the volumetric percentage for each cluster.  Then, for each subject, we
-compute the min/max range for these values and plot those results cluster-wise
+computed the min/max range for these values and plotted those results cluster-wise
 on the bottom of Figure \ref{fig:referenceVariance}.  This demonstrates that
 the additional requirement of a reference distribution is a source of potentially
 significant measurement variation for the linear binning algorithm.
@@ -252,7 +252,7 @@ perfect agreement between the segmentations and 0 is no agreement.
 \begin{figure}[!htb]
   \centering
   \includegraphics[width=0.99\linewidth]{FiguresDataverse/DiceVarianceStudy.pdf}
-  \caption{He 2019 Harvard Dataverse image cohort:  (Left) The deviation in
+  \caption{2019 Harvard Dataverse image cohort:  (Left) The deviation in
   resulting segmentation caused by distortions produced noise, histogram-based
   intensity nonlinearities, and their combination as measured by the Dice
   metric.  Each segmentation is reduced to three labels for comparison:
@@ -265,7 +265,7 @@ perfect agreement between the segmentations and 0 is no agreement.
 \end{figure}
 
 Ten simulated images for each of the subjects of both the University of Virginia
-and He 2019 Harvard Dataverse cohort were generated for each of the three
+and 2019 Harvard Dataverse cohort were generated for each of the three
 categories of randomly generated artefacts:  noise, nonlinearities, and combined
 noise and intensity nonlinearites.  The original image as well as the simulated
 images were segmented using each of the five algorithms.  Following our earlier

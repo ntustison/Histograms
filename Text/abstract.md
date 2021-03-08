@@ -7,7 +7,7 @@ research into the growth, development, and pathologies of the pulmonary system.
 In conjunction with the innovations associated with image acquisition, multiple
 image analysis strategies have been proposed and refined for the quantification
 of such lung imaging with much research effort devoted to semantic segmentation,
-or voxelwise classification, into clinically-oriented categories based on
+or voxelwise classification, into clinically oriented categories based on
 ventilation levels. Given the functional nature of these images and the
 consequent sophistication of the segmentation task, many of these algorithmic
 approaches reduce the complex spatial image information to intensity-only

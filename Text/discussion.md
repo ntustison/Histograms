@@ -18,7 +18,7 @@ brief summary of criticisms related to current algorithms is as follows:
   controls, is also a potential source of output variance.
 
 * Both hierarchical and adaptive k-means also ignore spatial information and,
-  although they does use a principled optimization criterion, this criterion is
+  although they do use a principled optimization criterion, this criterion is
   not adequately tailored for hyperpolarized gas imaging and susceptible to
   various levels of noise.
 
@@ -48,17 +48,17 @@ visual system seem to quantify what is understood intuitively that image domain
 information is much more robust than histogram domain information in the
 presence of image transformations, such as distortions.  This appears to also be
 supported in our simulation experiments illustrated in Figure
-\ref{fig:simulations} and \ref{fig:simulationsDataverse} where the histogram-based algorithms, overall, performed
-worse than El Bicho.  As a CNN, El Bicho optimizes the governing network weights
-over image features as opposed to strictly relative intensities.  This work
-should motivate additional exploration focusing on issues related to
-algorithmic bias on a voxelwise scale which would require going beyond simple
-globally based assessment measures (such as the diagnostic prediction evaluation
-detailed above using global volume proportions).  This would enable investigating
-differentiating spatial patterns within the images as evidence of disease and/or
-growth and correlations with non-imaging data using sophisticated voxel-scale
-statistical techniques (e.g., symmetric multivariate linear reconstruction
-[@Stone:2020aa]).
+\ref{fig:simulations} and \ref{fig:simulationsDataverse} where the
+histogram-based algorithms, overall, performed worse than El Bicho.  As a CNN,
+El Bicho optimizes the governing network weights over image features as opposed
+to strictly relative intensities.  This work should motivate additional
+exploration focusing on issues related to algorithmic bias on a voxelwise scale
+which would require going beyond simple globally based assessment measures (such
+as the diagnostic prediction evaluation detailed above using global volume
+proportions).  This would enable investigating differentiating spatial patterns
+within the images as evidence of disease and/or growth and correlations with
+non-imaging data using sophisticated voxel-scale statistical techniques (e.g.,
+symmetric multivariate linear reconstruction [@Stone:2020aa]).
 
 It should be noted that El Bicho was developed in parallel with the writing of
 this manuscript merely to showcase the incredible potential that deep learning

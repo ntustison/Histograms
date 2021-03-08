@@ -62,10 +62,10 @@ number of voxel classes (i.e., clusters) beyond the binary categories of
 "ventilated" and "non-ventilated."
 
 Linear binning is a simplified type of MR intensity standardization
-[@Nyul:1999aa] in which a set of healthy controls, all intensity normalized to
-[0, 1], is used to calculate the cluster intensity boundary values, based on an
-aggregated estimate of the parameters of a single Gaussian fit. A subject image
-to be segmented is then rescaled to this reference histogram (i.e., a global
+[@Nyul:1999aa] in which images from healthy controls are normalized to
+the range [0, 1] and then used to calculate the cluster intensity boundary values, based on an
+aggregated estimate of the parameters of a single Gaussian fit. Subject images
+to be segmented are then rescaled to this reference histogram (i.e., a global
 affine 1-D transform). This mapping results in alignment of the cluster
 boundaries such that corresponding labels are assumed to have similar clinical
 interpretation. In addition to the previously mentioned limitations associated with
@@ -84,7 +84,7 @@ the same subject.  As stated in [@Collewet:2004aa]:
 As we illustrate in subsequent sections, ignoring these nonlinearities is known
 to have significant consequences in the well-studied (and somewhat analogous)
 area of brain tissue segmentation in T1-weighted MRI (e.g.,
-[@Zhang:2001aa;@Ashburner:2005aa;@Avants:2011aa]) and we demonstrate its effects
+[@Zhang:2001aa;@Ashburner:2005aa;@Avants:2011aa]).  Here we demonstrate its effects
 in hyperpolarized gas imaging quantification robustness in conjunction with
 noise considerations.  In addition, the reference distribution required by
 linear binning assumes sufficient agreement as to what constitutes a "healthy
@@ -113,7 +113,7 @@ intensities can be viewed as an alternative optimization strategy for
 determining a nonlinear mapping between histograms for a type of  MR
 intensity standardization. K-means constitutes an algorithmic approach with
 additional flexibility and sophistication over linear binning as it
-employs basic prior knowledge in the form of a generic clustering desideratum
+employs prior knowledge in the form of a generic clustering desideratum
 for optimizing a type of MR intensity standardization.[^1]
 
 [^1]: The prior knowledge for histogram mapping is the general machine learning
@@ -134,22 +134,21 @@ intensity-only) domain with only simplistic neighborhood modeling during
 optimization.
 
 Histogram-based optimization is used in conjunction with spatial considerations
-in the segmentation algorithm detailed in [@Tustison:2011aa].  Based on a
-well-established iterative approach originally used for NASA satellite image
-processing and subsequently appropriated for brain tissue segmentation in
-[@Vannier:1985aa], a GMM is used to model the intensity clusters of the
-histogram with class modulation in the form of probabilistic voxelwise label
-considerations, i.e., MRF modeling,  within image neighborhoods [@Besag:1986aa]
-optimized with the expectation-maximization (EM) algorithm [@Dempster:1977aa].
-Initialization for this particular application is in the form of k-means
-clustering.  This has the advantage, in contrast to k-means, that it softens
-the intensity thresholds between class labels which demonstrates
-robustness to certain imaging distortions, such as noise.  However, as we will
-demonstrate, this algorithm is also flawed in that it implicitly assumes,
-incorrectly, that meaningful structure is found, and can be adequately
-characterized, within the associated image histogram in order to optimize a
-multi-class labeling.  In particular, this algorithm is susceptible to MR
-nonlinear intensity artefacts.
+in the segmentation algorithm detailed in [@Tustison:2011aa].  This algorithm is
+based on a well-established iterative approach originally used for NASA
+satellite image processing and subsequently appropriated for brain tissue
+segmentation in [@Vannier:1985aa].  A Gaussian mixture model (GMM) is used to
+model the intensity clusters of the histogram with class modulation in the form
+of probabilistic voxelwise label considerations, i.e., Markov random field (MRF)
+modeling,  within image neighborhoods [@Besag:1986aa] optimized with the
+expectation-maximization (EM) algorithm [@Dempster:1977aa].  This has the
+advantage, in contrast to histogram-only algorithms, that it softens the
+intensity thresholds between class labels which demonstrates robustness to
+certain imaging distortions, such as noise.  However, as we will demonstrate,
+this algorithm is also flawed in the inherent assumption that meaningful
+structure is found, and can be adequately characterized, within the associated
+image histogram in order to optimize a multi-class labeling.  In particular,
+this algorithm is susceptible to MR nonlinear intensity artefacts.
 
 Additionally, many of these segmentation algorithms use N4 bias correction
 [@Tustison:2010ac], an extension of the nonuniform intensity normalization (N3)
@@ -219,29 +218,30 @@ image simulations in Figure \ref{fig:similarity} which are detailed later in
 this work and used for algorithmic comparison.  Simulated MR artefacts were
 applied to each image which included both noise and nonlinear intensity mappings
 (and their combination) using two separate data sets:  one in-house data set
-consisting of 51 hyperpolarized gas lung images and the publicly available data described in
-[@He:2019aa] and made available at Harvard's Dataverse online repository
-[@He_dataverse:2018] consisting of 29 hyperpolarized gas lung images.  These
-two data sets resulted in a total simulated cohort of 51 + 29 = 80 images
+consisting of 51 hyperpolarized gas lung images and the publicly available data
+described in [@He:2019aa] and made available at Harvard's Dataverse online
+repository [@He_dataverse:2018] consisting of 29 hyperpolarized gas lung images.
+These two data sets resulted in a total simulated cohort of 51 + 29 = 80 images
 ($\times 10$ simulations per image $\times 3$ types of artefact simulations).
 Prior to any algorithmic comparative analysis, we quantified the difference of
 each simulated image with the corresponding original image using the structural
-similarity index measurement (SSIM) [@Wang:2004aa]. SSIM is a highly-cited
+similarity index measurement (SSIM) [@Wang:2004aa]. SSIM is a highly cited
 measure which quantifies structural differences between a reference and
 distorted (i.e., transformed) image based on known properties of the human
 visual system.  SSIM has a range $[-1,1]$ where 0 indicates no structural
 similarity and 1 indicates perfect structural similarity. We also generated the
 histograms corresponding to these images. Although several histogram similarity
 measures exist, we chose Pearson's correlation primarily as it resides in the
-same min/max range as SSIM with analogous significance. In addition to the
-fact that the image-to-histogram transformation discards important spatial
+same min/max range as SSIM with analogous significance. In addition to the fact
+that the image-to-histogram transformation discards important spatial
 information, from Figure \ref{fig:similarity} it should be apparent that this
 transformation also results in greater variance in the resulting information
 under common MR imaging artefacts, according to these measures.  Thus, prior to
 any algorithmic considerations, these observations point to the fact that
 optimizing in the domain of the histogram will be generally less informative and
-less robust than optimizing directly in the image domain. [^100]
+less robust than optimizing directly in the image domain.
 
+<!--
 [^100]: This point should be obvious even without the simulation experiments.
 Imagine, dear reader, the reality of the future clinical application of
 functional lung imaging beyond research activity.  In fact, imagine
@@ -250,6 +250,7 @@ includes hyperpolarized gas imaging.  Now imagine that, upon receiving the
 images for assessment, the radiologist declares "Yes, these are nice but I'd
 rather work with the corresponding histograms."  If this strikes you as absurd,
 then the point that we are trying to make should be clear.
+-->
 
 Ultimately, we are not claiming that these algorithms are erroneous, per se.
 Much of the relevant research has been limited to quantifying differences with
@@ -286,8 +287,8 @@ In assessing these segmentation algorithms for hyperpolarized gas imaging, it is
 important to note that human expertise leverages more than relative intensity
 values to identify salient, clinically relevant features in images---something
 more akin to the complex structure of deep-layered neural networks
-[@LeCun:2015aa], particularly convolutional neural networks (CNN).  Such models
-have demonstrated outstanding performance in certain computational tasks,
+[@LeCun:2015aa], particularly convolutional neural networks (CNN).[^101]
+Such models have demonstrated outstanding performance in certain computational tasks,
 including classification and semantic segmentation in medical imaging
 [@Shen:2017aa]. Their potential for leveraging spatial information from images
 surpasses the perceptual capabilities of previous approaches and even rivals
@@ -304,9 +305,6 @@ representations of such objects.  In the spirit of open science, we have made
 the entire evaluation framework, including our novel contributions, available
 within the Advanced Normalization Tools software ecosystem (ANTsX)
 [@Tustison:2020aa].
-
-
-
 
 
 
