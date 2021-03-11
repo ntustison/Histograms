@@ -1,8 +1,8 @@
 
 # Abstract {-}
 
-Magnetic resonance imaging using hyperpolarized gases has made possible the
-novel visualization of airspaces, such as the human lung, which has advanced
+Magnetic resonance imaging (MRI) using hyperpolarized gases has made possible the
+novel visualization of airspaces in the human lung, which has advanced
 research into the growth, development, and pathologies of the pulmonary system.
 In conjunction with the innovations associated with image acquisition, multiple
 image analysis strategies have been proposed and refined for the quantification

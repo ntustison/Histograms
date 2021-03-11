@@ -59,13 +59,15 @@ $ $
 
 \normalsize
 
-Nicholas J. Tustison,
+Nicholas J. Tustison$^1$,
+Talissa A. Altes$^2$,
 \ldots,
-Jaime F. Mata
+Jaime F. Mata$^1$
 
 \footnotesize
 
-Department of Radiology and Medical Imaging, University of Virginia, Charlottesville, VA \\
+$^1$Department of Radiology and Medical Imaging, University of Virginia, Charlottesville, VA \\
+$^2$Department of Radiology, University of Missouri, Columbia, MO
 
 \end{centering}
 
@@ -86,8 +88,8 @@ ntustison@virginia.edu
 
 # Abstract {-}
 
-Magnetic resonance imaging using hyperpolarized gases has made possible the
-novel visualization of airspaces, such as the human lung, which has advanced
+Magnetic resonance imaging (MRI) using hyperpolarized gases has made possible the
+novel visualization of airspaces in the human lung, which has advanced
 research into the growth, development, and pathologies of the pulmonary system.
 In conjunction with the innovations associated with image acquisition, multiple
 image analysis strategies have been proposed and refined for the quantification
@@ -560,7 +562,7 @@ found in the GitHub repository associated with this work.
 admiration between the first and last authors of Portuguese futebol.
 
 [^4]:  This assessment is based on multiple conversations between the first
-author (as the co-developer of N4 and Atropos) and co-author \ldots .
+author (as the co-developer of N4 and Atropos) and co-author Dr. Altes.
 
 
 [^2]:  https://github.com/ntustison/Histograms

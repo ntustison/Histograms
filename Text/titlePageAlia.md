@@ -17,13 +17,15 @@ $ $
 
 \normalsize
 
-Nicholas J. Tustison,
+Nicholas J. Tustison$^1$,
+Talissa A. Altes$^2$,
 \ldots,
-Jaime F. Mata
+Jaime F. Mata$^1$
 
 \footnotesize
 
-Department of Radiology and Medical Imaging, University of Virginia, Charlottesville, VA \\
+$^1$Department of Radiology and Medical Imaging, University of Virginia, Charlottesville, VA \\
+$^2$Department of Radiology, University of Missouri, Columbia, MO
 
 \end{centering}
 

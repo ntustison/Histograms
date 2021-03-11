@@ -118,7 +118,7 @@ found in the GitHub repository associated with this work.
 admiration between the first and last authors of Portuguese futebol.
 
 [^4]:  This assessment is based on multiple conversations between the first
-author (as the co-developer of N4 and Atropos) and co-author \ldots .
+author (as the co-developer of N4 and Atropos) and co-author Dr. Altes.
 
 
 [^2]:  https://github.com/ntustison/Histograms

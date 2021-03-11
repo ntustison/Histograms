@@ -20,11 +20,11 @@ $ $
 Nicholas J. Tustison$^1$,
 Talissa A. Altes$^2$,
 Kun Qing$^3$,
-G. Wilson Miller$^1$,
 Mu He$^1$,
+G. Wilson Miller$^1$,
 Brian B. Avants$^1$,
-James C. Gee$^3$,
 Yun M. Shim$^1$,
+James C. Gee$^4$,
 John P. Mugler III$^1$,
 Jaime F. Mata$^1$
 
@@ -33,7 +33,7 @@ Jaime F. Mata$^1$
 $^1$Department of Radiology and Medical Imaging, University of Virginia, Charlottesville, VA \\
 $^2$Department of Radiology, University of Missouri, Columbia, MO \\
 $^3$Department of Radiation Oncology, City of Hope, Los Angeles, CA \\
-$^3$Department of Radiology, University of Pennsylvania, Philadelphia, PA \\
+$^4$Department of Radiology, University of Pennsylvania, Philadelphia, PA \\
 
 
 \end{centering}
