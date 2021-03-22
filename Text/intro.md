@@ -104,9 +104,13 @@ tissue types (i.e., cerebrospinal fluid (CSF), gray matter (GM), and white
 matter (WM)), which characteristically correspond to visible histogram peaks, as
 landmarks to determine the nonlinear intensity mapping between histograms.
 However, in hyperpolarized gas imaging of the lung, no such characteristic
-structural features exist, generally speaking, between histograms.  This is most
-likely due to the primarily functional utility (vs. anatomical) nature of these
-images. The approach used by some groups [@Cooley:2010aa;@Kirby:2012aa] of
+structural features exist, generally speaking, between histograms.
+Additionally, because of the functional nature of these images, the segmentation
+clusters that correspond to features of interest are not necessarily guaranteed
+to exist (e.g., ventilation defects in the case of healthy normal subjects with
+no lung pathology).
+
+The approach used by some groups [@Cooley:2010aa;@Kirby:2012aa] of
 employing some variant of the well-known k-means algorithm as a clustering
 strategy [@Hartigan:1979aa] to minimize the within-class variance of its
 intensities can be viewed as an alternative optimization strategy for
@@ -174,9 +178,8 @@ the aforementioned MR intensity nonlinearities.
 \begin{figure}[!h] \centering
   \includegraphics[width=0.9\linewidth]{Figures/motivation.pdf}
   \caption{Illustration of the effect of MR nonlinear intensity warping on the
-  histogram structure.  We simulate these mappings by perturbing specified
-  points along the bins of the histograms by a Gaussian random variable of 0
-  mean and specified max standard deviation (``Max SD'').  By simulating these
+  histogram structure where the amount of random 1-D deformation increases with each
+  row.  By simulating these
   types of intensity changes, we can visualize the effects on the underlying
   intensity histograms and investigate the effects on salient outcome measures.
   Here we simulate intensity mappings which, although relatively small, can have
@@ -184,17 +187,25 @@ the aforementioned MR intensity nonlinearities.
   \label{fig:motivation}
 \end{figure}
 
-Investigating the assumptions outlined above, particularly
-those associated with the nonlinear intensity mappings due to both the MR
-acquisition and inhomogeneity mitigation preprocessing, we became concerned by
-the susceptibility of the histogram structure to such variations and the
-potential effects on current clinical measures of interest derived from these
-algorithms (e.g., ventilation defect percentage).  Figure \ref{fig:motivation}
-provides a sample visualization representing some of the structural changes that
-we observed when simulating these nonlinear mappings.  It is important to notice
-that even relatively small alterations in the image intensities can have
-significant effects on the histogram even though a visual
-assessment of the image can remain largely unchanged.
+Investigating the assumptions outlined above, particularly those associated with
+the nonlinear intensity mappings due to both the MR acquisition and
+inhomogeneity mitigation preprocessing, we became concerned by the
+susceptibility of the histogram structure to such variations and the potential
+effects on current clinical measures of interest derived from these algorithms
+(e.g., ventilation defect percentage).  Specifically, we developed the ability
+to simulate such MR nonlinear intensity variation by warping the intensity
+histogram and propagating the intensity changes to the original image.  Details
+as to the availability and code functionality is provided below in the Methods
+section.  Suffice it to say, we noticed that histogram-based intensity
+perturbations can produce virtually little, if any, changes in the features of
+the image despite a relatively significant change in the histogram structure.
+Such effects imply that MR artefacts could profoundly impact histogram-based
+algorithmic performance. Figure \ref{fig:motivation} provides a sample
+visualization representing some of the structural changes that we observed when
+simulating these nonlinear mappings.  It is important to notice that even
+relatively small alterations in the image intensities can have significant
+effects on the histogram even though a visual assessment of the image can remain
+largely unchanged.
 
 \begin{figure}[!htb] \centering
   \includegraphics[width=0.95\textwidth]{Figures/similarityMultisite.pdf}
@@ -204,11 +215,7 @@ assessment of the image can remain largely unchanged.
   under distortions induced by the common MR artefacts of noise and intensity nonlinearities.  For the
   nonlinearity-only simulations, the images maintain their structural integrity
   as the SSIM values remain close to 1.  This is in contrast to the
-  corresponding range in histogram similarity which is much larger.
-  Although not as great, the range in histogram differences with simulated noise
-  is much greater than the range in SSIM.  Both sets of observations are evidence of
-  the lack of robustness to distortions in the histogram domain in comparison with
-  the original image domain.}
+  corresponding range in histogram similarity which is much larger. The effects with simulated Gaussian noise are similar where the range in histogram differences with simulated noise is much greater than the range in SSIM. Both sets of observations are evidence of the lack of robustness to distortions in the histogram domain in comparison with the original image domain. }
   \label{fig:similarity}
 \end{figure}
 
@@ -237,7 +244,7 @@ that the image-to-histogram transformation discards important spatial
 information, from Figure \ref{fig:similarity} it should be apparent that this
 transformation also results in greater variance in the resulting information
 under common MR imaging artefacts, according to these measures.  Thus, prior to
-any algorithmic considerations, these observations point to the fact that
+any algorithmic considerations, these observations strongly suggest that
 optimizing in the domain of the histogram will be generally less informative and
 less robust than optimizing directly in the image domain.
 

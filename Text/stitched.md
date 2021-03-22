@@ -61,17 +61,26 @@ $ $
 
 Nicholas J. Tustison$^1$,
 Talissa A. Altes$^2$,
-\ldots,
+Kun Qing$^3$,
+Mu He$^1$,
+G. Wilson Miller$^1$,
+Brian B. Avants$^1$,
+Yun M. Shim$^1$,
+James C. Gee$^4$,
+John P. Mugler III$^1$,
 Jaime F. Mata$^1$
 
 \footnotesize
 
 $^1$Department of Radiology and Medical Imaging, University of Virginia, Charlottesville, VA \\
-$^2$Department of Radiology, University of Missouri, Columbia, MO
+$^2$Department of Radiology, University of Missouri, Columbia, MO \\
+$^3$Department of Radiation Oncology, City of Hope, Los Angeles, CA \\
+$^4$Department of Radiology, University of Pennsylvania, Philadelphia, PA \\
+
 
 \end{centering}
 
-\vspace{7 cm}
+\vspace{9 cm}
 
 \scriptsize
 Corresponding author: \
@@ -112,8 +121,7 @@ information.  This image-based optimization mitigates the problematic issues
 associated with histogram-based approaches and suggests a preferred future
 research direction.  Importantly, we provide the entire processing and
 evaluation framework, including the newly reported deep learning functionality,
-as open-source through the well-known Advanced Normalization Tools ecosystem
-(ANTsX).
+as open-source through the well-known Advanced Normalization Tools ecosystem.
 
 \newpage
 
@@ -237,9 +245,13 @@ tissue types (i.e., cerebrospinal fluid (CSF), gray matter (GM), and white
 matter (WM)), which characteristically correspond to visible histogram peaks, as
 landmarks to determine the nonlinear intensity mapping between histograms.
 However, in hyperpolarized gas imaging of the lung, no such characteristic
-structural features exist, generally speaking, between histograms.  This is most
-likely due to the primarily functional utility (vs. anatomical) nature of these
-images. The approach used by some groups [@Cooley:2010aa;@Kirby:2012aa] of
+structural features exist, generally speaking, between histograms.
+Additionally, because of the functional nature of these images, the segmentation
+clusters that correspond to features of interest are not necessarily guaranteed
+to exist (e.g., ventilation defects in the case of healthy normal subjects with
+no lung pathology).
+
+The approach used by some groups [@Cooley:2010aa;@Kirby:2012aa] of
 employing some variant of the well-known k-means algorithm as a clustering
 strategy [@Hartigan:1979aa] to minimize the within-class variance of its
 intensities can be viewed as an alternative optimization strategy for
@@ -307,9 +319,8 @@ the aforementioned MR intensity nonlinearities.
 \begin{figure}[!h] \centering
   \includegraphics[width=0.9\linewidth]{Figures/motivation.pdf}
   \caption{Illustration of the effect of MR nonlinear intensity warping on the
-  histogram structure.  We simulate these mappings by perturbing specified
-  points along the bins of the histograms by a Gaussian random variable of 0
-  mean and specified max standard deviation (``Max SD'').  By simulating these
+  histogram structure where the amount of random 1-D deformation increases with each
+  row.  By simulating these
   types of intensity changes, we can visualize the effects on the underlying
   intensity histograms and investigate the effects on salient outcome measures.
   Here we simulate intensity mappings which, although relatively small, can have
@@ -317,17 +328,25 @@ the aforementioned MR intensity nonlinearities.
   \label{fig:motivation}
 \end{figure}
 
-Investigating the assumptions outlined above, particularly
-those associated with the nonlinear intensity mappings due to both the MR
-acquisition and inhomogeneity mitigation preprocessing, we became concerned by
-the susceptibility of the histogram structure to such variations and the
-potential effects on current clinical measures of interest derived from these
-algorithms (e.g., ventilation defect percentage).  Figure \ref{fig:motivation}
-provides a sample visualization representing some of the structural changes that
-we observed when simulating these nonlinear mappings.  It is important to notice
-that even relatively small alterations in the image intensities can have
-significant effects on the histogram even though a visual
-assessment of the image can remain largely unchanged.
+Investigating the assumptions outlined above, particularly those associated with
+the nonlinear intensity mappings due to both the MR acquisition and
+inhomogeneity mitigation preprocessing, we became concerned by the
+susceptibility of the histogram structure to such variations and the potential
+effects on current clinical measures of interest derived from these algorithms
+(e.g., ventilation defect percentage).  Specifically, we developed the ability
+to simulate such MR nonlinear intensity variation by warping the intensity
+histogram and propagating the intensity changes to the original image.  Details
+as to the availability and code functionality is provided below in the Methods
+section.  Suffice it to say, we noticed that histogram-based intensity
+perturbations can produce virtually little, if any, changes in the features of
+the image despite a relatively significant change in the histogram structure.
+Such effects imply that MR artefacts could profoundly impact histogram-based
+algorithmic performance. Figure \ref{fig:motivation} provides a sample
+visualization representing some of the structural changes that we observed when
+simulating these nonlinear mappings.  It is important to notice that even
+relatively small alterations in the image intensities can have significant
+effects on the histogram even though a visual assessment of the image can remain
+largely unchanged.
 
 \begin{figure}[!htb] \centering
   \includegraphics[width=0.95\textwidth]{Figures/similarityMultisite.pdf}
@@ -337,11 +356,7 @@ assessment of the image can remain largely unchanged.
   under distortions induced by the common MR artefacts of noise and intensity nonlinearities.  For the
   nonlinearity-only simulations, the images maintain their structural integrity
   as the SSIM values remain close to 1.  This is in contrast to the
-  corresponding range in histogram similarity which is much larger.
-  Although not as great, the range in histogram differences with simulated noise
-  is much greater than the range in SSIM.  Both sets of observations are evidence of
-  the lack of robustness to distortions in the histogram domain in comparison with
-  the original image domain.}
+  corresponding range in histogram similarity which is much larger. The effects with simulated Gaussian noise are similar where the range in histogram differences with simulated noise is much greater than the range in SSIM. Both sets of observations are evidence of the lack of robustness to distortions in the histogram domain in comparison with the original image domain. }
   \label{fig:similarity}
 \end{figure}
 
@@ -370,7 +385,7 @@ that the image-to-histogram transformation discards important spatial
 information, from Figure \ref{fig:similarity} it should be apparent that this
 transformation also results in greater variance in the resulting information
 under common MR imaging artefacts, according to these measures.  Thus, prior to
-any algorithmic considerations, these observations point to the fact that
+any algorithmic considerations, these observations strongly suggest that
 optimizing in the domain of the histogram will be generally less informative and
 less robust than optimizing directly in the image domain.
 
@@ -449,8 +464,8 @@ within the Advanced Normalization Tools software ecosystem (ANTsX)
 
 ### University of Virginia cohort
 
-A retrospective dataset was collected consisting of young healthy (n=10), older
-healthy ($n=7$), cystic fibrosis (CF) (n=14), interstitial lung disease (ILD)
+A retrospective dataset was collected consisting of young healthy ($n=10$), older
+healthy ($n=7$), cystic fibrosis (CF) ($n=14$), interstitial lung disease (ILD)
 ($n=10$), and chronic obstructive pulmonary disease ($n=10$). MR imaging with
 hyperpolarized 129Xe gas was performed under an Institutional Review Board (IRB)
 approved protocol with written informed consent obtained from each subject. In
@@ -498,7 +513,7 @@ the Harvard Dataverse and detailed in [@He:2019aa].  These data comprised
 the original 129Xe acquisitions from 29 subjects (10 healthy controls
 and 19 mild intermittent asthmatic individuals) with corresponding lung masks.
 In addition, seven artificially SNR-degraded images per acquisition were also
-included but not used for the analyses reported below.  The image headers were
+part of this data set but not used for the analyses reported below.  The image headers were
 corrected for proper canonical anatomical orientation according to Nifti
 standards and uploaded to the GitHub repository associated with this work.
 
@@ -539,7 +554,8 @@ necessitates several considerations which have been outlined previously
   merged the number of resulting clusters, post-optimization, to only three
   clusters: "ventilation defect," "hypo-ventilation," and "other ventilation"
   where the first two clusters for each output are the same as the original
-  implementations and the remaining clusters are merged into a third category.
+  implementations and the remaining clusters are merged into the third category
+  (i.e., "other ventilation").
   It is important to note that none of the evaluations use these categorical
   definitions in a cross-algorithmic fashion.  They are only used to assess
   within-algorithm consistency.
@@ -554,7 +570,8 @@ necessitates several considerations which have been outlined previously
   by the linear binning algorithm.  Additional details are provided in the
   Results section.
 
-[^5]: For completeness, we did run the same experiments detailed below using the uncorrected UVa images (and the previously reported parameters
+[^5]: For completeness, we did run the same experiments detailed below using the
+uncorrected UVa images (and the previously reported parameters
 for linear binning) and the results were similar.  These results can be
 found in the GitHub repository associated with this work.
 
@@ -571,7 +588,7 @@ author (as the co-developer of N4 and Atropos) and co-author Dr. Altes.
 
 We extended the deep learning functionality first described in
 [@Tustison:2019ac] to improve performance and provide a more clinically granular
-labeling (i.e., four clusters instead of two).  In addition, further
+labeling (i.e., four clusters here instead of two in the previous work).  In addition, further
 modifications incorporated additional data during training, added attention
 gating [@Schlemper:2019aa] to the U-net network [@Falk:2019aa] along with
 recommended hyperparameters [@Isensee:2020aa], and a novel data augmentation
@@ -863,8 +880,11 @@ this analogy further and use the aggregated reference distribution to segment a
 different subject, we can see that, in this particular case, whereas the
 optimization criterion leveraged by k-means and GMM-MRF provide an adequate
 segmentation, the misalignment in cluster boundaries yield a significant
-overestimation of the gray matter volume.
-
+overestimation of the gray matter volume.  In the case of hyperpolarized gas
+images, similar misalignments could cause under- or overestimation of
+ventilation-based cluster volumes although, in this case, the error is much less
+obvious given the lack of prior knowledge of functional (vs. anatomical)
+information.
 
 ## Effect of reference image set selection
 
@@ -893,7 +913,10 @@ overestimation of the gray matter volume.
 \end{figure}
 
 One of the additional input requirements for linear binning over the other
-algorithms is the generation of a reference distribution.  In addition to the
+algorithms is the generation of a reference distribution.  Therefore we
+additionally investigated the influence of reference data set on the outcome of
+linear binning classification, since this is an integral aspect unique to this
+method.  In addition to the
 output measurement variation caused by choice of the reference image cohort,
 this played a role in determining whether or not to use N4 preprocessing. As
 mentioned, a significant portion of N4 processing involves the deconvolution of

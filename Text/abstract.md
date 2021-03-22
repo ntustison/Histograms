@@ -25,8 +25,7 @@ information.  This image-based optimization mitigates the problematic issues
 associated with histogram-based approaches and suggests a preferred future
 research direction.  Importantly, we provide the entire processing and
 evaluation framework, including the newly reported deep learning functionality,
-as open-source through the well-known Advanced Normalization Tools ecosystem
-(ANTsX).
+as open-source through the well-known Advanced Normalization Tools ecosystem.
 
 \newpage
 

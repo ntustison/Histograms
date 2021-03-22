@@ -5,8 +5,8 @@
 
 ### University of Virginia cohort
 
-A retrospective dataset was collected consisting of young healthy (n=10), older
-healthy ($n=7$), cystic fibrosis (CF) (n=14), interstitial lung disease (ILD)
+A retrospective dataset was collected consisting of young healthy ($n=10$), older
+healthy ($n=7$), cystic fibrosis (CF) ($n=14$), interstitial lung disease (ILD)
 ($n=10$), and chronic obstructive pulmonary disease ($n=10$). MR imaging with
 hyperpolarized 129Xe gas was performed under an Institutional Review Board (IRB)
 approved protocol with written informed consent obtained from each subject. In
@@ -54,7 +54,7 @@ the Harvard Dataverse and detailed in [@He:2019aa].  These data comprised
 the original 129Xe acquisitions from 29 subjects (10 healthy controls
 and 19 mild intermittent asthmatic individuals) with corresponding lung masks.
 In addition, seven artificially SNR-degraded images per acquisition were also
-included but not used for the analyses reported below.  The image headers were
+part of this data set but not used for the analyses reported below.  The image headers were
 corrected for proper canonical anatomical orientation according to Nifti
 standards and uploaded to the GitHub repository associated with this work.
 
@@ -95,7 +95,8 @@ necessitates several considerations which have been outlined previously
   merged the number of resulting clusters, post-optimization, to only three
   clusters: "ventilation defect," "hypo-ventilation," and "other ventilation"
   where the first two clusters for each output are the same as the original
-  implementations and the remaining clusters are merged into a third category.
+  implementations and the remaining clusters are merged into the third category
+  (i.e., "other ventilation").
   It is important to note that none of the evaluations use these categorical
   definitions in a cross-algorithmic fashion.  They are only used to assess
   within-algorithm consistency.
@@ -110,7 +111,8 @@ necessitates several considerations which have been outlined previously
   by the linear binning algorithm.  Additional details are provided in the
   Results section.
 
-[^5]: For completeness, we did run the same experiments detailed below using the uncorrected UVa images (and the previously reported parameters
+[^5]: For completeness, we did run the same experiments detailed below using the
+uncorrected UVa images (and the previously reported parameters
 for linear binning) and the results were similar.  These results can be
 found in the GitHub repository associated with this work.
 
@@ -127,7 +129,7 @@ author (as the co-developer of N4 and Atropos) and co-author Dr. Altes.
 
 We extended the deep learning functionality first described in
 [@Tustison:2019ac] to improve performance and provide a more clinically granular
-labeling (i.e., four clusters instead of two).  In addition, further
+labeling (i.e., four clusters here instead of two in the previous work).  In addition, further
 modifications incorporated additional data during training, added attention
 gating [@Schlemper:2019aa] to the U-net network [@Falk:2019aa] along with
 recommended hyperparameters [@Isensee:2020aa], and a novel data augmentation

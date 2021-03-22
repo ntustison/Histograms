@@ -4,7 +4,7 @@ library( ggplot2 )
 stitchedFile <- "stitched.md"
 
 rmdFiles <- c( "format.md",
-               "titlePageAlia.md",
+               "titlePage.md",
                "abstract.md",
               #  "notes.md",
                "intro.md",

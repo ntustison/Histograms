@@ -140,8 +140,11 @@ this analogy further and use the aggregated reference distribution to segment a
 different subject, we can see that, in this particular case, whereas the
 optimization criterion leveraged by k-means and GMM-MRF provide an adequate
 segmentation, the misalignment in cluster boundaries yield a significant
-overestimation of the gray matter volume.
-
+overestimation of the gray matter volume.  In the case of hyperpolarized gas
+images, similar misalignments could cause under- or overestimation of
+ventilation-based cluster volumes although, in this case, the error is much less
+obvious given the lack of prior knowledge of functional (vs. anatomical)
+information.
 
 ## Effect of reference image set selection
 
@@ -170,7 +173,10 @@ overestimation of the gray matter volume.
 \end{figure}
 
 One of the additional input requirements for linear binning over the other
-algorithms is the generation of a reference distribution.  In addition to the
+algorithms is the generation of a reference distribution.  Therefore we
+additionally investigated the influence of reference data set on the outcome of
+linear binning classification, since this is an integral aspect unique to this
+method.  In addition to the
 output measurement variation caused by choice of the reference image cohort,
 this played a role in determining whether or not to use N4 preprocessing. As
 mentioned, a significant portion of N4 processing involves the deconvolution of

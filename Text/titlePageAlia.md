@@ -20,12 +20,17 @@ $ $
 Nicholas J. Tustison$^1$,
 Talissa A. Altes$^2$,
 \ldots,
+Brian B. Avants$^1$,
+\ldots,
+James C. Gee$^4$,
+\ldots,
 Jaime F. Mata$^1$
 
 \footnotesize
 
 $^1$Department of Radiology and Medical Imaging, University of Virginia, Charlottesville, VA \\
-$^2$Department of Radiology, University of Missouri, Columbia, MO
+$^2$Department of Radiology, University of Missouri, Columbia, MO \\
+$^4$Department of Radiology, University of Pennsylvania, Philadelphia, PA
 
 \end{centering}
 
