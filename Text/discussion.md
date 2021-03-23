@@ -1,5 +1,5 @@
 
-# Discussion
+# Conclusions
 
 Over the past decade, multiple segmentation algorithms have been proposed for
 hyperpolarized gas images which, as we have pointed out, are all highly

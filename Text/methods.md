@@ -156,6 +156,7 @@ training continued with the multi-label Dice function [@Crum:2006aa]
 
 where $S_r$ and $T_r$ refer to the source and target regions, respectively.
 
+<!--
 \begin{figure}[!htb]
   \centering
   \begin{subfigure}{0.33\textwidth}
@@ -180,6 +181,7 @@ where $S_r$ and $T_r$ refer to the source and target regions, respectively.
   robustness of the segmentation network.}
 \label{fig:sample_ventilation}
 \end{figure}
+-->
 
 Training data (using an 80/20---training/testing split) was composed of the
 ventilation image, lung mask, and corresponding ventilation-based parcellation.
@@ -197,8 +199,8 @@ at the last layer of the network (with $n = 32$ filters) are illustrated in Figu
 A total of five random slices per image were selected in the acquisition
 direction (both axial and coronal) for inclusion within a given batch (batch
 size = 128 slices). Prior to slice extraction, both random noise and
-randomly-generated, nonlinear intensity warping was added to the 3-D image (see
-Figure \ref{fig:sample_ventilation}) using ANTsR/ANTsRNet functions
+randomly-generated, nonlinear intensity warping was added to the 3-D image
+ using ANTsR/ANTsRNet functions
 (``ANTsR::addNoiseToImage``, and ``ANTsRNet::histogramWarpImageIntensities``)
 with analogs in ANTsPy/ANTsPyNet .  3-D images were intensity normalized to have
 0 mean and unit standard deviation.  The noise model was additive Gaussian with

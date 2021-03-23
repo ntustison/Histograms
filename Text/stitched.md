@@ -97,6 +97,34 @@ ntustison@virginia.edu
 
 # Abstract {-}
 
+__Purpose:__  To evaluate the most common approaches for histogram-based
+optimization of hyperpolarized gas lung imaging segmentation in comparison
+with image-based optimization via a trained convolutional neural network (CNN).
+
+__Methods:__  Four previously published histogram-based segmentation
+algorithms (linear binning, hierarchical k-means, fuzzy spatial c-means, and a
+Gaussian Mixture Model with a Markov Random Field prior) and a CNN were used to
+segment two data sets, one public ($n=29$) and one retrospective collection
+($n=51$) of hyperpolarized 129Xe gas lung images, transformed by common MRI
+artefacts (nonlinear intensity variation and additive noise). The resulting
+ventilation-based segmentations were compared in terms of measurement bias and
+precision.
+
+__Results:__ Although facilitating computational processing and providing
+discriminating clinically relevant measures of interest, histogram-based
+segmentation methods are less robust in the presence of common MRI artefacts
+relative to the exemplar CNN.
+
+__Conclusions:__ Direct optimization within the image domain using CNNs
+leverages spatial information which mitigates problematic issues associated with
+histogram-based approaches and suggests a preferred future research direction.
+Further, the entire processing and evaluation framework, including the newly
+reported deep learning functionality, are available as open-source through the
+well-known Advanced Normalization Tools ecosystem.
+
+
+<!--
+
 Magnetic resonance imaging (MRI) using hyperpolarized gases has made possible the
 novel visualization of airspaces in the human lung, which has advanced
 research into the growth, development, and pathologies of the pulmonary system.
@@ -122,6 +150,8 @@ associated with histogram-based approaches and suggests a preferred future
 research direction.  Importantly, we provide the entire processing and
 evaluation framework, including the newly reported deep learning functionality,
 as open-source through the well-known Advanced Normalization Tools ecosystem.
+
+-->
 
 \newpage
 
@@ -615,6 +645,7 @@ training continued with the multi-label Dice function [@Crum:2006aa]
 
 where $S_r$ and $T_r$ refer to the source and target regions, respectively.
 
+<!--
 \begin{figure}[!htb]
   \centering
   \begin{subfigure}{0.33\textwidth}
@@ -639,6 +670,7 @@ where $S_r$ and $T_r$ refer to the source and target regions, respectively.
   robustness of the segmentation network.}
 \label{fig:sample_ventilation}
 \end{figure}
+-->
 
 Training data (using an 80/20---training/testing split) was composed of the
 ventilation image, lung mask, and corresponding ventilation-based parcellation.
@@ -656,8 +688,8 @@ at the last layer of the network (with $n = 32$ filters) are illustrated in Figu
 A total of five random slices per image were selected in the acquisition
 direction (both axial and coronal) for inclusion within a given batch (batch
 size = 128 slices). Prior to slice extraction, both random noise and
-randomly-generated, nonlinear intensity warping was added to the 3-D image (see
-Figure \ref{fig:sample_ventilation}) using ANTsR/ANTsRNet functions
+randomly-generated, nonlinear intensity warping was added to the 3-D image
+ using ANTsR/ANTsRNet functions
 (``ANTsR::addNoiseToImage``, and ``ANTsRNet::histogramWarpImageIntensities``)
 with analogs in ANTsPy/ANTsPyNet .  3-D images were intensity normalized to have
 0 mean and unit standard deviation.  The noise model was additive Gaussian with
@@ -925,7 +957,7 @@ deviation of the intensity distribution and can also result in a histogram
 shift. Using the original set of 10 young healthy data with no N4 preprocessing,
 we created a reference distribution according to [@He:2016aa], which resulted in
 an approximate distribution of $\mathcal{N}(0.45, 0.24)$.  This produced 0
-voxels being classified as belonging to Cluster 1 (Figure \ref{fig:referenceVariance})
+voxels being classified as belonging to Cluster 1 (Figure \ref{fig:n4ornot}(a))
 because two standard deviations from the mean is less than 0 and Cluster 1
 resides in the region below -2 standard deviations.  However, using N4-preprocessed
 images produced something closer,  $\mathcal{N}(0.56, 0.22)$, to the published
@@ -1030,7 +1062,7 @@ provided in the right column of Figures \ref{fig:simulations} and
 
 
 
-# Discussion
+# Conclusions
 
 Over the past decade, multiple segmentation algorithms have been proposed for
 hyperpolarized gas images which, as we have pointed out, are all highly
