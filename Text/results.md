@@ -58,7 +58,7 @@ the self-evidentiary observations mentioned in the Introduction.
   \includegraphics[width=0.99\linewidth]{Figures/volumeXRocDx.pdf}
   \caption{ROC curves resulting from the diagnostic prediction evaluation
   strategy involving randomly permuted training/testing data sets and predictive
-  random forest models. Summary values are provided in Table \ref{table:auc}.}
+  random forest models.}
   \label{fig:DxPrediction}
 \end{figure}
 
@@ -82,17 +82,17 @@ of subjects, we combined the young and old healthy data into a single category.
 100 permutations were used where training/testing data were randomly assigned
 and the corresponding random forest model was constructed at each permutation.
 
-\input{dxPredictionAucTable}
+<!-- \input{dxPredictionAucTable} -->
 
 The resulting receiver operating characteristic (ROC) curves for each algorithm
-and each diagnostic scenario are provided in Figure \ref{fig:DxPrediction}.  In
-addition, we provide the summary area under the ROC curve (AUC) values in Table
-\ref{table:auc}. In the absence of ground truth, this type of evaluation does
-provide evidence that all these algorithms produce measurements which are clinically
-relevant although, it should be noted, that this is a very coarse assessment strategy
+and each diagnostic scenario are provided in Figure \ref{fig:DxPrediction}.
+All four algorithms perform significantly better than a random classifier.
+In the absence of ground truth, this type of evaluation does provide evidence
+that all these algorithms produce measurements which are clinically relevant
+although, it should be noted, that this is a very coarse assessment strategy
 given the global measures used (i.e., cluster volume percentage) and the general
-clinical categories employed.  In fact, even spirometry measures can be used to achieve
-highly accurate diagnostic predictions with machine learning techniques
+clinical categories employed.  In fact, even spirometry measures can be used to
+achieve highly accurate diagnostic predictions with machine learning techniques
 [@Badnjevic:2018aa].
 
 ## T1-weighted brain segmentation analogy
