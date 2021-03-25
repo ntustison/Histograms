@@ -24,14 +24,9 @@ the level of the algorithmic output (i.e., voxelwise segmentation).
 Having established the general validity of the gross algorithmic output, we then
 switch to our primary focus which is the comparison of measurement precision
 between algorithms.   We first analyzed the unique requirement of a reference
-distribution for the linear binning algorithm.  The latter is motivated
-qualitatively through the analogous application of T1-weighted brain MR
-segmentation.  This component is strictly qualitative as the visual evidence and
-previous developmental history within that field should be sufficiently
-compelling in motivating subsequent quantitative exploration with hyperpolarized
-gas lung imaging.  These qualitative results segue to quantification of the effects of
+distribution for the linear binning algorithm.  Specifically, we quantify the effects of
 the choice of reference cohort on the clustering parameters for the linear
-binning algorithm. We then incorporated the trained El Bicho model in exploring
+binning algorithm. We then incorporate the trained El Bicho model in exploring
 additional aspects of measurement variance based on simulating both MR noise and
 intensity nonlinearities.
 
@@ -43,7 +38,6 @@ So, in summary, we performed the following evaluations/experiments:[^103]
 
 * Voxelwise algorithmic precision
 
-    * Three-tissue T1-weighted brain MRI segmentation (qualitative analog)
     * Input/output variance based on reference distribution (linear binning only)
     * Effects of simulated MR artefacts on multi-site data
 
@@ -94,57 +88,6 @@ given the global measures used (i.e., cluster volume percentage) and the general
 clinical categories employed.  In fact, even spirometry measures can be used to
 achieve highly accurate diagnostic predictions with machine learning techniques
 [@Badnjevic:2018aa].
-
-## T1-weighted brain segmentation analogy
-
-\begin{figure}[!h]
-  \centering
-  \includegraphics[width=0.95\linewidth]{Figures/BrainAnalogy.pdf}
-  \caption{T1-weighted three-tissue brain segmentation analogy. Placing
-  three of the five segmentation algorithms (i.e., linear binning, k-means, and GMM-MRF) in
-  the context of brain tissue segmentation provides an alternative perspective
-  for comparison.  In the style of linear binning, we randomly select an image
-  reference set using structurally normal individuals which is then used to
-  create a reference histogram.  (Bottom) For a subject to be processed, the
-  resulting hard threshold values yield the linear binning segmentation solution
-  as well as the initialization cluster values for both the k-means and GMM-MRF
-  segmentations which are qualitatively different.}
-  \label{fig:BrainAnalogy}
-\end{figure}
-
-Much of the quantitative image analysis strategies that have been used for
-hyperpolarized gas imaging draw on inspiration from fields with a much greater
-historical background of development, including T1-weighted brain MRI tissue
-segmentation.  The depth of this development can be gauged simply by the number
-of technical reviews (e.g., [@Bezdek:1993aa;@Pham:2000aa;@Despotovic:2015aa]) and
-evaluation studies (e.g., [@Cuadra:2005aa;@Boer:2010aa]) that date back decades.
-In addition to technical insight, this particular application provides a useful
-analogy for some of the algorithmic issues discussed and provides context for
-subsequent evaluations specific to hyperpolarized gas imaging.
-
-In the style of linear binning, we randomly selected ten structurally healthy
-controls from the publicly available SRPB data set [@srpb] comprising over 1600
-participants from 12 sites.  After intensity truncation at the 0.99 quantile, we
-normalize the intensity histogram to [0,1].  Eight of these histograms are
-provided in the upper left of Figure \ref{fig:BrainAnalogy}.  As we mentioned
-previously, the histograms for these structural MRI are typically characterized
-by three peaks which correspond to the CSF, GM, and WM.  However, even when
-normalized to [0, 1] (i.e., global affine mapping), it is obvious that these
-histogram features do not line up and this is due to the intensity distortion
-caused by various MR acquisition artefacts mentioned previously.  This is an
-argument from analogy against one of the principal assumptions of linear binning
-where it is assumed that tissue types ("structural" in the case of T1-weighted
-brain MRI or "ventilated" in the case of hyperpolarized gas imaging) can be
-sufficiently aligned with a global rescaling of intensity values. If we pursue
-this analogy further and use the aggregated reference distribution to segment a
-different subject, we can see that, in this particular case, whereas the
-optimization criterion leveraged by k-means and GMM-MRF provide an adequate
-segmentation, the misalignment in cluster boundaries yield a significant
-overestimation of the gray matter volume.  In the case of hyperpolarized gas
-images, similar misalignments could cause under- or overestimation of
-ventilation-based cluster volumes although, in this case, the error is much less
-obvious given the lack of prior knowledge of functional (vs. anatomical)
-information.
 
 ## Effect of reference image set selection
 

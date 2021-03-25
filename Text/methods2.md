@@ -1,5 +1,5 @@
 
-# Materials and methods
+# Methods
 
 ## Hyperpolarized gas imaging acquisition
 
@@ -25,7 +25,6 @@ with 12 interleaves for 129Xe MRI were as follows: repetition time msec / echo
 time msec, 7/1; flip angle, 20$^{\circ}$; matrix, 128 $\times$ 128: in-plane
 voxel size, 4 $\times$ 4 mm; section slice thickness, 15 mm; and intersection
 gap, none. The data were deidentified prior to analysis.
-
 
 ### Harvard Dataverse cohort
 
@@ -57,12 +56,7 @@ necessitates several considerations which have been outlined previously
   made available as part of the GitHub repository corresponding to this
   work.[^2] Similarly, N4, fuzzy spatial c-means, Atropos-based lung
   segmentation, and the trained CNN approach are all available through
-  ANTsR/ANTsRNet: ``ANTsR::n4BiasFieldCorrection``,
-  ``ANTsR::fuzzySpatialCMeansSegmentation``,
-  ``ANTsR::functionalLungSegmentation``, and ``ANTsRNet::elBicho``,
-  respectively. Python versions are also available through ANTsPy/ANTsPyNet. The
-  trained weights for the CNN are publicly available and are automatically
-  downloaded when running the program.
+  ANTsR/ANTsRNet and ANTsPy/ANTsPyNet.
 
 * The University of Virginia imaging data used for the evaluation is available
   upon request and through a data sharing agreement.  In addition to the
@@ -93,6 +87,23 @@ necessitates several considerations which have been outlined previously
   by the linear binning algorithm.  Additional details are provided in the
   Results section.
 
+*  We extended the deep learning functionality first described in
+[@Tustison:2019ac] to improve performance and provide a more clinically granular
+labeling (i.e., four clusters here instead of two in the previous work).
+This network, "El Bicho", is a 2-D U-net [@Falk:2019aa] with
+enhancements including additional data during training, added attention
+gating [@Schlemper:2019aa], and recommended hyperparameters [@Isensee:2020aa].
+These include four encoding/decoding layers with 32 filters at the base layer (and doubled at each
+subsequent layer).  Training incorporated an 80/20 data split with data
+augmentation using categorical cross entropy and a multi-label Dice function
+[@Crum:2006aa]
+\begin{equation}
+   Dice = 2 \frac{\sum_r| S_r \cap T_r|}{\sum_r |S_r| + |T_r|}
+   \label{eq:dice}
+\end{equation}
+where $S_r$ and $T_r$ refer to the source and target regions, respectively,
+as loss functions.
+
 [^5]: For completeness, we did run the same experiments detailed below using the
 uncorrected UVa images (and the previously reported parameters
 for linear binning) and the results were similar.  These results can be
@@ -107,15 +118,7 @@ author (as the co-developer of N4 and Atropos) and co-author Dr. Altes.
 
 [^2]:  https://github.com/ntustison/Histograms
 
-## Introduction of the image-based "El Bicho" network
-
-We extended the deep learning functionality first described in
-[@Tustison:2019ac] to improve performance and provide a more clinically granular
-labeling (i.e., four clusters here instead of two in the previous work).  In addition, further
-modifications incorporated additional data during training, added attention
-gating [@Schlemper:2019aa] to the U-net network [@Falk:2019aa] along with
-recommended hyperparameters [@Isensee:2020aa], and a novel data augmentation
-strategy.
+<!-- ## Introduction of the image-based "El Bicho" network
 
 ### Network training
 
@@ -136,9 +139,9 @@ training continued with the multi-label Dice function [@Crum:2006aa]
    \label{eq:dice}
 \end{equation}
 
-where $S_r$ and $T_r$ refer to the source and target regions, respectively.
+where $S_r$ and $T_r$ refer to the source and target regions, respectively. -->
 
-
+<!--
 \begin{figure}[!htb]
   \centering
   \begin{subfigure}{0.33\textwidth}
@@ -163,9 +166,9 @@ where $S_r$ and $T_r$ refer to the source and target regions, respectively.
   robustness of the segmentation network.}
 \label{fig:sample_ventilation}
 \end{figure}
+-->
 
-
-Training data (using an 80/20---training/testing split) was composed of the
+<!-- Training data (using an 80/20---training/testing split) was composed of the
 ventilation image, lung mask, and corresponding ventilation-based parcellation.
 The lung parcellation comprised four labels based on the Atropos
 ventilation-based segmentation [@Tustison:2011aa]. Six clusters were used to
@@ -262,4 +265,4 @@ antsImageWrite( seg$probabilityImages[[3]], "probability3.nii.gz" )
 antsImageWrite( seg$probabilityImages[[4]], "probability4.nii.gz" )
 \end{lstlisting}
 \setstretch{1.5}
-
+ -->

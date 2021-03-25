@@ -33,7 +33,7 @@ evolved to more sophisticated techniques used currently.  A brief outline of
 major contributions can be roughly sketched to include:
 
 * binary thresholding based on relative intensities
-  [@Woodhouse:2005aa;@Shammi:2021aa],
+  [@Woodhouse:2005aa;@Thomen:2015aa;@Shammi:2021aa],
 * linear intensity standardization based on a global rescaling of the intensity
   histogram to a reference distribution based on healthy controls, i.e., "linear
   binning" [@He:2016aa;@He:2020aa],
@@ -45,32 +45,23 @@ major contributions can be roughly sketched to include:
 * Gaussian mixture modeling (GMM) of the intensity histogram with Markov random
   field (MRF) spatial prior modeling [@Tustison:2011aa].
 
-An early semi-automated technique used to compare smokers and never-smokers
-relied on manually drawn regions to determine a threshold based on the
-mean signal and noise values [@Woodhouse:2005aa].  Related approaches, which use
-a simple rescaled threshold value to binarize the ventilation image into
-ventilated and non-ventilated regions [@Thomen:2015aa], continue to find modern
-application [@Shammi:2021aa].  Similar to the histogram-only algorithms (i.e.,
-linear binning and hierarchical k-means, discussed below), these approaches do
-not take into account the various MRI artefacts such as noise
-[@Gudbjartsson:1995aa;@Andersen:1996aa] and the intensity inhomogeneity field
-[@Sled:1998aa] which prevent hard threshold values from distinguishing tissue
-types precisely consistent with that of human experts.  In addition, to provide
-a more granular categorization of ventilation for greater compatibility with
-clinical qualitative assessment, many current techniques have increased the
-number of voxel classes (i.e., clusters) beyond the binary categories of
-"ventilated" and "non-ventilated."
+Given the functional nature of hyperpolarized gas images and the consequent
+sophistication of the segmentation task, these algorithmic approaches reduce the complex
+spatial image information to primarily intensity-only optimization considerations,
+which can be contextualized in terms of the intensity histogram. Although facilitating
+computational processing, this simplifying transformation results in the loss of
+important spatial cues for identifying salient image features, such as
+ventilation defects (a well-studied correlate of lung pathophysiology), as
+spatial objects.
 
-Linear binning is a simplified type of MR intensity standardization
-[@Nyul:1999aa] in which images from healthy controls are normalized to
-the range [0, 1] and then used to calculate the cluster intensity boundary values, based on an
-aggregated estimate of the parameters of a single Gaussian fit. Subject images
-to be segmented are then rescaled to this reference histogram (i.e., a global
-affine 1-D transform). This mapping results in alignment of the cluster
-boundaries such that corresponding labels are assumed to have similar clinical
-interpretation. In addition to the previously mentioned limitations associated with
-hard threshold values, such a global transform does not account for MR intensity
-nonlinearities that have been well-studied
+Each of these algorithms can be viewed as a type of MR intensity standardization
+[@Nyul:1999aa] with varying degrees of flexibility and algorithmic sophistication.
+Intensity-only approaches (e.g., linear binning and k-means), due to hard threshold
+values, are unable to account for various MRI artefacts such as noise
+[@Gudbjartsson:1995aa;@Andersen:1996aa] and the intensity inhomogeneity field
+[@Sled:1998aa] (a well-known source of MR nonlinear intensity) which prevent hard
+threshold values from distinguishing tissue types precisely consistent with that
+of human experts.   Such MR intensity nonlinearities have been well-studied
 [@Wendt:1994aa;@Nyul:1999aa;@Nyul:2000aa;@Collewet:2004aa;@De-Nunzio:2015aa] and
 are known to cause significant intensity variation even in the same region of
 the same subject.  As stated in [@Collewet:2004aa]:
@@ -81,19 +72,10 @@ the same subject.  As stated in [@Collewet:2004aa]:
 > slice location, B0 intensity, and the receiver gain value. The consequences of
 > intensity variation are greater when different scanners are used.
 
-Ignoring these nonlinearities is known
-to have significant consequences in the well-studied (and somewhat analogous)
+Ignoring these nonlinearities is known to have significant consequences in
+the well-studied (and somewhat analogous)
 area of brain tissue segmentation in T1-weighted MRI (e.g.,
-[@Zhang:2001aa;@Ashburner:2005aa;@Avants:2011aa]).  Here we demonstrate its effects
-in hyperpolarized gas imaging quantification robustness in conjunction with
-noise considerations.  In addition, the reference distribution required by
-linear binning assumes sufficient agreement as to what constitutes a "healthy
-control", whether a Gaussian fit is appropriate, and, even assuming the latter,
-whether or not the parameter values can be combined in a linear fashion to
-constitute a single reference standard. Of additional concern, though, is
-that the requirement for a healthy cohort for determination of algorithmic
-parameters introduces a non-negligible source of measurement variance, as we
-will also demonstrate.
+[@Zhang:2001aa;@Ashburner:2005aa;@Avants:2011aa]).
 
 Previous attempts at histogram standardization [@Nyul:1999aa;@Nyul:2000aa] in
 light of MR intensity nonlinearities have relied on 1-D piecewise affine
@@ -110,49 +92,19 @@ clusters that correspond to features of interest are not necessarily guaranteed
 to exist (e.g., ventilation defects in the case of healthy normal subjects with
 no lung pathology).
 
-The approach used by some groups [@Cooley:2010aa;@Kirby:2012aa] of
-employing some variant of the well-known k-means algorithm as a clustering
-strategy [@Hartigan:1979aa] to minimize the within-class variance of its
-intensities can be viewed as an alternative optimization strategy for
-determining a nonlinear mapping between histograms for a type of  MR
-intensity standardization. K-means constitutes an algorithmic approach with
-additional flexibility and sophistication over linear binning as it
-employs prior knowledge in the form of a generic clustering desideratum
-for optimizing a type of MR intensity standardization.[^1]
-
-[^1]: The prior knowledge for histogram mapping is the general machine learning
-heuristic of clustering samples based on the minimizing within-class distance
-while simultaneously maximizing the between-class distance.  In the case of
-k-means, this "distance" is the intensity variance.
-
-Similar to k-means, fuzzy c-means seeks to minimize the within-class sample
-variance but includes a per-sample membership weighting [@Bezdek:1981aa]. Later
-innovations included the incorporation of spatial considerations using
-class membership values of the local voxel neighborhood [@Chuang:2006aa].  Both
-k-means and fuzzy spatial c-means were compared for segmentation of
-hyperpolarized 3He and 129Xe images in [@Hughes:2018aa] with the latter
-evidencing improved performance over the former which is due, at least in part,
-to the additional spatial considerations.  Despite relatively good performance,
-however, fuzzy c-means also seeks cluster membership in the histogram (i.e.,
-intensity-only) domain with only simplistic neighborhood modeling during
-optimization.
-
-Histogram-based optimization is used in conjunction with spatial considerations
-in the segmentation algorithm detailed in [@Tustison:2011aa].  This algorithm is
-based on a well-established iterative approach originally used for NASA
-satellite image processing and subsequently appropriated for brain tissue
-segmentation in [@Vannier:1985aa].  A Gaussian mixture model (GMM) is used to
-model the intensity clusters of the histogram with class modulation in the form
-of probabilistic voxelwise label considerations, i.e., Markov random field (MRF)
-modeling,  within image neighborhoods [@Besag:1986aa] optimized with the
-expectation-maximization (EM) algorithm [@Dempster:1977aa].  This has the
-advantage, in contrast to histogram-only algorithms, that it softens the
-intensity thresholds between class labels which demonstrates robustness to
-certain imaging distortions, such as noise.  However, as we will demonstrate,
-this algorithm is also flawed in the inherent assumption that meaningful
-structure is found, and can be adequately characterized, within the associated
-image histogram in order to optimize a multi-class labeling.  In particular,
-this algorithm is susceptible to MR nonlinear intensity artefacts.
+Additional sophistication incorporating spatial considerations is found in the
+fuzzy spatial c-means [@Chuang:2006aa] and Gaussian mixture-modeling (GMM) with
+a Markov random field (MRF) prior algorithms.  The former, similar to k-means,
+optimizes over the within-class sample variance but includes a per-sample membership
+weighting [@Bezdek:1981aa] whereas the latter is optimized via the
+expectation-maximization (EM) algorithm [@Dempster:1977aa].  These algorithms
+have the advantage, in contrast to histogram-only algorithms, the
+intensity thresholds between class labels are softened which demonstrates some
+relative robustness to certain imaging distortions, such as noise.  However, as
+we will demonstrate, all these algorithms are flawed in the inherent assumption
+that meaningful structure is found, and can be adequately characterized, within
+the associated
+image histogram in order to optimize a multi-class labeling.
 
 Additionally, many of these segmentation algorithms use N4 bias correction
 [@Tustison:2010ac], an extension of the nonuniform intensity normalization (N3)

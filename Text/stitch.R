@@ -5,12 +5,12 @@ stitchedFile <- "stitched.md"
 
 rmdFiles <- c( "format.md",
                "titlePage.md",
-               "abstract.md",
+               "abstract2.md",
               #  "notes.md",
-               "intro.md",
-               "methods.md",
-               "results.md",
-               "discussion.md",
+               "intro2.md",
+               "methods2.md",
+               "results2.md",
+               "discussion2.md",
                "acknowledgments.md",
                "references.md"
              )
