@@ -30,7 +30,7 @@ binning algorithm. We then incorporate the trained El Bicho model in exploring
 additional aspects of measurement variance based on simulating both MR noise and
 intensity nonlinearities.
 
-So, in summary, we performed the following evaluations/experiments:[^103]
+\textcolor{blue}{To summarize}, we performed the following evaluations/experiments:[^103]
 
 * Global algorithmic bias (in the absence of ground truth)
 

@@ -4,42 +4,36 @@ author:
 address:
 output:
   pdf_document:
+    keep_tex: true
     fig_caption: true
-    latex_engine: xelatex
-    keep_tex: yes
     number_sections: true
-    # includes:
-    #   after_body: authorContributions.md
   word_document:
     fig_caption: true
 bibliography:
   - references.bib
-csl: journal-of-magnetic-resonance-imaging.csl
+csl:  magnetic-resonance-in-medicine.csl
 longtable: true
 urlcolor: blue
 header-includes:
-  # - \usepackage[left]{lineno}
-  # - \linenumbers
-  - \usepackage{longtable}
-  - \usepackage[normalem]{ulem}
-  - \usepackage{graphicx}
-  - \usepackage{booktabs}
-  - \usepackage{listings}
-  - \usepackage{textcomp}
-  - \usepackage{xcolor}
-  - \usepackage{multirow}
+  # - \usepackage{longtable}
+  # - \usepackage[normalem]{ulem}
+  # - \usepackage{graphicx}
+  # - \usepackage{booktabs}
+  # - \usepackage{listings}
+  # - \usepackage{textcomp}
+  # - \usepackage{xcolor}
+  # - \usepackage{multirow}
   - \usepackage{subcaption}
-  - \definecolor{listcomment}{rgb}{0.0,0.5,0.0}
-  - \definecolor{listkeyword}{rgb}{0.0,0.0,0.5}
-  - \definecolor{listnumbers}{gray}{0.65}
-  - \definecolor{listlightgray}{gray}{0.955}
-  - \definecolor{listwhite}{gray}{1.0}
+  # - \definecolor{listcomment}{rgb}{0.0,0.5,0.0}
+  # - \definecolor{listkeyword}{rgb}{0.0,0.0,0.5}
+  # - \definecolor{listnumbers}{gray}{0.65}
+  # - \definecolor{listlightgray}{gray}{0.955}
+  # - \definecolor{listwhite}{gray}{1.0}
 geometry: margin=1.0in
 fontsize: 12pt
 linestretch: 1.5
 mainfont: Georgia
 ---
-
 
 \pagenumbering{gobble}
 
@@ -220,7 +214,7 @@ to exist (e.g., ventilation defects in the case of healthy normal subjects with
 no lung pathology).
 
 Additional sophistication incorporating spatial considerations is found in the
-fuzzy spatial c-means [@Chuang:2006aa] and Guassian mixture-modeling (GMM) with
+fuzzy spatial c-means [@Chuang:2006aa] and Gaussian mixture-modeling (GMM) with
 a Markov random field (MRF) prior algorithms.  The former, similar to k-means,
 optimizes over the within-class sample variance but includes a per-sample membership
 weighting [@Bezdek:1981aa] whereas the latter is optimized via the
@@ -894,7 +888,7 @@ provided in the right column of Figures \ref{fig:simulations} and
 
 
 
-# Conclusions
+# Discussion
 
 Over the past decade, multiple segmentation algorithms have been proposed for
 hyperpolarized gas images which, as we have pointed out, are all highly

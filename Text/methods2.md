@@ -16,7 +16,7 @@ acquired on a 1.5 T whole-body MRI scanner
 (Siemens Avanto, Siemens Medical Solutions, Malvern, PA) with broadband
 capabilities and a flexible 129Xe chest radiofrequency coil (RF; IGC Medical
 Advances, Milwaukee, WI; or Clinical MR Solutions, Brookfield, WI). During a
-$\leq 10$ breath-hold following the inhalation of $\approx 1000$ mL of
+$\leq 10$ \textcolor{blue}{second} breath-hold following the inhalation of $\approx 1000$ mL of
 hyperpolarized 129Xe mixed with nitrogen up to a volume equal to 1/3 forced
 vital capacity (FVC) of the respective subject, a set of 15-17 contiguous
 coronal lung slices were collected in order to cover the entire lungs.
@@ -61,7 +61,7 @@ necessitates several considerations which have been outlined previously
 * The University of Virginia imaging data used for the evaluation is available
   upon request and through a data sharing agreement.  In addition to the
   citation providing the online location of the original Harvard Dataverse data,
-  a header-modified version of these data a header-modified version of these
+  a header-modified version of these
   data which conform to canonical orientation is available in the GitHub repository
   associated with this manuscript.  Additional evaluation plots have also been
   made available.

@@ -1,5 +1,5 @@
 
-# Conclusions
+# Discussion
 
 Over the past decade, multiple segmentation algorithms have been proposed for
 hyperpolarized gas images which, as we have pointed out, are all highly
@@ -44,10 +44,10 @@ In fact, this is a fundamental implication of the  "No Free Lunch Theorem"
 information.
 
 As illustrated in Figure \ref{fig:similarity}, measures based on the human
-visual system seem to quantify what is understood intuitively that image domain
+visual system seem to quantify what is understood intuitively\textcolor{blue}{;} that image domain
 information is much more robust than histogram domain information in the
 presence of image transformations, such as distortions.  This appears to also be
-supported in our simulation experiments illustrated in Figure
+supported in our simulation experiments illustrated in Figure\textcolor{blue}{s}
 \ref{fig:simulations} and \ref{fig:simulationsDataverse} where the
 histogram-based algorithms, overall, performed worse than El Bicho.  As a CNN,
 El Bicho optimizes the governing network weights over image features as opposed

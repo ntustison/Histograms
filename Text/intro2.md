@@ -98,7 +98,7 @@ a Markov random field (MRF) prior algorithms.  The former, similar to k-means,
 optimizes over the within-class sample variance but includes a per-sample membership
 weighting [@Bezdek:1981aa] whereas the latter is optimized via the
 expectation-maximization (EM) algorithm [@Dempster:1977aa].  These algorithms
-have the advantage, in contrast to histogram-only algorithms, the
+have the advantage, in contrast to histogram-only algorithms, \textcolor{blue}{that} the
 intensity thresholds between class labels are softened which demonstrates some
 relative robustness to certain imaging distortions, such as noise.  However, as
 we will demonstrate, all these algorithms are flawed in the inherent assumption
