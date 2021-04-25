@@ -30,7 +30,7 @@ binning algorithm. We then incorporate the trained El Bicho model in exploring
 additional aspects of measurement variance based on simulating both MR noise and
 intensity nonlinearities.
 
-\textcolor{blue}{To summarize}, we performed the following evaluations/experiments:[^103]
+\textcolor{blue}{To summarize}, we performed the following evaluations/experiments:
 
 * Global algorithmic bias (in the absence of ground truth)
 
@@ -41,9 +41,11 @@ intensity nonlinearities.
     * Input/output variance based on reference distribution (linear binning only)
     * Effects of simulated MR artefacts on multi-site data
 
+<!--
 [^103]: It is important to note that, although these experiments provide supporting
 evidence, our principal contentions stand prior to these results and are based on
 the self-evidentiary observations mentioned in the Introduction.
+-->
 
 ## Diagnostic prediction
 

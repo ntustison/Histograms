@@ -1,9 +1,15 @@
 
 # Abstract {-}
 
-__Purpose:__  To evaluate the most common approaches for histogram-based
+__Purpose:__  \textcolor{blue}{To characterize the differences in algorithmic approaches
+for segmentation of hyperpolarized gas lung images categorized
+by optimization domain, specifically image-based versus histogram-based.}
+
+<!--
+To evaluate the most common approaches for histogram-based
 optimization of hyperpolarized gas lung imaging segmentation in comparison
 with image-based optimization via a trained convolutional neural network (CNN).
+-->
 
 __Methods:__  Four previously published histogram-based segmentation
 algorithms (linear binning, hierarchical k-means, fuzzy spatial c-means, and a

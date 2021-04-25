@@ -46,7 +46,7 @@ previously, viz. linear binning [@He:2016aa], hierarchical k-means
 [@Kirby:2012aa], fuzzy spatial c-means [@Hughes:2018aa], GMM-MRF (specifically,
 ANTs-based Atropos tailored for functional lung imaging) [@Tustison:2011aa], and
 a trained CNN with roots in our earlier work [@Tustison:2019ac], which we have
-dubbed "El Bicho".[^3]  A fair and accurate comparison between algorithms
+dubbed "El Bicho".  A fair and accurate comparison between algorithms
 necessitates several considerations which have been outlined previously
 [@Tustison:2013aa].  In designing the evaluation study:
 
@@ -54,7 +54,7 @@ necessitates several considerations which have been outlined previously
   tools by the first author.  The linear binning and hierarchical k-means
   algorithms were recreated using existing R functionality.  These have been
   made available as part of the GitHub repository corresponding to this
-  work.[^2] Similarly, N4, fuzzy spatial c-means, Atropos-based lung
+  work (https://github.com/ntustison/Histograms). Similarly, N4, fuzzy spatial c-means, Atropos-based lung
   segmentation, and the trained CNN approach are all available through
   ANTsR/ANTsRNet and ANTsPy/ANTsPyNet.
 
@@ -78,14 +78,17 @@ necessitates several considerations which have been outlined previously
   within-algorithm consistency.
 
 * A significant issue was whether or not to use the N4 bias correction algorithm
-  as a preprocessing step.  We ultimately decided to include it for two reasons.[^5]
+  as a preprocessing step.  We ultimately decided to include it for two reasons.
   First, it is explicitly used in multiple algorithms (e.g.,
   [@Tustison:2011aa;@He:2016aa;@Santyr:2019aa;@Zha:2016aa;@Shammi:2021aa])
   despite the issues raised previously due to the fact that it qualitatively
-  improves image appearance.[^4]  Another practical consideration for N4
+  improves image appearance.  Another practical consideration for N4
   preprocessing was due to the parameters of the reference distribution required
-  by the linear binning algorithm.  Additional details are provided in the
-  Results section.
+  by the linear binning algorithm.  \textcolor{blue}{However, for completeness,
+  we did run the same
+  experiments detailed below using the uncorrected UVa images (and the previously
+  reported parameters for linear binning) and the results were similar.  These
+  results can be found in the GitHub repository associated with this work.}
 
 *  We extended the deep learning functionality first described in
 [@Tustison:2019ac] to improve performance and provide a more clinically granular
@@ -104,6 +107,8 @@ augmentation using categorical cross entropy and a multi-label Dice function
 where $S_r$ and $T_r$ refer to the source and target regions, respectively,
 as loss functions.
 
+<!--
+
 [^5]: For completeness, we did run the same experiments detailed below using the
 uncorrected UVa images (and the previously reported parameters
 for linear binning) and the results were similar.  These results can be
@@ -117,6 +122,8 @@ author (as the co-developer of N4 and Atropos) and co-author Dr. Altes.
 
 
 [^2]:  https://github.com/ntustison/Histograms
+
+-->
 
 <!-- ## Introduction of the image-based "El Bicho" network
 

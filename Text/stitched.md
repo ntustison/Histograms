@@ -91,9 +91,15 @@ ntustison@virginia.edu
 
 # Abstract {-}
 
-__Purpose:__  To evaluate the most common approaches for histogram-based
+__Purpose:__  \textcolor{blue}{To characterize the differences in algorithmic approaches
+for segmentation of hyperpolarized gas lung images categorized
+by optimization domain, specifically image-based versus histogram-based.}
+
+<!--
+To evaluate the most common approaches for histogram-based
 optimization of hyperpolarized gas lung imaging segmentation in comparison
 with image-based optimization via a trained convolutional neural network (CNN).
+-->
 
 __Methods:__  Four previously published histogram-based segmentation
 algorithms (linear binning, hierarchical k-means, fuzzy spatial c-means, and a
@@ -219,7 +225,7 @@ a Markov random field (MRF) prior algorithms.  The former, similar to k-means,
 optimizes over the within-class sample variance but includes a per-sample membership
 weighting [@Bezdek:1981aa] whereas the latter is optimized via the
 expectation-maximization (EM) algorithm [@Dempster:1977aa].  These algorithms
-have the advantage, in contrast to histogram-only algorithms, the
+have the advantage, in contrast to histogram-only algorithms, \textcolor{blue}{that} the
 intensity thresholds between class labels are softened which demonstrates some
 relative robustness to certain imaging distortions, such as noise.  However, as
 we will demonstrate, all these algorithms are flawed in the inherent assumption
@@ -403,7 +409,7 @@ acquired on a 1.5 T whole-body MRI scanner
 (Siemens Avanto, Siemens Medical Solutions, Malvern, PA) with broadband
 capabilities and a flexible 129Xe chest radiofrequency coil (RF; IGC Medical
 Advances, Milwaukee, WI; or Clinical MR Solutions, Brookfield, WI). During a
-$\leq 10$ breath-hold following the inhalation of $\approx 1000$ mL of
+$\leq 10$ \textcolor{blue}{second} breath-hold following the inhalation of $\approx 1000$ mL of
 hyperpolarized 129Xe mixed with nitrogen up to a volume equal to 1/3 forced
 vital capacity (FVC) of the respective subject, a set of 15-17 contiguous
 coronal lung slices were collected in order to cover the entire lungs.
@@ -433,7 +439,7 @@ previously, viz. linear binning [@He:2016aa], hierarchical k-means
 [@Kirby:2012aa], fuzzy spatial c-means [@Hughes:2018aa], GMM-MRF (specifically,
 ANTs-based Atropos tailored for functional lung imaging) [@Tustison:2011aa], and
 a trained CNN with roots in our earlier work [@Tustison:2019ac], which we have
-dubbed "El Bicho".[^3]  A fair and accurate comparison between algorithms
+dubbed "El Bicho".  A fair and accurate comparison between algorithms
 necessitates several considerations which have been outlined previously
 [@Tustison:2013aa].  In designing the evaluation study:
 
@@ -441,14 +447,14 @@ necessitates several considerations which have been outlined previously
   tools by the first author.  The linear binning and hierarchical k-means
   algorithms were recreated using existing R functionality.  These have been
   made available as part of the GitHub repository corresponding to this
-  work.[^2] Similarly, N4, fuzzy spatial c-means, Atropos-based lung
+  work (https://github.com/ntustison/Histograms). Similarly, N4, fuzzy spatial c-means, Atropos-based lung
   segmentation, and the trained CNN approach are all available through
   ANTsR/ANTsRNet and ANTsPy/ANTsPyNet.
 
 * The University of Virginia imaging data used for the evaluation is available
   upon request and through a data sharing agreement.  In addition to the
   citation providing the online location of the original Harvard Dataverse data,
-  a header-modified version of these data a header-modified version of these
+  a header-modified version of these
   data which conform to canonical orientation is available in the GitHub repository
   associated with this manuscript.  Additional evaluation plots have also been
   made available.
@@ -465,14 +471,17 @@ necessitates several considerations which have been outlined previously
   within-algorithm consistency.
 
 * A significant issue was whether or not to use the N4 bias correction algorithm
-  as a preprocessing step.  We ultimately decided to include it for two reasons.[^5]
+  as a preprocessing step.  We ultimately decided to include it for two reasons.
   First, it is explicitly used in multiple algorithms (e.g.,
   [@Tustison:2011aa;@He:2016aa;@Santyr:2019aa;@Zha:2016aa;@Shammi:2021aa])
   despite the issues raised previously due to the fact that it qualitatively
-  improves image appearance.[^4]  Another practical consideration for N4
+  improves image appearance.  Another practical consideration for N4
   preprocessing was due to the parameters of the reference distribution required
-  by the linear binning algorithm.  Additional details are provided in the
-  Results section.
+  by the linear binning algorithm.  \textcolor{blue}{However, for completeness,
+  we did run the same
+  experiments detailed below using the uncorrected UVa images (and the previously
+  reported parameters for linear binning) and the results were similar.  These
+  results can be found in the GitHub repository associated with this work.}
 
 *  We extended the deep learning functionality first described in
 [@Tustison:2019ac] to improve performance and provide a more clinically granular
@@ -491,6 +500,8 @@ augmentation using categorical cross entropy and a multi-label Dice function
 where $S_r$ and $T_r$ refer to the source and target regions, respectively,
 as loss functions.
 
+<!--
+
 [^5]: For completeness, we did run the same experiments detailed below using the
 uncorrected UVa images (and the previously reported parameters
 for linear binning) and the results were similar.  These results can be
@@ -504,6 +515,8 @@ author (as the co-developer of N4 and Atropos) and co-author Dr. Altes.
 
 
 [^2]:  https://github.com/ntustison/Histograms
+
+-->
 
 <!-- ## Introduction of the image-based "El Bicho" network
 
@@ -685,7 +698,7 @@ binning algorithm. We then incorporate the trained El Bicho model in exploring
 additional aspects of measurement variance based on simulating both MR noise and
 intensity nonlinearities.
 
-So, in summary, we performed the following evaluations/experiments:[^103]
+\textcolor{blue}{To summarize}, we performed the following evaluations/experiments:
 
 * Global algorithmic bias (in the absence of ground truth)
 
@@ -696,9 +709,11 @@ So, in summary, we performed the following evaluations/experiments:[^103]
     * Input/output variance based on reference distribution (linear binning only)
     * Effects of simulated MR artefacts on multi-site data
 
+<!--
 [^103]: It is important to note that, although these experiments provide supporting
 evidence, our principal contentions stand prior to these results and are based on
 the self-evidentiary observations mentioned in the Introduction.
+-->
 
 ## Diagnostic prediction
 
@@ -933,10 +948,10 @@ In fact, this is a fundamental implication of the  "No Free Lunch Theorem"
 information.
 
 As illustrated in Figure \ref{fig:similarity}, measures based on the human
-visual system seem to quantify what is understood intuitively that image domain
+visual system seem to quantify what is understood intuitively\textcolor{blue}{;} that image domain
 information is much more robust than histogram domain information in the
 presence of image transformations, such as distortions.  This appears to also be
-supported in our simulation experiments illustrated in Figure
+supported in our simulation experiments illustrated in Figure\textcolor{blue}{s}
 \ref{fig:simulations} and \ref{fig:simulationsDataverse} where the
 histogram-based algorithms, overall, performed worse than El Bicho.  As a CNN,
 El Bicho optimizes the governing network weights over image features as opposed
