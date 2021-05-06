@@ -4,17 +4,24 @@
 We performed several comparative evaluations to probe the previously mentioned
 algorithmic issues which are broadly categorized in terms of measurement bias
 and precision, with most of the focus being on the latter.  Given the lack of
-ground-truth in the form of segmentation images, addressing issues of measurement
-bias is difficult.  In addition to the fact that the number of ventilation clusters
-is not consistent across algorithms, it is not clear that the ventilation categories
-across algorithms have identical clinical definition.  This prevents application of
-various frameworks accommodating the lack of ground-truth for segmentation performance
-analysis (e.g., [@Warfield:2004aa]) to these data.
+ground-truth in the form of segmentation images, addressing issues of
+measurement bias is difficult.  In addition to the fact that the number of
+ventilation clusters is not consistent across algorithms, it is not clear that
+the ventilation categories across algorithms have identical clinical definition.
+This prevents application of various frameworks accommodating the lack
+of ground-truth for segmentation performance analysis (e.g., [@Warfield:2004aa])
+to these data.
 
-As we mentioned in the Introduction, all the algorithms have demonstrated
-research utility and potential clinical utility based on findings using derived
-measures. This is supported by our first evaluation which is based on diagnostic
-prediction of given clinical categories assigned to the imaging cohort using
+As mentioned in the Introduction, the cited algorithms have all demonstrated
+research utility and potential clinical utility. This is supported by our first
+evaluation which is based on diagnostic prediction of given clinical categories.
+Second, we perform a preliminary evaluation of the unique requirement of a
+reference distribution for the linear binning algorithm.
+Measurement precision between algorithms is then evaluated based on simulating
+both MR noise and intensity nonlinearities.
+
+<!--
+assigned to the imaging cohort using
 derived random forest models [@Breiman:2001aa].  This approach also provides an
 additional check on the validity of the algorithmic implementations.  However,
 it is important to recognize that this evaluation is extremely limited as the
@@ -24,11 +31,12 @@ the level of the algorithmic output (i.e., voxelwise segmentation).
 Having established the general validity of the gross algorithmic output, we then
 switch to our primary focus which is the comparison of measurement precision
 between algorithms.   We first analyzed the unique requirement of a reference
-distribution for the linear binning algorithm.  Specifically, we quantify the effects of
-the choice of reference cohort on the clustering parameters for the linear
-binning algorithm. We then incorporate the trained El Bicho model in exploring
-additional aspects of measurement variance based on simulating both MR noise and
-intensity nonlinearities.
+distribution for the linear binning algorithm.  Specifically, we quantify the
+effects of the choice of reference cohort on the clustering parameters for the
+linear binning algorithm. We then incorporate the trained El Bicho model in
+exploring additional aspects of measurement variance based on simulating both MR
+noise and intensity nonlinearities.
+-->
 
 \textcolor{blue}{To summarize}, we performed the following evaluations/experiments:
 

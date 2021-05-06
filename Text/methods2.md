@@ -5,26 +5,27 @@
 
 ### University of Virginia cohort
 
-A retrospective dataset was collected consisting of young healthy ($n=10$), older
-healthy ($n=7$), cystic fibrosis (CF) ($n=14$), interstitial lung disease (ILD)
-($n=10$), and chronic obstructive pulmonary disease ($n=10$). MR imaging with
-hyperpolarized 129Xe gas was performed under an Institutional Review Board (IRB)
-approved protocol with written informed consent obtained from each subject. In
-addition, all imaging was performed under a Food and Drug Administration (FDA)
-approved physician’s Investigational New Drug application. MRI data were
-acquired on a 1.5 T whole-body MRI scanner
-(Siemens Avanto, Siemens Medical Solutions, Malvern, PA) with broadband
-capabilities and a flexible 129Xe chest radiofrequency coil (RF; IGC Medical
-Advances, Milwaukee, WI; or Clinical MR Solutions, Brookfield, WI). During a
-$\leq 10$ \textcolor{blue}{second} breath-hold following the inhalation of $\approx 1000$ mL of
-hyperpolarized 129Xe mixed with nitrogen up to a volume equal to 1/3 forced
-vital capacity (FVC) of the respective subject, a set of 15-17 contiguous
+A retrospective dataset was collected consisting of young healthy ($n=10$),
+older healthy ($n=7$), cystic fibrosis (CF) ($n=14$), interstitial lung disease
+(ILD) ($n=10$), and chronic obstructive pulmonary disease ($n=10$). MR imaging
+with hyperpolarized 129Xe gas was performed under an Institutional Review Board
+(IRB) approved protocol with written informed consent obtained from each
+subject. In addition, all imaging was performed under a Food and Drug
+Administration (FDA) approved physician’s Investigational New Drug application.
+MRI data were acquired on a 1.5 T whole-body MRI scanner (Siemens Avanto,
+Siemens Medical Solutions, Malvern, PA) with broadband capabilities and a
+flexible 129Xe chest radiofrequency coil (RF; IGC Medical Advances, Milwaukee,
+WI; or Clinical MR Solutions, Brookfield, WI). During a $\leq 10$
+\textcolor{blue}{second} breath-hold following the inhalation of $\approx 1000$
+mL of hyperpolarized 129Xe mixed with nitrogen up to a volume equal to 1/3
+forced vital capacity (FVC) of the respective subject, a set of 15-17 contiguous
 coronal lung slices were collected in order to cover the entire lungs.
 Parameters of the gradient echo (GRE) sequence with a spiral k-space sampling
 with 12 interleaves for 129Xe MRI were as follows: repetition time msec / echo
 time msec, 7/1; flip angle, 20$^{\circ}$; matrix, 128 $\times$ 128: in-plane
 voxel size, 4 $\times$ 4 mm; section slice thickness, 15 mm; and intersection
-gap, none. The data were deidentified prior to analysis.
+gap, none. The data were deidentified prior to analysis.  These data are
+available upon request and through a data sharing agreement.
 
 ### Harvard Dataverse cohort
 
@@ -38,67 +39,73 @@ part of this data set but not used for the analyses reported below.  The image h
 corrected for proper canonical anatomical orientation according to Nifti
 standards and uploaded to the GitHub repository associated with this work.
 
+### Data simulations
+
+\textcolor{blue}{The aforementioned datasets were transformed by adding Gaussian
+noise, nonlinear histogram-based intensity warping, and their combination. The
+peak signal-to-noise (PSNR)} \begin{equation} PSNR = 20 \cdot
+\log_{10}(\max{(I_{original})}) - 10 \cdot \log_{10}(\mathrm{mse}(I_{original},
+I_{simulated})), \end{equation} \textcolor{blue}{where $\mathrm{mse}$ denotes
+the mean-squared error, was computed for each simulated image and the corresponding
+original. The median PSNR values for the simulated UVa dataset
+are noise:  20.7dB, nonlinearities: 29.9dB, and noise and nonlinearities:
+19.6dB.  Analogous values for the Dataverse dataset are noise:  19.8dB,
+nonlinearities: 26.6dB, and noise and nonlinearities: 19.4dB.}
+
 ## Algorithmic implementations
 
 In support of the discussion in the Introduction, we performed various
-experiments to compare the algorithms described
-previously, viz. linear binning [@He:2016aa], hierarchical k-means
-[@Kirby:2012aa], fuzzy spatial c-means [@Hughes:2018aa], GMM-MRF (specifically,
-ANTs-based Atropos tailored for functional lung imaging) [@Tustison:2011aa], and
-a trained CNN with roots in our earlier work [@Tustison:2019ac], which we have
-dubbed "El Bicho".  A fair and accurate comparison between algorithms
+experiments to compare the algorithms \textcolor{blue}{mentioned} previously,
+viz. linear binning [@He:2016aa], hierarchical k-means [@Kirby:2012aa], fuzzy
+spatial c-means [@Hughes:2018aa], GMM-MRF (specifically, ANTs-based _Atropos_
+tailored for functional lung imaging) [@Tustison:2011aa], and a trained CNN with
+roots in our earlier work [@Tustison:2019ac], which we have dubbed "El Bicho".
+\textcolor{blue}{Note that we consider the binary thresholding variants to be
+simplified versions of linear binning and, therefore, omit them from explicit
+consideration in this work.}  A fair and accurate comparison between algorithms
 necessitates several considerations which have been outlined previously
 [@Tustison:2013aa].  In designing the evaluation study:
 
 * All algorithms and evaluation scripts have been implemented using open-source
-  tools by the first author.  The linear binning and hierarchical k-means
-  algorithms were recreated using existing R functionality.  These have been
-  made available as part of the GitHub repository corresponding to this
-  work (https://github.com/ntustison/Histograms). Similarly, N4, fuzzy spatial c-means, Atropos-based lung
-  segmentation, and the trained CNN approach are all available through
-  ANTsR/ANTsRNet and ANTsPy/ANTsPyNet.
+  tools by the first author and have been made available as part of the GitHub
+  repository corresponding to this work (https://github.com/ntustison/Histograms).
+  \textcolor{blue}{Lung masks for the UVa data were created using segmentation
+  functionality described in} [@Tustison:2019ac] \textcolor{blue}{and
+  inspected/edited by one of the co-authors (M. H.).  The lung masks for the
+  Harvard Dataverse 129Xe data are publicly available with the online image
+  repository} [@He_dataverse:2018].
 
-* The University of Virginia imaging data used for the evaluation is available
-  upon request and through a data sharing agreement.  In addition to the
-  citation providing the online location of the original Harvard Dataverse data,
-  a header-modified version of these
-  data which conform to canonical orientation is available in the GitHub repository
-  associated with this manuscript.  Additional evaluation plots have also been
-  made available.
-
-* An extremely important algorithmic hyperparameter is the number of ventilation
+* An important algorithmic hyperparameter is the number of ventilation
   clusters.  In order to minimize differences in our set of evaluations, we
   merged the number of resulting clusters, post-optimization, to only three
   clusters: "ventilation defect," "hypo-ventilation," and "other ventilation"
   where the first two clusters for each output are the same as the original
-  implementations and the remaining clusters are merged into the third category
-  (i.e., "other ventilation").
-  It is important to note that none of the evaluations use these categorical
-  definitions in a cross-algorithmic fashion.  They are only used to assess
-  within-algorithm consistency.
+  implementations and the remaining clusters are merged into the third category.
 
-* A significant issue was whether or not to use the N4 bias correction algorithm
-  as a preprocessing step.  We ultimately decided to include it for two reasons.
-  First, it is explicitly used in multiple algorithms (e.g.,
+* Another significant issue was whether or not to apply N4 bias correction
+  as a preprocessing step.  We ultimately decided to include it for
+  two reasons. First, it is explicitly used in multiple algorithms (e.g.,
   [@Tustison:2011aa;@He:2016aa;@Santyr:2019aa;@Zha:2016aa;@Shammi:2021aa])
   despite the issues raised previously due to the fact that it qualitatively
   improves image appearance.  Another practical consideration for N4
   preprocessing was due to the parameters of the reference distribution required
-  by the linear binning algorithm.  \textcolor{blue}{However, for completeness,
-  we did run the same
-  experiments detailed below using the uncorrected UVa images (and the previously
-  reported parameters for linear binning) and the results were similar.  These
-  results can be found in the GitHub repository associated with this work.}
+  by the linear binning algorithm.
+
+  <!-- \textcolor{blue}{However, for completeness,
+  we did run the same experiments detailed below using the uncorrected UVa
+  images (and the previously reported parameters for linear binning) and the
+  results were similar.  These results can also be found in the GitHub repository
+  associated with this work.} -->
 
 *  We extended the deep learning functionality first described in
 [@Tustison:2019ac] to improve performance and provide a more clinically granular
 labeling (i.e., four clusters here instead of two in the previous work).
-This network, "El Bicho", is a 2-D U-net [@Falk:2019aa] with
-enhancements including additional data during training, added attention
+This network is a 2-D U-net [@Falk:2019aa] with
+enhancements including additional training data with augmentation, attention
 gating [@Schlemper:2019aa], and recommended hyperparameters [@Isensee:2020aa].
 These include four encoding/decoding layers with 32 filters at the base layer (and doubled at each
-subsequent layer).  Training incorporated an 80/20 data split with data
-augmentation using categorical cross entropy and a multi-label Dice function
+subsequent layer).  Training incorporated an 80/20 data split
+using categorical cross entropy and a multi-label Dice function
 [@Crum:2006aa]
 \begin{equation}
    Dice = 2 \frac{\sum_r| S_r \cap T_r|}{\sum_r |S_r| + |T_r|}
@@ -106,6 +113,14 @@ augmentation using categorical cross entropy and a multi-label Dice function
 \end{equation}
 where $S_r$ and $T_r$ refer to the source and target regions, respectively,
 as loss functions.
+
+
+
+
+
+
+
+
 
 <!--
 

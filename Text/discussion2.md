@@ -8,8 +8,11 @@ algorithms use the histogram information *primarily* (with many using it
 *exclusively*) for optimization  much to the detriment of algorithmic robustness
 and segmentation quality.  This is due to the simple observation that these
 approaches discard a vital piece of information essential for image
-interpretation, i.e., the spatial relationships between voxel intensities.  A
-brief summary of criticisms related to current algorithms is as follows:
+interpretation, i.e., the spatial relationships between voxel intensities.
+
+<!--
+
+A brief summary of criticisms related to current algorithms is as follows:
 
 * In addition to completely discarding spatial information, linear binning is
   based on overly simplistic assumptions, especially given common MR artefacts.
@@ -35,6 +38,8 @@ brief summary of criticisms related to current algorithms is as follows:
   assumptions provide some robustness to noise, the highly variable histogram
   structure in the presence of MR nonlinearities can cause significant variation in
   the resulting GMM fitting.
+
+-->
 
 While simplifying the underlying complexity of the segmentation problem, all of
 these algorithms are deficient in leveraging the general modelling principle of
