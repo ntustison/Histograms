@@ -1,4 +1,5 @@
 library( ggplot2 )
+library( ggthemes )
 
 
 baseDirectory <- './'
@@ -149,19 +150,24 @@ for( j in seq.int( length( columnIndices ) ) )
   dice.tukey.plot <- ggplot( data = allDataFrame, aes( linetype = cut(`p adj`, c( -0.001, 0.01, 0.05, 1 ),
                           label = c( " p<0.01", "p<0.05", "nonsignificant" ) ), fill = SimulationType ) ) +
                       geom_vline( xintercept = 0, lty = "11", colour = "black" ) +
-                      geom_errorbarh( aes( y = pair, xmin = lwr, xmax = upr, colour = SimulationType ), position = position_dodge( 0.75 ), height = 0.0, size = 1. ) +
-                      geom_point( aes( diff, pair, shape = SimulationType ), size = 3, position = position_dodge( 0.75 ) ) +
+                      geom_errorbarh( aes( y = pair, xmin = lwr, xmax = upr, colour = SimulationType ), position = position_dodge( 0.5 ), height = 0.0, size = 1. ) +
+                      geom_point( aes( diff, pair, shape = SimulationType ), size = 3, position = position_dodge( 0.5 ) ) +
                       ylab( "" ) +
                       xlim( c( -0.35, 0.55 ) ) +
                       xlab( diceYLabels[j] ) +
+                      scale_color_manual( values = c( "blue", "red", "green" ) ) +
+                      scale_linetype_manual( values = c( "solid", "solid", "dotted" ), guide = FALSE ) +
+                      scale_fill_manual( values = c( "blue", "red", "green" ), guide = FALSE ) +
+                      scale_shape_manual( values= c( 21, 22, 23 ), guide = FALSE ) +
                       theme( legend.title = element_blank() ) +
                       theme( legend.position = "bottom" ) +
-                      theme( axis.text.y = element_text( size = 12, face = "bold" ) ) +
-                      scale_color_manual( values = c( "blue", "red", "green" ) ) +
-                      scale_linetype_manual( values = c( "solid", "dashed", "dotted" ), guide = FALSE ) +
-                      scale_fill_manual( values = c( "blue", "red", "green" ), guide = FALSE ) +
-                      scale_shape_manual( values= c( 21, 22, 23 ), guide = FALSE )
+                      theme( axis.text.y = element_text( size = 10, face = "bold" ) ) + 
+                      theme( panel.background = element_blank() ) +
+                      theme( panel.grid.major.x = element_blank() ) +
+                      theme( panel.grid.minor.x = element_blank() ) +
+                      theme( panel.grid.major.y = element_line( size = 15, colour = "gray90" ) ) +
+                      theme( panel.grid.minor.y = element_blank() )
 
   ggsave( filename = paste0( figuresDirectory, "diceVarianceStudyTukey", colnames( varianceAll )[columnIndices[j]], ".pdf" ),
-      plot = dice.tukey.plot, width = 7, height = 4, units = 'in' )
+      plot = dice.tukey.plot, width = 7, height = 6, units = 'in' )
   }
