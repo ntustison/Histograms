@@ -2,7 +2,6 @@ library( ANTsR )
 library( ANTsRNet )
 library( ggplot2 )
 library( HistogramTools )
-library( factoextra )
 
 # User parameters
 
@@ -133,10 +132,15 @@ for( s in seq.int( length( artefacts ) ) )
       }
     outputPrefix <- paste0( outputDirectory, "/", sub( ".nii.gz", "", basename( gasFiles[i] ) ) )
     imageFile <- paste0( outputPrefix, "_OriginalImage.nii.gz" )
+    
+    
+    cat( imageFile, "\n")
+
     if( ! file.exists( imageFile ) )
       {
       antsImageWrite( image, imageFile  )
       }
+
     histogramFile <- paste0( outputPrefix, "_OriginalImageHistogram.pdf" )
     if( ! file.exists( histogramFile ) )
       {

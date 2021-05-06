@@ -2,7 +2,6 @@ library( ANTsR )
 library( ANTsRNet )
 library( ggplot2 )
 library( HistogramTools )
-library( factoextra )
 
 # User parameters
 
