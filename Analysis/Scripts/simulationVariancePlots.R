@@ -191,32 +191,31 @@ for( j in seq.int( length( columnIndices ) ) )
         source <- strsplit( allDataFrame$pair[k], "-" )[[1]][2]
         target <- strsplit( allDataFrame$pair[k], "-" )[[1]][1]
         }
-      if( source == "ElBicho" )  
-        {
-        source <- "EB"  
-        } else if( source == "LinearBinning" ) {
-        source <- "LB"  
-        } else if( source == "Atropos" ) {
-        source <- "At"  
-        } else if( source == "Kmeans" ) {
-        source <- "Km"  
-        } else if( source == "Fuzzy" ) {
-        source <- "F"  
-        }
+      # if( source == "ElBicho" )  
+      #   {
+      #   source <- "EB"  
+      #   } else if( source == "LinearBinning" ) {
+      #   source <- "LB"  
+      #   } else if( source == "Atropos" ) {
+      #   source <- "At"  
+      #   } else if( source == "Kmeans" ) {
+      #   source <- "Km"  
+      #   } else if( source == "Fuzzy" ) {
+      #   source <- "F"  
+      #   }
 
-
-      if( target == "ElBicho" )  
-        {
-        target <- "EB"  
-        } else if( target == "LinearBinning" ) {
-        target <- "LB"  
-        } else if( target == "Atropos" ) {
-        target <- "At"  
-        } else if( target == "Kmeans" ) {
-        target <- "Km"  
-        } else if( target == "Fuzzy" ) {
-        target <- "F"  
-        }
+      # if( target == "ElBicho" )  
+      #   {
+      #   target <- "EB"  
+      #   } else if( target == "LinearBinning" ) {
+      #   target <- "LB"  
+      #   } else if( target == "Atropos" ) {
+      #   target <- "At"  
+      #   } else if( target == "Kmeans" ) {
+      #   target <- "Km"  
+      #   } else if( target == "Fuzzy" ) {
+      #   target <- "F"  
+      #   }
 
       differences <- append( differences, difference )
       sources <- append( sources, source )
@@ -234,7 +233,7 @@ for( j in seq.int( length( columnIndices ) ) )
            geom_parallel_sets_labels( color = 'Black', size = 3, angle = 0, fontface = "bold" ) +
            scale_fill_manual( values = c( "blue", "red", "green" ) ) +
            labs( x = "", y = "" ) +            
-           scale_x_discrete( expand = c( 0.05, 0.05 ) ) +
+           scale_x_discrete( expand = c( 0.075, 0.075 ) ) +
            theme_void() + 
            theme(
               axis.text = element_text( size = 4 ),
@@ -243,6 +242,6 @@ for( j in seq.int( length( columnIndices ) ) )
               legend.position = "none"
               )
 
-  ggsave( filename = paste0( figuresDirectory, "alluvial", colnames( varianceAll )[columnIndices[j]], ".pdf" ),
-      plot = alluvialPlot, width = 2, height = 6, units = 'in' )
+  ggsave( filename = paste0( figuresDirectory, "diceVarianceStudyAlluvial", colnames( varianceAll )[columnIndices[j]], ".pdf" ),
+      plot = alluvialPlot, width = 4, height = 6, units = 'in' )
   }
