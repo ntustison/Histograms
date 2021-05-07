@@ -123,7 +123,7 @@ for( j in seq.int( length( columnIndices ) ) )
                       scale_shape_manual( values= c( 21, 22, 23 ), guide = FALSE ) +
                       theme( legend.title = element_blank() ) +
                       theme( legend.position = "bottom" ) +
-                      theme( axis.text.y = element_text( size = 10, face = "bold" ) ) + 
+                      theme( axis.text.y = element_text( size = 10, face = "bold" ) ) +
                       theme( panel.background = element_blank() ) +
                       theme( panel.grid.major.x = element_blank() ) +
                       theme( panel.grid.minor.x = element_blank() ) +
@@ -134,69 +134,69 @@ for( j in seq.int( length( columnIndices ) ) )
       plot = dice.tukey.plot, width = 7, height = 6, units = 'in' )
 
   ## Alluvial plot
-   
+
   sources <- c()
   targets <- c()
   differences <- c()
   simTypes <- c()
   for( k in seq.int( nrow( allDataFrame ) ) )
     {
-    if( allDataFrame$`p adj`[k] <= 0.05 )  
+    if( allDataFrame$`p adj`[k] <= 0.05 )
       {
       difference <- allDataFrame$diff[k]
       if( difference > 0 )
         {
         source <- strsplit( allDataFrame$pair[k], "-" )[[1]][1]
-        target <- strsplit( allDataFrame$pair[k], "-" )[[1]][2] 
+        target <- strsplit( allDataFrame$pair[k], "-" )[[1]][2]
         } else {
         difference <- difference * -1
         source <- strsplit( allDataFrame$pair[k], "-" )[[1]][2]
         target <- strsplit( allDataFrame$pair[k], "-" )[[1]][1]
         }
-      # if( source == "ElBicho" )  
+      # if( source == "ElBicho" )
       #   {
-      #   source <- "EB"  
+      #   source <- "EB"
       #   } else if( source == "LinearBinning" ) {
-      #   source <- "LB"  
+      #   source <- "LB"
       #   } else if( source == "Atropos" ) {
-      #   source <- "At"  
+      #   source <- "At"
       #   } else if( source == "Kmeans" ) {
-      #   source <- "Km"  
+      #   source <- "Km"
       #   } else if( source == "Fuzzy" ) {
-      #   source <- "F"  
+      #   source <- "F"
       #   }
 
-      # if( target == "ElBicho" )  
+      # if( target == "ElBicho" )
       #   {
-      #   target <- "EB"  
+      #   target <- "EB"
       #   } else if( target == "LinearBinning" ) {
-      #   target <- "LB"  
+      #   target <- "LB"
       #   } else if( target == "Atropos" ) {
-      #   target <- "At"  
+      #   target <- "At"
       #   } else if( target == "Kmeans" ) {
-      #   target <- "Km"  
+      #   target <- "Km"
       #   } else if( target == "Fuzzy" ) {
-      #   target <- "F"  
+      #   target <- "F"
       #   }
 
       differences <- append( differences, difference )
       sources <- append( sources, source )
       targets <- append( targets, target )
       simTypes <- append( simTypes, levels( allDataFrame$SimulationType )[allDataFrame$SimulationType[k]] )
-      }  
-    }  
+      }
+    }
 
-  alluvialDf <- data.frame( Result = seq.int( length( sources ) ), Source = sources, Target = targets, Difference = differences, Simulation = simTypes )  
+  alluvialDf <- data.frame( Result = seq.int( length( sources ) ), Source = sources, Target = targets, Difference = differences, Simulation = simTypes )
   pd <- gather_set_data( alluvialDf, x = c( 2, 3 ) )
 
   alluvialPlot <- ggplot( pd, aes( x = x, id = id, split = y, value = Difference ) ) +
            geom_parallel_sets( aes( fill = Simulation ), alpha = 0.5 ) +
            geom_parallel_sets_axes( axis.width = 0.01, fill = "gray70" ) +
-           geom_parallel_sets_labels( color = 'Black', size = 3, angle = 0, fontface = "bold" ) +
+           geom_parallel_sets_labels( color = 'Black', size = 4.5, angle = 0, fontface = "bold" ) +
            scale_fill_manual( values = c( "blue", "red", "green" ) ) +
-           labs( x = "", y = "" ) +            
-           scale_x_discrete( expand = c( 0.075, 0.075 ) ) +
-           theme_void() + 
+           labs( x = "", y = "" ) +
+           scale_x_discrete( expand = c( 0.11, 0.11 ) ) +
+           theme_void() +
            theme(
               axis.text = element_text( size = 4 ),
               axis.text.x = element_text( size = 0 ),

@@ -2,7 +2,7 @@
 # Results
 
 We performed several comparative evaluations to probe the previously mentioned
-algorithmic issues which are broadly categorized in terms of measurement bias
+algorithmic issues broadly categorized in terms of measurement bias
 and precision, with most of the focus being on the latter.  Given the lack of
 ground-truth in the form of segmentation images, addressing issues of
 measurement bias is difficult.  In addition to the fact that the number of
@@ -81,7 +81,8 @@ predictive capabilities of corresponding binary random forest classifiers
 \end{equation}
 
 where $Volume_i$ is the volume of the $i^{th}$ cluster and $Total\,\,volume$ is total lung
-volume.  We used a training/testing split of 80/20.  Due to the small number
+volume \textcolor{blue}{which is recognized as a multiple-cluster summation
+version of the ventilation defect percentage.}  We used a training/testing split of 80/20.  Due to the small number
 of subjects, we combined the young and old healthy data into a single category.
 100 permutations were used where training/testing data were randomly assigned
 and the corresponding random forest model was constructed at each permutation.
@@ -187,7 +188,7 @@ significant measurement variation for the linear binning algorithm.
 
 \begin{figure}[!htb]
   \centering
-  \includegraphics[width=0.99\linewidth]{Figures/DiceVarianceStudy.pdf}
+  \includegraphics[width=0.75\linewidth]{Figures/DiceVarianceStudyVersion2a.pdf}
   \caption{University of Virginia image cohort:  (Left) The deviation in
   resulting segmentation caused by distortions produced noise, histogram-based
   intensity nonlinearities, and their combination as measured by the Dice
@@ -200,6 +201,22 @@ significant measurement variation for the linear binning algorithm.
 \label{fig:simulations}
 \end{figure}
 
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=0.85\linewidth]{Figures/DiceVarianceStudyVersion2b.pdf}
+  \caption{University of Virginia image cohort:  (Left) The deviation in
+  resulting segmentation caused by distortions produced noise, histogram-based
+  intensity nonlinearities, and their combination as measured by the Dice
+  metric.  Each segmentation is reduced to three labels for comparison:
+  ``ventilation defect'' (Cluster 1), ``hypo-ventilation'' (Cluster 2), ``other
+  ventilation'' (Cluster 3). (Right) Results from the Tukey Test following
+  one-way ANOVA to compare the deviations.  Higher positive values are
+  indicative of increased robustness to simulated image distortions.
+         }
+\label{fig:simulations2}
+\end{figure}
+
+
 As we mentioned in the Introduction, noise and nonlinear intensity artefacts
 common to MRI can have a significant distortion effect on the image with even
 greater effects seen with respect to change in  the structure of the
@@ -210,7 +227,7 @@ perfect agreement between the segmentations and 0 is no agreement.
 
 \begin{figure}[!htb]
   \centering
-  \includegraphics[width=0.99\linewidth]{FiguresDataverse/DiceVarianceStudy.pdf}
+  \includegraphics[width=0.75\linewidth]{FiguresDataverse/DiceVarianceStudyVersion2a.pdf}
   \caption{Harvard Dataverse image cohort:  (Left) The deviation in
   resulting segmentation caused by distortions produced noise, histogram-based
   intensity nonlinearities, and their combination as measured by the Dice
@@ -221,6 +238,21 @@ perfect agreement between the segmentations and 0 is no agreement.
   indicative of increased robustness to simulated image distortions.
          }
 \label{fig:simulationsDataverse}
+\end{figure}
+
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=0.85\linewidth]{FiguresDataverse/DiceVarianceStudyVersion2b.pdf}
+  \caption{Harvard Dataverse image cohort:  (Left) The deviation in
+  resulting segmentation caused by distortions produced noise, histogram-based
+  intensity nonlinearities, and their combination as measured by the Dice
+  metric.  Each segmentation is reduced to three labels for comparison:
+  ``ventilation defect'' (Cluster 1), ``hypo-ventilation'' (Cluster 2), ``other
+  ventilation'' (Cluster 3). (Right) Results from the Tukey Test following
+  one-way ANOVA to compare the deviations.  Higher positive values are
+  indicative of increased robustness to simulated image distortions.
+         }
+  \label{fig:simulationsDataverse2}
 \end{figure}
 
 Ten simulated images for each of the subjects of both the University of Virginia
