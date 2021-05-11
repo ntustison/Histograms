@@ -2,25 +2,18 @@
 # Results
 
 We performed several comparative evaluations to probe the previously mentioned
-algorithmic issues broadly categorized in terms of measurement bias
-and precision, with most of the focus being on the latter.  Given the lack of
-ground-truth in the form of segmentation images, addressing issues of
-measurement bias is difficult.  In addition to the fact that the number of
-ventilation clusters is not consistent across algorithms, it is not clear that
-the ventilation categories across algorithms have identical clinical definition.
-This prevents application of various frameworks accommodating the lack
-of ground-truth for segmentation performance analysis (e.g., [@Warfield:2004aa])
-to these data.
+issues broadly categorized in terms of measurement bias and precision, with most
+of the focus being on the latter.  Given the lack of ground-truth in the form of
+segmentation images, addressing issues of measurement bias is difficult.  In
+addition to the fact that the number of ventilation clusters is not consistent
+across algorithms, it is not clear that the ventilation categories across
+algorithms have identical clinical definition. This prevents application of
+various frameworks accommodating the lack of ground-truth for segmentation
+performance analysis (e.g., [@Warfield:2004aa]) to these data.
 
 As mentioned in the Introduction, the cited algorithms have all demonstrated
 research utility and potential clinical utility. This is supported by our first
-evaluation which is based on diagnostic prediction of given clinical categories.
-Second, we perform a preliminary evaluation of the unique requirement of a
-reference distribution for the linear binning algorithm.
-Measurement precision between algorithms is then evaluated based on simulating
-both MR noise and intensity nonlinearities.
-
-<!--
+evaluation which is based on diagnostic prediction of given clinical categories
 assigned to the imaging cohort using
 derived random forest models [@Breiman:2001aa].  This approach also provides an
 additional check on the validity of the algorithmic implementations.  However,
@@ -36,7 +29,6 @@ effects of the choice of reference cohort on the clustering parameters for the
 linear binning algorithm. We then incorporate the trained El Bicho model in
 exploring additional aspects of measurement variance based on simulating both MR
 noise and intensity nonlinearities.
--->
 
 \textcolor{blue}{To summarize}, we performed the following evaluations/experiments:
 
@@ -67,7 +59,7 @@ the self-evidentiary observations mentioned in the Introduction.
 \end{figure}
 
 Due to the absence of ground-truth, we adopted
-the strategy from previous work [@Tustison:2014ab;@Tustison:2020aa] where we
+the strategy from previous work [@Tustison:2014ab;@Tustison:2021aa] where we
 used cross-validation to build and compare prediction models from data derived
 from the set of segmentation algorithms.  Specifically, we use pathology
 diagnosis (i.e., "CF", "COPD", and "ILD") as an established research-based
@@ -82,7 +74,7 @@ predictive capabilities of corresponding binary random forest classifiers
 
 where $Volume_i$ is the volume of the $i^{th}$ cluster and $Total\,\,volume$ is total lung
 volume \textcolor{blue}{which is recognized as a multiple-cluster summation
-version of the ventilation defect percentage.}  We used a training/testing split of 80/20.  Due to the small number
+extension of the ventilation defect percentage.}  We used a training/testing split of 80/20.  Due to the small number
 of subjects, we combined the young and old healthy data into a single category.
 100 permutations were used where training/testing data were randomly assigned
 and the corresponding random forest model was constructed at each permutation.
@@ -100,7 +92,7 @@ clinical categories employed.  In fact, even spirometry measures can be used to
 achieve highly accurate diagnostic predictions with machine learning techniques
 [@Badnjevic:2018aa].
 
-## Effect of reference image set selection
+## Effects of reference image set selection
 
 \begin{figure}[!htb]
   \centering
@@ -189,30 +181,32 @@ significant measurement variation for the linear binning algorithm.
 \begin{figure}[!htb]
   \centering
   \includegraphics[width=0.75\linewidth]{Figures/DiceVarianceStudyVersion2a.pdf}
-  \caption{University of Virginia image cohort:  (Left) The deviation in
-  resulting segmentation caused by distortions produced noise, histogram-based
-  intensity nonlinearities, and their combination as measured by the Dice
-  metric.  Each segmentation is reduced to three labels for comparison:
-  ``ventilation defect'' (Cluster 1), ``hypo-ventilation'' (Cluster 2), ``other
-  ventilation'' (Cluster 3). (Right) Results from the Tukey Test following
-  one-way ANOVA to compare the deviations.  Higher positive values are
-  indicative of increased robustness to simulated image distortions.
-         }
+  \caption{University of Virginia image cohort.  \textcolor{blue}{Box plots
+  illustrate the lack of segmentation overlap with reference segmentations
+  caused by distortions produced by noise, histogram-based intensity
+  nonlinearities, and their combination as measured by the Dice metric over all
+  five algorithms.  We provide the results of the two pathologically-relevant
+  labels for comparison: ``ventilation defect'' (Cluster 1) and
+  ``hypo-ventilation'' (Cluster 2).  }
+  }
 \label{fig:simulations}
 \end{figure}
 
 \begin{figure}[!htb]
   \centering
   \includegraphics[width=0.85\linewidth]{Figures/DiceVarianceStudyVersion2b.pdf}
-  \caption{University of Virginia image cohort:  (Left) The deviation in
-  resulting segmentation caused by distortions produced noise, histogram-based
-  intensity nonlinearities, and their combination as measured by the Dice
-  metric.  Each segmentation is reduced to three labels for comparison:
-  ``ventilation defect'' (Cluster 1), ``hypo-ventilation'' (Cluster 2), ``other
-  ventilation'' (Cluster 3). (Right) Results from the Tukey Test following
-  one-way ANOVA to compare the deviations.  Higher positive values are
-  indicative of increased robustness to simulated image distortions.
-         }
+  \caption{University of Virginia image cohort.  \textcolor{blue}{(Left) Results
+  from Tukey's test following one-way ANOVA to compare the resulting overlaps
+  between algorithms (cf Figure \ref{fig:simulations}). Higher positive values
+  indicate increased robustness to simulated image distortions. A solid line indicates
+  statistical significance at the 0.05 level whereas the dashed line indicates no
+  statistically significant difference.  (Right)
+  To further visualize the Tukey results, a simplified alluvial diagram is used to
+  provide connections illustrating relative performance between algorithms where
+  the algorithms listed on the left have improved performance relative to their
+  connected algorithms on the right with the width of the connection being
+  proportional to difference in performance.}
+  }
 \label{fig:simulations2}
 \end{figure}
 
@@ -228,49 +222,69 @@ perfect agreement between the segmentations and 0 is no agreement.
 \begin{figure}[!htb]
   \centering
   \includegraphics[width=0.75\linewidth]{FiguresDataverse/DiceVarianceStudyVersion2a.pdf}
-  \caption{Harvard Dataverse image cohort:  (Left) The deviation in
-  resulting segmentation caused by distortions produced noise, histogram-based
-  intensity nonlinearities, and their combination as measured by the Dice
-  metric.  Each segmentation is reduced to three labels for comparison:
-  ``ventilation defect'' (Cluster 1), ``hypo-ventilation'' (Cluster 2), ``other
-  ventilation'' (Cluster 3). (Right) Results from the Tukey Test following
-  one-way ANOVA to compare the deviations.  Higher positive values are
-  indicative of increased robustness to simulated image distortions.
-         }
+  \caption{Harvard Dataverse image cohort.  \textcolor{blue}{Box plots
+  illustrate the lack of segmentation overlap with reference segmentations
+  caused by distortions produced by noise, histogram-based intensity
+  nonlinearities, and their combination as measured by the Dice metric over all
+  five algorithms.  We provide the results of the two pathologically-relevant
+  labels for comparison: ``ventilation defect'' (Cluster 1) and
+  ``hypo-ventilation'' (Cluster 2).}
+  }
 \label{fig:simulationsDataverse}
 \end{figure}
 
 \begin{figure}[!htb]
   \centering
   \includegraphics[width=0.85\linewidth]{FiguresDataverse/DiceVarianceStudyVersion2b.pdf}
-  \caption{Harvard Dataverse image cohort:  (Left) The deviation in
-  resulting segmentation caused by distortions produced noise, histogram-based
-  intensity nonlinearities, and their combination as measured by the Dice
-  metric.  Each segmentation is reduced to three labels for comparison:
-  ``ventilation defect'' (Cluster 1), ``hypo-ventilation'' (Cluster 2), ``other
-  ventilation'' (Cluster 3). (Right) Results from the Tukey Test following
-  one-way ANOVA to compare the deviations.  Higher positive values are
-  indicative of increased robustness to simulated image distortions.
-         }
+  \caption{Harvard Dataverse image cohort.  \textcolor{blue}{(Left) Results
+  from Tukey's test following one-way ANOVA to compare the resulting overlaps
+  between algorithms (cf Figure \ref{fig:simulationsDataverse}). Higher positive values
+  indicate increased robustness to simulated image distortions. A solid line indicates
+  statistical significance at the 0.05 level whereas the dashed line indicates no
+  statistically significant difference.  (Right)
+  To further visualize the Tukey results, a simplified alluvial diagram is used to
+  provide connections illustrating relative performance between algorithms where
+  the algorithms listed on the left have improved performance relative to their
+  connected algorithms on the right with the width of the connection being
+  proportional to difference in performance.}
+  }
   \label{fig:simulationsDataverse2}
 \end{figure}
 
 Ten simulated images for each of the subjects of both the University of Virginia
-and Harvard Dataverse cohort were generated for each of the three
-categories of randomly generated artefacts:  noise, nonlinearities, and combined
-noise and intensity nonlinearites.  The original image as well as the simulated
-images were segmented using each of the five algorithms.  Following our earlier
+and Harvard Dataverse cohort were generated for each of the three categories of
+randomly generated artefacts:  noise, nonlinearities, and combined noise and
+intensity nonlinearities.  The original image as well as the simulated images
+were segmented using each of the five algorithms.  Following our earlier
 protocol, we maintained the original Clusters 1 and 2 per algorithm and combined
 the remaining clusters into a single third cluster.  This allowed us to compare
 between algorithms and maintain separate those clusters which are the most
 studied and reported in the literature.  The Dice metric was used to quantify
 the amount of deviation, per cluster, between the segmentation produced by the
 original image and the corresponding simulated distorted image segmentation
-which are plotted in Figures \ref{fig:simulations} and
-\ref{fig:simulationsDataverse} (left column). These results were then compared,
-on a per-cluster and per-artefact basis, using a one-way ANOVA followed by
-Tukey's Honest Significant Difference (HSD) test. 95% confidence intervals are
-provided in the right column of Figures \ref{fig:simulations} and
-\ref{fig:simulationsDataverse}.
+which is summarized in Figures \ref{fig:simulations} and
+\ref{fig:simulationsDataverse}. The algorithms were then compared, on a
+per-cluster and per-artefact basis, using one-way ANOVA followed by Tukey's
+Honest Significant Difference (HSD) test in Figures \ref{fig:simulations2} and
+\ref{fig:simulationsDataverse2}.  \textcolor{blue}{The results of these tests
+are further visualized via simplified alluvial diagrams with the superior
+performing algorithms, in terms of Dice overlap,  listed on the
+left connecting to their worse performing counterparts on the right where the width of the
+connection is proportional to the overlap difference and colored by
+artefact type.  The algorithms which exploit image-based spatial information,
+most notably El Bicho, demonstrate generally superior performance as compared
+with their histogram-only counterparts in both data sets.  For example, in
+Cluster 1, for both datasets, the sole histogram-only algorithm that demonstrates
+any elevated pairwise performance is k-means but, proportionally, this significance
+is dwarfed by the performance of the algorithms which leverage spatial information.
+Additionally, it is apparent from these tests that El Bicho consistently provides the
+best performance across the specified clusters in the presence of MR-based image distortions.
+}
+
+
+
+
+
+
 
 

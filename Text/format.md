@@ -24,6 +24,7 @@ header-includes:
   # - \usepackage{xcolor}
   # - \usepackage{multirow}
   - \usepackage{subcaption}
+  - \usepackage[nomarkers,figuresonly]{endfloat}
   # - \definecolor{listcomment}{rgb}{0.0,0.5,0.0}
   # - \definecolor{listkeyword}{rgb}{0.0,0.0,0.5}
   # - \definecolor{listnumbers}{gray}{0.65}

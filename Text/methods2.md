@@ -19,7 +19,7 @@ WI; or Clinical MR Solutions, Brookfield, WI). During a $\leq 10$
 \textcolor{blue}{second} breath-hold following the inhalation of $\approx 1000$
 mL of hyperpolarized 129Xe mixed with nitrogen up to a volume equal to 1/3
 forced vital capacity (FVC) of the respective subject, a set of 15-17 contiguous
-coronal lung slices were collected in order to cover the entire lungs.
+coronal lung slices were collected to cover the entire lungs.
 Parameters of the gradient echo (GRE) sequence with a spiral k-space sampling
 with 12 interleaves for 129Xe MRI were as follows: repetition time msec / echo
 time msec, 7/1; flip angle, 20$^{\circ}$; matrix, 128 $\times$ 128: in-plane
@@ -29,7 +29,7 @@ available upon request and through a data sharing agreement.
 
 ### Harvard Dataverse cohort
 
-In addition to these data acquired at the University of Virginia, we also
+In addition to the data acquired at the University of Virginia, we also
 processed a publicly available lung dataset [@He_dataverse:2018] available at
 the Harvard Dataverse and detailed in [@He:2019aa].  These data comprised
 the original 129Xe acquisitions from 29 subjects (10 healthy controls
@@ -41,13 +41,17 @@ standards and uploaded to the GitHub repository associated with this work.
 
 ### Data simulations
 
-\textcolor{blue}{The aforementioned datasets were transformed by adding Gaussian
+\textcolor{blue}{Both datasets were transformed by adding Gaussian
 noise, nonlinear histogram-based intensity warping, and their combination. The
-peak signal-to-noise (PSNR)} \begin{equation} PSNR = 20 \cdot
-\log_{10}(\max{(I_{original})}) - 10 \cdot \log_{10}(\mathrm{mse}(I_{original},
-I_{simulated})), \end{equation} \textcolor{blue}{where $\mathrm{mse}$ denotes
-the mean-squared error, was computed for each simulated image and the corresponding
-original. The median PSNR values for the simulated UVa dataset
+peak signal-to-noise ratio (PSNR) is defined as}
+
+\begin{equation}
+PSNR = 20 \cdot \log_{10}(\max{(I_{original})}) - 10 \cdot \log_{10}(\mathrm{mse}(I_{original},I_{simulated})),
+\end{equation}
+
+\textcolor{blue}{where $\mathrm{mse}$ denotes
+the mean-squared error between the simulated image and the corresponding
+original image. The median PSNR values for the simulated UVa dataset
 are noise:  20.7dB, nonlinearities: 29.9dB, and noise and nonlinearities:
 19.6dB.  Analogous values for the Dataverse dataset are noise:  19.8dB,
 nonlinearities: 26.6dB, and noise and nonlinearities: 19.4dB.}
@@ -82,63 +86,35 @@ necessitates several considerations which have been outlined previously
   where the first two clusters for each output are the same as the original
   implementations and the remaining clusters are merged into the third category.
 
-* Another significant issue was whether or not to apply N4 bias correction
+* Another significant issue was whether to apply N4 bias correction
   as a preprocessing step.  We ultimately decided to include it for
   two reasons. First, it is explicitly used in multiple algorithms (e.g.,
   [@Tustison:2011aa;@He:2016aa;@Santyr:2019aa;@Zha:2016aa;@Shammi:2021aa])
-  despite the issues raised previously due to the fact that it qualitatively
+  despite the issues raised previously since it qualitatively
   improves image appearance.  Another practical consideration for N4
   preprocessing was due to the parameters of the reference distribution required
-  by the linear binning algorithm.
-
-  <!-- \textcolor{blue}{However, for completeness,
+  by the linear binning algorithm (discussed in greater detail below).  \textcolor{blue}{However, for completeness,
   we did run the same experiments detailed below using the uncorrected UVa
-  images (and the previously reported parameters for linear binning) and the
+  images and the previously reported parameters for linear binning, and the
   results were similar.  These results can also be found in the GitHub repository
-  associated with this work.} -->
+  associated with this work.}
 
 *  We extended the deep learning functionality first described in
-[@Tustison:2019ac] to improve performance and provide a more clinically granular
-labeling (i.e., four clusters here instead of two in the previous work).
-This network is a 2-D U-net [@Falk:2019aa] with
-enhancements including additional training data with augmentation, attention
-gating [@Schlemper:2019aa], and recommended hyperparameters [@Isensee:2020aa].
-These include four encoding/decoding layers with 32 filters at the base layer (and doubled at each
-subsequent layer).  Training incorporated an 80/20 data split
-using categorical cross entropy and a multi-label Dice function
-[@Crum:2006aa]
-\begin{equation}
-   Dice = 2 \frac{\sum_r| S_r \cap T_r|}{\sum_r |S_r| + |T_r|}
-   \label{eq:dice}
-\end{equation}
-where $S_r$ and $T_r$ refer to the source and target regions, respectively,
-as loss functions.
+   [@Tustison:2019ac] to improve performance and provide a more clinically
+   granular labeling (i.e., four clusters here instead of two in the previous
+   work). This network is a 2-D U-net [@Falk:2019aa] with enhancements including
+   additional training data with augmentation, attention gating
+   [@Schlemper:2019aa], and recommended hyperparameters [@Isensee:2020aa]. These
+   include four encoding/decoding layers with 32 filters at the base layer (and
+   doubled at each subsequent layer).  Training incorporated an 80/20 data split
+   using categorical cross entropy and a multi-label Dice function [@Crum:2006aa]
+    \begin{equation}
+      Dice = 2 \frac{\sum_r| S_r \cap T_r|}{\sum_r |S_r| + |T_r|}
+      \label{eq:dice}
+    \end{equation}
+   where $S_r$ and $T_r$ refer to the source and target regions, respectively,
+   as loss functions.
 
-
-
-
-
-
-
-
-
-<!--
-
-[^5]: For completeness, we did run the same experiments detailed below using the
-uncorrected UVa images (and the previously reported parameters
-for linear binning) and the results were similar.  These results can be
-found in the GitHub repository associated with this work.
-
-[^3]:  A software codename designating a work-in-progress simply based on a shared
-admiration between the first and last authors of Portuguese futebol.
-
-[^4]:  This assessment is based on multiple conversations between the first
-author (as the co-developer of N4 and Atropos) and co-author Dr. Altes.
-
-
-[^2]:  https://github.com/ntustison/Histograms
-
--->
 
 <!-- ## Introduction of the image-based "El Bicho" network
 

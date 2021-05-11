@@ -26,7 +26,8 @@ domain differences} in terms of measurement bias and precision.
 __Results:__ Although facilitating computational processing and providing
 discriminating clinically relevant measures of interest, histogram-based
 segmentation methods  \textcolor{blue}{discard important contextual, spatial
-information and are consequently less robust in the presence of common MRI
+information and are consequently less robust, in terms of measurement
+precision, in the presence of common MRI
 artefacts relative to the image-based convolutional neural network}.
 
 __Conclusions:__ Direct optimization within the image domain using convolutional

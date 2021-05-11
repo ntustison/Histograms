@@ -70,28 +70,35 @@ the same subject.  As stated in [@Collewet:2004aa]:
 > slice location, B0 intensity, and the receiver gain value. The consequences of
 > intensity variation are greater when different scanners are used.
 
-Ignoring these nonlinearities is known to have significant consequences in
-the well-studied (and somewhat analogous)
-area of brain tissue segmentation in T1-weighted MRI (e.g.,
-[@Zhang:2001aa;@Ashburner:2005aa;@Avants:2011aa]).
+Ignoring these nonlinearities is known to have significant consequences in the
+well-studied (and somewhat analogous) area of brain tissue segmentation in
+T1-weighted MRI (e.g., [@Zhang:2001aa;@Ashburner:2005aa;@Avants:2011aa]) where
+the well-known relative intensities of major tissue types (i.e., cerebrospinal
+fluid (CSF), gray matter (GM), and white matter (WM)), which characteristically
+correspond to visible histogram peaks, as landmarks to determine the nonlinear
+intensity mapping (i.e., 1-D piecewise affine mapping) between structural
+features found within the histograms themselves (e.g., peaks and valleys)
+[@Nyul:1999aa;@Nyul:2000aa].  However, in hyperpolarized gas imaging of the
+lung, no such characteristic structural features exist, generally, between
+histograms.  Additionally, because of the functional nature of these images, the
+segmentation clusters that correspond to features of interest are not
+necessarily guaranteed to exist (e.g., ventilation defects in the case of
+healthy normal subjects with no lung pathology).
 
-Previous attempts at histogram standardization [@Nyul:1999aa;@Nyul:2000aa]
-have relied on 1-D piecewise affine
-mappings between corresponding structural features found within the histograms
-themselves (e.g., peaks and valleys).  For example, structural MRI, such as
-T1-weighted neuroimaging, utilizes the well-known relative intensities of major
-tissue types (i.e., cerebrospinal fluid (CSF), gray matter (GM), and white
-matter (WM)), which characteristically correspond to visible histogram peaks, as
-landmarks to determine the nonlinear intensity mapping between histograms.
-However, in hyperpolarized gas imaging of the lung, no such characteristic
-structural features exist, generally speaking, between histograms.
-
-<!--
-Additionally, because of the functional nature of these images, the segmentation
-clusters that correspond to features of interest are not necessarily guaranteed
-to exist (e.g., ventilation defects in the case of healthy normal subjects with
-no lung pathology).
--->
+\textcolor{blue}{Linear binning is a simplified type of MR intensity
+standardization in which images from healthy controls are normalized to the
+range [0, 1] and then used to calculate the cluster intensity boundary values
+based on an aggregated estimate of the parameters of a single Gaussian fit.
+Subject images to be segmented are then rescaled to this reference histogram
+(i.e., a global affine 1-D transform). This mapping results in alignment of the
+cluster boundaries such that corresponding labels are assumed to have similar
+clinical interpretation.  Variants of the well-known k-means algorithm constitute
+an algorithmic approach with additional flexibility over linear binning
+as it employs prior knowledge in the form of a generic clustering desideratum
+(i.e., minimizing within-cluster intensity variance) for optimizing a type of
+nonlinear MR intensity standardization.  However, as with binary thresholding,
+both linear binning and k-means completely discard spatial context in optimizing
+voxelwise cluster membership.}
 
 Additional sophistication incorporating spatial considerations is found in the
 fuzzy spatial c-means [@Chuang:2006aa] and Gaussian mixture-modeling (GMM) with
@@ -123,7 +130,7 @@ enforcement of low-frequency modulation of the intensity mapping prevents new
 image features from being generated, it is not clear what effects N4 parameter
 choices have on the final segmentation solution, particularly for those
 algorithms that are limited to intensity-only considerations and less robust to
-the aforementioned MR artefacts.
+the specified MR artefacts.
 
 ## Motivation for current study
 
@@ -133,8 +140,8 @@ the aforementioned MR artefacts.
   Illustration of the effect of MR nonlinear intensity warping on the
   histogram structure using a representative sampling of the simulations used
   in the experiments in this work.  By simulating these types of nonlinear
-  intensity changes, we can visualize the effects on both the image and the
-  corresponding intensity histograms and investigate the effects on salient
+  intensity changes, we can visualize both the image and the
+  corresponding intensity histogram and investigate the effects on salient
   outcome measures. These simulated intensity mappings,
   although relatively small and difficult to distinguish in the image domain,
   can have an algorithmically consequential effect on the histogram structure.}}
@@ -223,22 +230,19 @@ Much of the relevant research has been limited to quantifying differences with
 respect to ventilation versus non-ventilation in various clinical categories and
 these algorithms have demonstrated the capacity for advancing such
 research \textcolor{blue}{through the use of clinically useful
-measures such as ventilation defect percentage (VDP)}.
+measures such as ventilation defect percentage}.
 Furthermore, as the sample segmentations in Figure
 \ref{fig:sampleSegmentations} illustrate, when considered qualitatively, each
 segmentation algorithm appears to produce reasonable segmentations even though
 the voxelwise differences are significant as are the corresponding histograms.
-However, the aforementioned artefact issues influence quantitation in terms of
+However, the artefact issues influence quantitation in terms of
 core scientific measurement principles such as precision (e.g., reproducibility
 and repeatability [@Zha:2016aa;@Svenningsen:2020aa]) and bias which are obscured
 in isolated considerations but become increasingly significant with multi-site
-[@Couch:2019aa] and large-scale studies.
-
- <!-- In addition, generally speaking,
+[@Couch:2019aa] and large-scale studies.  In addition,
 refinements in measuring capabilities correlate with scientific advancement so
 as acquisition and analysis methodologies improve, so should the level of
 sophistication and performance of the underlying measurement tools.
--->
 
 \begin{figure}[!h] \centering
   \includegraphics[width=0.9\linewidth]{Figures/sampleSegmentations.pdf}
@@ -275,7 +279,7 @@ gas images *as spatial samplings of real-world objects*, as opposed to lossy
 representations of such objects.  In the spirit of open science, we have made
 the entire evaluation framework, including our novel contributions, available
 within the Advanced Normalization Tools software ecosystem (ANTsX)
-[@Tustison:2020aa].
+[@Tustison:2021aa].
 
 
 
