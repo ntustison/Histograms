@@ -82,18 +82,35 @@ and the corresponding random forest model was constructed at each permutation.
 <!-- \input{dxPredictionAucTable} -->
 
 The resulting receiver operating characteristic (ROC) curves for each algorithm
-and each diagnostic scenario are provided in Figure \ref{fig:DxPrediction}.
-All four algorithms perform significantly better than a random classifier.
-In the absence of ground truth, this type of evaluation does provide evidence
-that all these algorithms produce measurements which are clinically relevant
-although, it should be noted, that this is a very coarse assessment strategy
-given the global measures used (i.e., cluster volume percentage) and the general
-clinical categories employed.  In fact, even spirometry measures can be used to
-achieve highly accurate diagnostic predictions with machine learning techniques
-[@Badnjevic:2018aa].
+and each diagnostic scenario are provided in Figure \ref{fig:DxPrediction}. All
+four algorithms perform significantly better than a random classifier. In the
+absence of ground truth, this type of evaluation does provide evidence that all
+these algorithms produce measurements which are clinically relevant although, it
+should be noted, that this is a very coarse assessment strategy given the global
+measures used (i.e., cluster volume percentage) and the general clinical
+categories employed.  \textcolor{blue}{This complicates attempts at additional
+inferences concerning voxelwise bias performance with this type of evaluation strategy.}  In fact,
+even spirometry measures can be used to achieve highly accurate diagnostic
+predictions with machine learning techniques [@Badnjevic:2018aa].
 
 ## Effects of reference image set selection
 
+\begin{figure}[!htb]
+  \centering
+    \includegraphics[width=0.95\linewidth]{Figures/referenceN4vsNo.pdf}
+  \caption{Ten young healthy subjects were combined to create two reference
+        distributions, one based on the (a) original images and the other using (b) N4
+        preprocessing.  Based on the generated mean and standard deviation of the
+        aggregated samples, we label the resulting clusters in the respective
+        histograms.  Due to the lower mean and higher standard deviation of the
+        original image set, Cluster 1 is not within the range of $[0, 1]$ for the
+        resulting reference distribution which motivated the use of the
+        N4 preprocessed image set.
+         }
+\label{fig:n4ornot}
+\end{figure}
+
+<!--
 \begin{figure}[!htb]
   \centering
   \begin{subfigure}{0.5\textwidth}
@@ -116,7 +133,7 @@ achieve highly accurate diagnostic predictions with machine learning techniques
         N4 preprocessed image set.
          }
 \label{fig:n4ornot}
-\end{figure}
+\end{figure} -->
 
 One of the additional input requirements for linear binning over the other
 algorithms is the generation of a reference distribution.  Therefore, we

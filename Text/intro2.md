@@ -104,7 +104,8 @@ Additional sophistication incorporating spatial considerations is found in the
 fuzzy spatial c-means [@Chuang:2006aa] and Gaussian mixture-modeling (GMM) with
 a Markov random field (MRF) prior algorithms.  The former, similar to k-means,
 optimizes over the within-class sample variance but includes a per-sample membership
-weighting [@Bezdek:1981aa] whereas the latter is optimized via the
+weighting [@Bezdek:1981aa], based on neighborhood voxel information,
+whereas the latter is optimized via the
 expectation-maximization (EM) algorithm [@Dempster:1977aa].  These algorithms
 have the advantage, in contrast to histogram-only algorithms, \textcolor{blue}{that} the
 intensity thresholds between class labels are softened which demonstrates some
@@ -121,9 +122,9 @@ information from both the histogram and image domains.  Based on the intuition
 that the bias field acts as a smoothing convolution operation on the original
 image intensity histogram, N3/N4 optimizes a nonlinear (i.e., deformable)
 intensity mapping based on histogram deconvolution.  This nonlinear mapping is
-constrained such that its effects smoothly vary across the image.  Additionally,
-due to the deconvolution operation, this mapping sharpens the
-histogram peaks which presumably correspond to distinct tissue types. While such
+constrained such that its effects smoothly vary across the image.
+Due to the deconvolution operation, this mapping sharpens the
+histogram peaks which are assumed to correspond to distinct tissue types. While such
 assumptions are appropriate for the domain in which N3/N4 was developed (i.e.,
 T1-weighted brain tissue segmentation) and while it is assumed that the
 enforcement of low-frequency modulation of the intensity mapping prevents new

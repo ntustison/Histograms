@@ -5,13 +5,13 @@
 Over the past decade, multiple algorithms have been proposed for the
 segmentation of hyperpolarized gas images into clinically based functional
 categories.  These algorithms are optimized using the histogram information
-primarily (with many using it exclusively) much to the relative detriment of
+primarily (with many using it exclusively) much to the detriment of
 algorithmic robustness and segmentation quality. This is due to the simple fact
 that these approaches discard, or do not optimally leverage, a vital piece of
 information essential for accurate quantitative image interpretation---the
 spatial relationships between voxel intensities.  While simplifying the
 underlying complexity of the segmentation problem, these algorithms are
-deficient in leveraging the general modelling principle of incorporating as much
+deficient in leveraging the general modelling principle of incorporating all
 available prior information to any solution method. In fact, this is a
 fundamental implication of the "No Free Lunch Theorem"}
 [@Wolpert:1997aa]\textcolor{blue}{---algorithmic performance hinges on available prior

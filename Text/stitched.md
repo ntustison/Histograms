@@ -237,7 +237,8 @@ Additional sophistication incorporating spatial considerations is found in the
 fuzzy spatial c-means [@Chuang:2006aa] and Gaussian mixture-modeling (GMM) with
 a Markov random field (MRF) prior algorithms.  The former, similar to k-means,
 optimizes over the within-class sample variance but includes a per-sample membership
-weighting [@Bezdek:1981aa] whereas the latter is optimized via the
+weighting [@Bezdek:1981aa], based on neighborhood voxel information,
+whereas the latter is optimized via the
 expectation-maximization (EM) algorithm [@Dempster:1977aa].  These algorithms
 have the advantage, in contrast to histogram-only algorithms, \textcolor{blue}{that} the
 intensity thresholds between class labels are softened which demonstrates some
@@ -254,9 +255,9 @@ information from both the histogram and image domains.  Based on the intuition
 that the bias field acts as a smoothing convolution operation on the original
 image intensity histogram, N3/N4 optimizes a nonlinear (i.e., deformable)
 intensity mapping based on histogram deconvolution.  This nonlinear mapping is
-constrained such that its effects smoothly vary across the image.  Additionally,
-due to the deconvolution operation, this mapping sharpens the
-histogram peaks which presumably correspond to distinct tissue types. While such
+constrained such that its effects smoothly vary across the image.
+Due to the deconvolution operation, this mapping sharpens the
+histogram peaks which are assumed to correspond to distinct tissue types. While such
 assumptions are appropriate for the domain in which N3/N4 was developed (i.e.,
 T1-weighted brain tissue segmentation) and while it is assumed that the
 enforcement of low-frequency modulation of the intensity mapping prevents new
@@ -767,18 +768,35 @@ and the corresponding random forest model was constructed at each permutation.
 <!-- \input{dxPredictionAucTable} -->
 
 The resulting receiver operating characteristic (ROC) curves for each algorithm
-and each diagnostic scenario are provided in Figure \ref{fig:DxPrediction}.
-All four algorithms perform significantly better than a random classifier.
-In the absence of ground truth, this type of evaluation does provide evidence
-that all these algorithms produce measurements which are clinically relevant
-although, it should be noted, that this is a very coarse assessment strategy
-given the global measures used (i.e., cluster volume percentage) and the general
-clinical categories employed.  In fact, even spirometry measures can be used to
-achieve highly accurate diagnostic predictions with machine learning techniques
-[@Badnjevic:2018aa].
+and each diagnostic scenario are provided in Figure \ref{fig:DxPrediction}. All
+four algorithms perform significantly better than a random classifier. In the
+absence of ground truth, this type of evaluation does provide evidence that all
+these algorithms produce measurements which are clinically relevant although, it
+should be noted, that this is a very coarse assessment strategy given the global
+measures used (i.e., cluster volume percentage) and the general clinical
+categories employed.  \textcolor{blue}{This complicates attempts at additional
+inferences concerning voxelwise bias performance with this type of evaluation strategy.}  In fact,
+even spirometry measures can be used to achieve highly accurate diagnostic
+predictions with machine learning techniques [@Badnjevic:2018aa].
 
 ## Effects of reference image set selection
 
+\begin{figure}[!htb]
+  \centering
+    \includegraphics[width=0.95\linewidth]{Figures/referenceN4vsNo.pdf}
+  \caption{Ten young healthy subjects were combined to create two reference
+        distributions, one based on the (a) original images and the other using (b) N4
+        preprocessing.  Based on the generated mean and standard deviation of the
+        aggregated samples, we label the resulting clusters in the respective
+        histograms.  Due to the lower mean and higher standard deviation of the
+        original image set, Cluster 1 is not within the range of $[0, 1]$ for the
+        resulting reference distribution which motivated the use of the
+        N4 preprocessed image set.
+         }
+\label{fig:n4ornot}
+\end{figure}
+
+<!--
 \begin{figure}[!htb]
   \centering
   \begin{subfigure}{0.5\textwidth}
@@ -801,7 +819,7 @@ achieve highly accurate diagnostic predictions with machine learning techniques
         N4 preprocessed image set.
          }
 \label{fig:n4ornot}
-\end{figure}
+\end{figure} -->
 
 One of the additional input requirements for linear binning over the other
 algorithms is the generation of a reference distribution.  Therefore, we
@@ -980,13 +998,13 @@ best performance across the specified clusters in the presence of MR-based image
 Over the past decade, multiple algorithms have been proposed for the
 segmentation of hyperpolarized gas images into clinically based functional
 categories.  These algorithms are optimized using the histogram information
-primarily (with many using it exclusively) much to the relative detriment of
+primarily (with many using it exclusively) much to the detriment of
 algorithmic robustness and segmentation quality. This is due to the simple fact
 that these approaches discard, or do not optimally leverage, a vital piece of
 information essential for accurate quantitative image interpretation---the
 spatial relationships between voxel intensities.  While simplifying the
 underlying complexity of the segmentation problem, these algorithms are
-deficient in leveraging the general modelling principle of incorporating as much
+deficient in leveraging the general modelling principle of incorporating all
 available prior information to any solution method. In fact, this is a
 fundamental implication of the "No Free Lunch Theorem"}
 [@Wolpert:1997aa]\textcolor{blue}{---algorithmic performance hinges on available prior
@@ -1084,8 +1102,7 @@ similarity-driven multivariate linear reconstruction} [@Avants:2021un;@Stone:202
 ## Acknowledgments {-}
 
 Support for the research reported in this work includes funding from the
-National Heart, Lung, and Blood Institute  of the National Institutes of Health
-(R01HL133889).
+National Institutes of Health (R01HL133889; R01-CA172595 and S10-OD018079).
 
 
 \newpage
