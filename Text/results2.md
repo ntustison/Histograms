@@ -202,7 +202,7 @@ significant measurement variation for the linear binning algorithm.
   illustrate the lack of segmentation overlap with reference segmentations
   caused by distortions produced by noise, histogram-based intensity
   nonlinearities, and their combination as measured by the Dice metric over all
-  five algorithms.  We provide the results of the two pathologically-relevant
+  five algorithms.  We provide the results of the two pathologically relevant
   labels for comparison: ``ventilation defect'' (Cluster 1) and
   ``hypo-ventilation'' (Cluster 2).  }
   }
@@ -243,7 +243,7 @@ perfect agreement between the segmentations and 0 is no agreement.
   illustrate the lack of segmentation overlap with reference segmentations
   caused by distortions produced by noise, histogram-based intensity
   nonlinearities, and their combination as measured by the Dice metric over all
-  five algorithms.  We provide the results of the two pathologically-relevant
+  five algorithms.  We provide the results of the two pathologically relevant
   labels for comparison: ``ventilation defect'' (Cluster 1) and
   ``hypo-ventilation'' (Cluster 2).}
   }
