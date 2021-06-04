@@ -5,27 +5,28 @@
 
 ### University of Virginia cohort
 
-A retrospective dataset was collected consisting of young healthy ($n=10$),
-older healthy ($n=7$), cystic fibrosis (CF) ($n=14$), interstitial lung disease
-(ILD) ($n=10$), and chronic obstructive pulmonary disease ($n=10$). MR imaging
-with hyperpolarized 129Xe gas was performed under an Institutional Review Board
-(IRB) approved protocol with written informed consent obtained from each
-subject. In addition, all imaging was performed under a Food and Drug
-Administration (FDA) approved physician’s Investigational New Drug application.
-MRI data were acquired on a 1.5 T whole-body MRI scanner (Siemens Avanto,
-Siemens Medical Solutions, Malvern, PA) with broadband capabilities and a
-flexible 129Xe chest radiofrequency coil (RF; IGC Medical Advances, Milwaukee,
-WI; or Clinical MR Solutions, Brookfield, WI). During a $\leq 10$
-\textcolor{blue}{second} breath-hold following the inhalation of $\approx 1000$
-mL of hyperpolarized 129Xe mixed with nitrogen up to a volume equal to 1/3
-forced vital capacity (FVC) of the respective subject, a set of 15-17 contiguous
-coronal lung slices were collected to cover the entire lungs.
-Parameters of the gradient echo (GRE) sequence with a spiral k-space sampling
-with 12 interleaves for 129Xe MRI were as follows: repetition time msec / echo
-time msec, 7/1; flip angle, 20$^{\circ}$; matrix, 128 $\times$ 128: in-plane
-voxel size, 4 $\times$ 4 mm; section slice thickness, 15 mm; and intersection
-gap, none. The data were deidentified prior to analysis.  These data are
-available upon request and through a data sharing agreement.
+A retrospective dataset was collected consisting of young healthy ($n=10$
+subjects), older healthy ($n=7$ subjects), cystic fibrosis (CF) ($n=14$
+subjects), interstitial lung disease (ILD) ($n=10$ subjects), and chronic
+obstructive pulmonary disease ($n=10$ subjects). MR imaging with hyperpolarized
+129Xe gas was performed under an Institutional Review Board (IRB) approved
+protocol with written informed consent obtained from each subject. In addition,
+all imaging was performed under a Food and Drug Administration (FDA) approved
+physician’s Investigational New Drug application. MRI data were acquired on a
+1.5 T whole-body MRI scanner (Siemens Avanto, Siemens Medical Solutions,
+Malvern, PA) with broadband capabilities and a flexible 129Xe chest
+radiofrequency coil (RF; IGC Medical Advances, Milwaukee, WI; or Clinical MR
+Solutions, Brookfield, WI). During a $\leq 10$ \textcolor{black}{second}
+breath-hold following the inhalation of $\approx 1000$ mL of hyperpolarized
+129Xe mixed with nitrogen up to a volume equal to 1/3 forced vital capacity
+(FVC) of the respective subject, a set of 15-17 contiguous coronal lung slices
+were collected to cover the entire lungs. Parameters of the gradient echo (GRE)
+sequence with a spiral k-space sampling with 12 interleaves for 129Xe MRI were
+as follows: repetition time msec / echo time msec, 7/1; flip angle,
+20$^{\circ}$; matrix, 128 $\times$ 128: in-plane voxel size, 4 $\times$ 4 mm;
+section slice thickness, 15 mm; and intersection gap, none. The data were
+deidentified prior to analysis.  These data are available upon request and
+through a data sharing agreement.
 
 ### Harvard Dataverse cohort
 
@@ -41,7 +42,7 @@ standards and uploaded to the GitHub repository associated with this work.
 
 ### Data simulations
 
-\textcolor{blue}{Both datasets were transformed by adding Gaussian
+\textcolor{black}{Both datasets were transformed by adding Gaussian
 noise, nonlinear histogram-based intensity warping, and their combination. The
 peak signal-to-noise ratio (PSNR) is defined as}
 
@@ -49,22 +50,23 @@ peak signal-to-noise ratio (PSNR) is defined as}
 PSNR = 20 \cdot \log_{10}(\max{(I_{original})}) - 10 \cdot \log_{10}(\mathrm{mse}(I_{original},I_{simulated})),
 \end{equation}
 
-\textcolor{blue}{where $\mathrm{mse}$ denotes
-the mean-squared error between the simulated image and the corresponding
-original image. The median PSNR values for the simulated UVa dataset
-are noise:  20.7dB, nonlinearities: 29.9dB, and noise and nonlinearities:
-19.6dB.  Analogous values for the Dataverse dataset are noise:  19.8dB,
-nonlinearities: 26.6dB, and noise and nonlinearities: 19.4dB.}
+\textcolor{black}{where $\mathrm{mse}$ denotes the mean-squared error between the
+simulated image and the corresponding original image.  The median and interquartile range (IQR) PSNR
+values for the simulated UVa dataset are noise: 20.7dB (IQR: 8.5dB),
+nonlinearities: 29.9dB (IQR: 5.9dB), and noise and nonlinearities: 19.6dB (IQR:
+7.0dB). Analogous values for the Dataverse dataset are noise: 19.8dB (IQR:
+7.2dB), nonlinearities: 26.6dB (IQR: 6.5dB), and noise and nonlinearities:
+19.4dB (IQR: 6.3dB). }
 
 ## Algorithmic implementations
 
 In support of the discussion in the Introduction, we performed various
-experiments to compare the algorithms \textcolor{blue}{mentioned} previously,
+experiments to compare the algorithms \textcolor{black}{mentioned} previously,
 viz. linear binning [@He:2016aa], hierarchical k-means [@Kirby:2012aa], fuzzy
 spatial c-means [@Hughes:2018aa], GMM-MRF (specifically, ANTs-based _Atropos_
 tailored for functional lung imaging) [@Tustison:2011aa], and a trained CNN with
 roots in our earlier work [@Tustison:2019ac], which we have dubbed "El Bicho".
-\textcolor{blue}{Note that we consider the binary thresholding variants to be
+\textcolor{black}{Note that we consider the binary thresholding variants to be
 simplified versions of linear binning and, therefore, omit them from explicit
 consideration in this work.}  A fair and accurate comparison between algorithms
 necessitates several considerations which have been outlined previously
@@ -73,8 +75,8 @@ necessitates several considerations which have been outlined previously
 * All algorithms and evaluation scripts have been implemented using open-source
   tools by the first author and have been made available as part of the GitHub
   repository corresponding to this work (https://github.com/ntustison/Histograms).
-  \textcolor{blue}{Lung masks for the UVa data were created using segmentation
-  functionality described in} [@Tustison:2019ac] \textcolor{blue}{and
+  \textcolor{black}{Lung masks for the UVa data were created using segmentation
+  functionality described in} [@Tustison:2019ac] \textcolor{black}{and
   inspected/edited by one of the co-authors (M. H.).  The lung masks for the
   Harvard Dataverse 129Xe data are publicly available with the online image
   repository} [@He_dataverse:2018].
@@ -93,7 +95,7 @@ necessitates several considerations which have been outlined previously
   despite the issues raised previously since it qualitatively
   improves image appearance.  Another practical consideration for N4
   preprocessing was due to the parameters of the reference distribution required
-  by the linear binning algorithm (discussed in greater detail below).  \textcolor{blue}{However, for completeness,
+  by the linear binning algorithm (discussed in greater detail below).  \textcolor{black}{However, for completeness,
   we did run the same experiments detailed below using the uncorrected UVa
   images and the previously reported parameters for linear binning, and the
   results were similar.  These results can also be found in the GitHub repository

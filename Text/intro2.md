@@ -26,7 +26,7 @@ Descriptions:
 
 ## Historical overview of quantification
 
-Early attempts at quantification of \textcolor{blue}{hyperpolarized gas} images were limited to
+Early attempts at quantification of \textcolor{black}{hyperpolarized gas} images were limited to
 enumerating the number of ventilation defects or estimating the proportion of
 ventilated lung [@Lange:1999aa;@Altes:2001aa;@Samee:2003aa] which has
 evolved to more sophisticated techniques used currently.  A brief outline of
@@ -45,7 +45,7 @@ major contributions can be roughly sketched to include:
 
 Given the functional nature of hyperpolarized gas images and the consequent
 sophistication of the segmentation task, these algorithmic approaches reduce the complex
-spatial image information to primarily intensity-only optimization considerations,
+spatial image information to primarily intensity-only optimization considerations, oftentimes
 contextualized in terms of the intensity histogram. Although facilitating
 computational processing, this simplifying transformation results in the loss of
 important spatial cues for identifying salient image features, such as
@@ -75,7 +75,7 @@ well-studied (and somewhat analogous) area of brain tissue segmentation in
 T1-weighted MRI (e.g., [@Zhang:2001aa;@Ashburner:2005aa;@Avants:2011aa]) where
 the well-known relative intensities of major tissue types (i.e., cerebrospinal
 fluid (CSF), gray matter (GM), and white matter (WM)), which characteristically
-correspond to visible histogram peaks, as landmarks to determine the nonlinear
+correspond to visible histogram peaks, are used as landmarks to determine the nonlinear
 intensity mapping (i.e., 1-D piecewise affine mapping) between structural
 features found within the histograms themselves (e.g., peaks and valleys)
 [@Nyul:1999aa;@Nyul:2000aa].  However, in hyperpolarized gas imaging of the
@@ -85,7 +85,7 @@ segmentation clusters that correspond to features of interest are not
 necessarily guaranteed to exist (e.g., ventilation defects in the case of
 healthy normal subjects with no lung pathology).
 
-\textcolor{blue}{Linear binning is a simplified type of MR intensity
+\textcolor{black}{Linear binning is a simplified type of MR intensity
 standardization in which images from healthy controls are normalized to the
 range [0, 1] and then used to calculate the cluster intensity boundary values
 based on an aggregated estimate of the parameters of a single Gaussian fit.
@@ -107,7 +107,7 @@ optimizes over the within-class sample variance but includes a per-sample member
 weighting [@Bezdek:1981aa], based on neighborhood voxel information,
 whereas the latter is optimized via the
 expectation-maximization (EM) algorithm [@Dempster:1977aa].  These algorithms
-have the advantage, in contrast to histogram-only algorithms, \textcolor{blue}{that} the
+have the advantage, in contrast to histogram-only algorithms, \textcolor{black}{that} the
 intensity thresholds between class labels are softened which demonstrates some
 relative robustness to certain imaging distortions, such as noise.  However,
 all these algorithms are flawed in the inherent assumption
@@ -137,7 +137,7 @@ the specified MR artefacts.
 
 \begin{figure}[!h] \centering
   \includegraphics[width=0.9\linewidth]{Figures/motivation.pdf}
-  \caption{\textcolor{blue}{
+  \caption{
   Illustration of the effect of MR nonlinear intensity warping on the
   histogram structure using a representative sampling of the simulations used
   in the experiments in this work.  By simulating these types of nonlinear
@@ -145,7 +145,7 @@ the specified MR artefacts.
   corresponding intensity histogram and investigate the effects on salient
   outcome measures. These simulated intensity mappings,
   although relatively small and difficult to distinguish in the image domain,
-  can have an algorithmically consequential effect on the histogram structure.}}
+  can have an algorithmically consequential effect on the histogram structure.}
   \label{fig:motivation}
 \end{figure}
 
@@ -154,7 +154,7 @@ the intensity mappings due to both the MR acquisition and
 inhomogeneity mitigation preprocessing, we became concerned by the
 susceptibility of the histogram structure to such variations and the potential
 effects on current clinical measures of interest derived from these algorithms
-(e.g., ventilation defect percentage).  Specifically, we noticed that histogram-based intensity
+(e.g., ventilation defect percentage (VDP)).  Specifically, we noticed that histogram-based intensity
 perturbations can produce virtually little, if any, changes in the features of
 the image despite a relatively significant change in the histogram structure.
 Such effects imply that MR artefacts could profoundly impact histogram-based
@@ -189,12 +189,12 @@ To briefly explore these effects further for the purposes of motivating
 additional experimentation, we provide a summary illustration from a set of
 image simulations in Figure \ref{fig:similarity} which are detailed later in
 this work and used for algorithmic comparison.  Simulated MR artefacts were
-applied to each image which included both noise and nonlinear intensity mappings
-(and their combination) using two separate data sets:  one in-house data set
+applied to each image, which included both noise and nonlinear intensity mappings
+(and their combination), using two separate data sets:  one in-house data set
 consisting of 51 129Xe gas lung images and the publicly available data
 described in [@He:2019aa] and made available at Harvard's Dataverse online
 repository [@He_dataverse:2018] consisting of 29 hyperpolarized gas lung images
-\textcolor{blue}{and corresponding lung masks}.
+\textcolor{black}{and corresponding lung masks}.
 These two data sets resulted in a total simulated cohort of 51 + 29 = 80 images
 ($\times 10$ simulations per image $\times 3$ types of artefact simulations).
 Prior to any algorithmic comparative analysis, we quantified the difference of
@@ -230,8 +230,8 @@ Ultimately, we are not claiming that these algorithms are erroneous, per se.
 Much of the relevant research has been limited to quantifying differences with
 respect to ventilation versus non-ventilation in various clinical categories and
 these algorithms have demonstrated the capacity for advancing such
-research \textcolor{blue}{through the use of clinically useful
-measures such as ventilation defect percentage}.
+research \textcolor{black}{through the use of clinically useful
+measures such as VDP}.
 Furthermore, as the sample segmentations in Figure
 \ref{fig:sampleSegmentations} illustrate, when considered qualitatively, each
 segmentation algorithm appears to produce reasonable segmentations even though

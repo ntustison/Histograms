@@ -1,7 +1,7 @@
 
 # Discussion
 
-\textcolor{blue}{
+\textcolor{black}{
 Over the past decade, multiple algorithms have been proposed for the
 segmentation of hyperpolarized gas images into clinically based functional
 categories.  These algorithms are optimized using the histogram information
@@ -14,21 +14,21 @@ underlying complexity of the segmentation problem, these algorithms are
 deficient in leveraging the general modelling principle of incorporating all
 available prior information to any solution method. In fact, this is a
 fundamental implication of the "No Free Lunch Theorem"}
-[@Wolpert:1997aa]\textcolor{blue}{---algorithmic performance hinges on available prior
+[@Wolpert:1997aa]\textcolor{black}{---algorithmic performance hinges on available prior
 information.}
 
-\textcolor{blue}{
+\textcolor{black}{
 As illustrated in Figure \ref{fig:similarity}, measures based on the human
 visual system seem to quantify what is understood intuitively; that image-based
 information is much more robust than its corresponding histogram-based
 information in the presence of image transformations, such as common MR
 artefacts.  This observation is not intended to imply that the histogram-based
-approaches are useless in performing research.  In fact, ventilation defect
-percentage is perhaps the most widely used clinical measurement reported in the
+approaches are useless in performing research.  In fact, VDP
+is perhaps the most widely used clinical measurement reported in the
 literature and it is easily quantified from the image histogram.  Thus, even
 relatively simple histogram-only segmentation algorithms will provide some
 utility which was observed in the measurement bias experiments employing a
-variant of ventilation defect percentage to predict diagnostic accuracy.
+variant of VDP to predict diagnostic accuracy.
 However, similar to the lossy relationship between the image and its
 corresponding histogram, such volumetric-based measures are lossy distillations
 of the segmentation information and might obscure important algorithmic
@@ -36,7 +36,7 @@ characteristics and relative differences as well as discard potentially useful
 spatial information which is why additional experimentation explored measurement
 precision in the presence of MR artefacts.}
 
-\textcolor{blue}{
+\textcolor{black}{
 Common MR artefacts of noise and intensity nonlinearities can produce
 quantifiable differences in the segmentation results and the degree of deviation
 (i.e., lack of measurement precision) largely corresponds to the algorithmic
@@ -50,12 +50,12 @@ neighborhood intensity information.  In addition, this network demonstrates site
 acquisition generalizability as these performance gains are also seen in the
 Harvard Dataverse dataset.}
 
-\textcolor{blue}{In addition to motivating a renewed assessment of current
+\textcolor{black}{In addition to motivating a renewed assessment of current
 algorithmic approaches to pulmonary hyperpolarized gas segmentation, there other
 avenues for further research.   El Bicho was developed in parallel with the
 writing of this manuscript merely to showcase the incredible potential that deep
 learning can have in the field of hyperpolarized gas imaging (as well as to
-update our earlier work }[@Tustison:2019ac]\textcolor{blue}{). We certainly
+update our earlier work }[@Tustison:2019ac]\textcolor{black}{). We certainly
 recognize and expect that alternative deep learning strategies (e.g.,
 hyperparameter choice, training data selection, data augmentation, etc.) would
 provide comparable and even superior performance to what was presented with El
@@ -67,7 +67,7 @@ Just as important, deep learning provides other avenues for research exploration
 and development. For example, given the relatively lower resolution of the
 acquisition image, exploration of the effects of deep learning-based
 super-resolution might prove worthy of application-specific investigation}
-[@Li:2020aa]\textcolor{blue}{. Also, with the same network software libraries,
+[@Li:2020aa]\textcolor{black}{. Also, with the same network software libraries,
 high-performing classification networks can be constructed and trained which
 might yield novel insights regarding image-based characterization of disease.
 One additional modification that we did not explore in this work, but is
@@ -76,7 +76,7 @@ be explored in-depth. With neural networks, such confounds can be handled as
 part of the training process or as an explicit network modification. Either
 would be important to consider for future work.}
 
-\textcolor{blue}{
+\textcolor{black}{
 Admittedly, this work was limited in its exploration of MR artefacts.  Noise
 variation was limited to a zero-mean Gaussian distribution and nonlinear
 intensity variation was explored strictly through smoothly varying histogram
@@ -88,8 +88,8 @@ simulation of bias fields which would also expand data augmentation and,
 significantly, in the spirit of algorithmic parsimony, could potentially remove
 the dependency of N4 bias correction as an unnecessary preprocessing step.}
 
-\textcolor{blue}{
-Finally, although ventilation defect percentage has proven to be a compelling quantity
+\textcolor{black}{
+Finally, although VDP has proven to be a compelling quantity
 for clinical studies, the results from the diagnostic prediction evaluation and
 the previous discussion implies that this popular measure does not fully
 leverage the spatial information of the segmentation information from any of
@@ -98,7 +98,7 @@ the need for rethinking algorithm innovation direction, also point to possibly
 investigating differentiating spatial patterns within the images as evidence of
 disease and/or growth and correlations with non-imaging data using sophisticated
 voxel-scale statistical techniques which intrinsically leverage spatial information (e.g.,
-similarity-driven multivariate linear reconstruction} [@Avants:2021un;@Stone:2020aa]\textcolor{blue}{).}
+similarity-driven multivariate linear reconstruction} [@Avants:2021un;@Stone:2020aa]\textcolor{black}{).}
 
 
 

@@ -92,7 +92,7 @@ ntustison@virginia.edu
 
 # Abstract {-}
 
-__Purpose:__  \textcolor{blue}{To characterize the differences between
+__Purpose:__  \textcolor{black}{To characterize the differences between
 histogram-based and image-based algorithms for segmentation of
 hyperpolarized gas lung images.}
 
@@ -105,10 +105,10 @@ with image-based optimization via a trained convolutional neural network (CNN).
 __Methods:__  Four previously published histogram-based segmentation algorithms
 (i.e., linear binning, hierarchical k-means, fuzzy spatial c-means, and a
 Gaussian Mixture Model with a Markov Random Field prior) and an
-\textcolor{blue}{image-based convolutional neural network} were used to segment
-two simulated data sets derived from a public ($n=29$) and a retrospective
-collection ($n=51$) of hyperpolarized 129Xe gas lung images transformed by
-common MRI artefacts \textcolor{blue}{
+\textcolor{black}{image-based convolutional neural network} were used to segment
+two simulated data sets derived from a public ($n=29$ subjects) and a retrospective
+collection ($n=51$ subjects) of hyperpolarized 129Xe gas lung images transformed by
+common MRI artefacts \textcolor{black}{
 (noise and nonlinear intensity distortion). The resulting
 ventilation-based segmentations were used to
 assess algorithmic performance and characterize optimization
@@ -116,7 +116,7 @@ domain differences} in terms of measurement bias and precision.
 
 __Results:__ Although facilitating computational processing and providing
 discriminating clinically relevant measures of interest, histogram-based
-segmentation methods  \textcolor{blue}{discard important contextual, spatial
+segmentation methods  \textcolor{black}{discard important contextual, spatial
 information and are consequently less robust, in terms of measurement
 precision, in the presence of common MRI
 artefacts relative to the image-based convolutional neural network}.
@@ -159,7 +159,7 @@ Descriptions:
 
 ## Historical overview of quantification
 
-Early attempts at quantification of \textcolor{blue}{hyperpolarized gas} images were limited to
+Early attempts at quantification of \textcolor{black}{hyperpolarized gas} images were limited to
 enumerating the number of ventilation defects or estimating the proportion of
 ventilated lung [@Lange:1999aa;@Altes:2001aa;@Samee:2003aa] which has
 evolved to more sophisticated techniques used currently.  A brief outline of
@@ -178,7 +178,7 @@ major contributions can be roughly sketched to include:
 
 Given the functional nature of hyperpolarized gas images and the consequent
 sophistication of the segmentation task, these algorithmic approaches reduce the complex
-spatial image information to primarily intensity-only optimization considerations,
+spatial image information to primarily intensity-only optimization considerations, oftentimes
 contextualized in terms of the intensity histogram. Although facilitating
 computational processing, this simplifying transformation results in the loss of
 important spatial cues for identifying salient image features, such as
@@ -208,7 +208,7 @@ well-studied (and somewhat analogous) area of brain tissue segmentation in
 T1-weighted MRI (e.g., [@Zhang:2001aa;@Ashburner:2005aa;@Avants:2011aa]) where
 the well-known relative intensities of major tissue types (i.e., cerebrospinal
 fluid (CSF), gray matter (GM), and white matter (WM)), which characteristically
-correspond to visible histogram peaks, as landmarks to determine the nonlinear
+correspond to visible histogram peaks, are used as landmarks to determine the nonlinear
 intensity mapping (i.e., 1-D piecewise affine mapping) between structural
 features found within the histograms themselves (e.g., peaks and valleys)
 [@Nyul:1999aa;@Nyul:2000aa].  However, in hyperpolarized gas imaging of the
@@ -218,7 +218,7 @@ segmentation clusters that correspond to features of interest are not
 necessarily guaranteed to exist (e.g., ventilation defects in the case of
 healthy normal subjects with no lung pathology).
 
-\textcolor{blue}{Linear binning is a simplified type of MR intensity
+\textcolor{black}{Linear binning is a simplified type of MR intensity
 standardization in which images from healthy controls are normalized to the
 range [0, 1] and then used to calculate the cluster intensity boundary values
 based on an aggregated estimate of the parameters of a single Gaussian fit.
@@ -240,7 +240,7 @@ optimizes over the within-class sample variance but includes a per-sample member
 weighting [@Bezdek:1981aa], based on neighborhood voxel information,
 whereas the latter is optimized via the
 expectation-maximization (EM) algorithm [@Dempster:1977aa].  These algorithms
-have the advantage, in contrast to histogram-only algorithms, \textcolor{blue}{that} the
+have the advantage, in contrast to histogram-only algorithms, \textcolor{black}{that} the
 intensity thresholds between class labels are softened which demonstrates some
 relative robustness to certain imaging distortions, such as noise.  However,
 all these algorithms are flawed in the inherent assumption
@@ -270,7 +270,7 @@ the specified MR artefacts.
 
 \begin{figure}[!h] \centering
   \includegraphics[width=0.9\linewidth]{Figures/motivation.pdf}
-  \caption{\textcolor{blue}{
+  \caption{
   Illustration of the effect of MR nonlinear intensity warping on the
   histogram structure using a representative sampling of the simulations used
   in the experiments in this work.  By simulating these types of nonlinear
@@ -278,7 +278,7 @@ the specified MR artefacts.
   corresponding intensity histogram and investigate the effects on salient
   outcome measures. These simulated intensity mappings,
   although relatively small and difficult to distinguish in the image domain,
-  can have an algorithmically consequential effect on the histogram structure.}}
+  can have an algorithmically consequential effect on the histogram structure.}
   \label{fig:motivation}
 \end{figure}
 
@@ -287,7 +287,7 @@ the intensity mappings due to both the MR acquisition and
 inhomogeneity mitigation preprocessing, we became concerned by the
 susceptibility of the histogram structure to such variations and the potential
 effects on current clinical measures of interest derived from these algorithms
-(e.g., ventilation defect percentage).  Specifically, we noticed that histogram-based intensity
+(e.g., ventilation defect percentage (VDP)).  Specifically, we noticed that histogram-based intensity
 perturbations can produce virtually little, if any, changes in the features of
 the image despite a relatively significant change in the histogram structure.
 Such effects imply that MR artefacts could profoundly impact histogram-based
@@ -322,12 +322,12 @@ To briefly explore these effects further for the purposes of motivating
 additional experimentation, we provide a summary illustration from a set of
 image simulations in Figure \ref{fig:similarity} which are detailed later in
 this work and used for algorithmic comparison.  Simulated MR artefacts were
-applied to each image which included both noise and nonlinear intensity mappings
-(and their combination) using two separate data sets:  one in-house data set
+applied to each image, which included both noise and nonlinear intensity mappings
+(and their combination), using two separate data sets:  one in-house data set
 consisting of 51 129Xe gas lung images and the publicly available data
 described in [@He:2019aa] and made available at Harvard's Dataverse online
 repository [@He_dataverse:2018] consisting of 29 hyperpolarized gas lung images
-\textcolor{blue}{and corresponding lung masks}.
+\textcolor{black}{and corresponding lung masks}.
 These two data sets resulted in a total simulated cohort of 51 + 29 = 80 images
 ($\times 10$ simulations per image $\times 3$ types of artefact simulations).
 Prior to any algorithmic comparative analysis, we quantified the difference of
@@ -363,8 +363,8 @@ Ultimately, we are not claiming that these algorithms are erroneous, per se.
 Much of the relevant research has been limited to quantifying differences with
 respect to ventilation versus non-ventilation in various clinical categories and
 these algorithms have demonstrated the capacity for advancing such
-research \textcolor{blue}{through the use of clinically useful
-measures such as ventilation defect percentage}.
+research \textcolor{black}{through the use of clinically useful
+measures such as VDP}.
 Furthermore, as the sample segmentations in Figure
 \ref{fig:sampleSegmentations} illustrate, when considered qualitatively, each
 segmentation algorithm appears to produce reasonable segmentations even though
@@ -425,27 +425,28 @@ within the Advanced Normalization Tools software ecosystem (ANTsX)
 
 ### University of Virginia cohort
 
-A retrospective dataset was collected consisting of young healthy ($n=10$),
-older healthy ($n=7$), cystic fibrosis (CF) ($n=14$), interstitial lung disease
-(ILD) ($n=10$), and chronic obstructive pulmonary disease ($n=10$). MR imaging
-with hyperpolarized 129Xe gas was performed under an Institutional Review Board
-(IRB) approved protocol with written informed consent obtained from each
-subject. In addition, all imaging was performed under a Food and Drug
-Administration (FDA) approved physician’s Investigational New Drug application.
-MRI data were acquired on a 1.5 T whole-body MRI scanner (Siemens Avanto,
-Siemens Medical Solutions, Malvern, PA) with broadband capabilities and a
-flexible 129Xe chest radiofrequency coil (RF; IGC Medical Advances, Milwaukee,
-WI; or Clinical MR Solutions, Brookfield, WI). During a $\leq 10$
-\textcolor{blue}{second} breath-hold following the inhalation of $\approx 1000$
-mL of hyperpolarized 129Xe mixed with nitrogen up to a volume equal to 1/3
-forced vital capacity (FVC) of the respective subject, a set of 15-17 contiguous
-coronal lung slices were collected to cover the entire lungs.
-Parameters of the gradient echo (GRE) sequence with a spiral k-space sampling
-with 12 interleaves for 129Xe MRI were as follows: repetition time msec / echo
-time msec, 7/1; flip angle, 20$^{\circ}$; matrix, 128 $\times$ 128: in-plane
-voxel size, 4 $\times$ 4 mm; section slice thickness, 15 mm; and intersection
-gap, none. The data were deidentified prior to analysis.  These data are
-available upon request and through a data sharing agreement.
+A retrospective dataset was collected consisting of young healthy ($n=10$
+subjects), older healthy ($n=7$ subjects), cystic fibrosis (CF) ($n=14$
+subjects), interstitial lung disease (ILD) ($n=10$ subjects), and chronic
+obstructive pulmonary disease ($n=10$ subjects). MR imaging with hyperpolarized
+129Xe gas was performed under an Institutional Review Board (IRB) approved
+protocol with written informed consent obtained from each subject. In addition,
+all imaging was performed under a Food and Drug Administration (FDA) approved
+physician’s Investigational New Drug application. MRI data were acquired on a
+1.5 T whole-body MRI scanner (Siemens Avanto, Siemens Medical Solutions,
+Malvern, PA) with broadband capabilities and a flexible 129Xe chest
+radiofrequency coil (RF; IGC Medical Advances, Milwaukee, WI; or Clinical MR
+Solutions, Brookfield, WI). During a $\leq 10$ \textcolor{black}{second}
+breath-hold following the inhalation of $\approx 1000$ mL of hyperpolarized
+129Xe mixed with nitrogen up to a volume equal to 1/3 forced vital capacity
+(FVC) of the respective subject, a set of 15-17 contiguous coronal lung slices
+were collected to cover the entire lungs. Parameters of the gradient echo (GRE)
+sequence with a spiral k-space sampling with 12 interleaves for 129Xe MRI were
+as follows: repetition time msec / echo time msec, 7/1; flip angle,
+20$^{\circ}$; matrix, 128 $\times$ 128: in-plane voxel size, 4 $\times$ 4 mm;
+section slice thickness, 15 mm; and intersection gap, none. The data were
+deidentified prior to analysis.  These data are available upon request and
+through a data sharing agreement.
 
 ### Harvard Dataverse cohort
 
@@ -461,7 +462,7 @@ standards and uploaded to the GitHub repository associated with this work.
 
 ### Data simulations
 
-\textcolor{blue}{Both datasets were transformed by adding Gaussian
+\textcolor{black}{Both datasets were transformed by adding Gaussian
 noise, nonlinear histogram-based intensity warping, and their combination. The
 peak signal-to-noise ratio (PSNR) is defined as}
 
@@ -469,22 +470,23 @@ peak signal-to-noise ratio (PSNR) is defined as}
 PSNR = 20 \cdot \log_{10}(\max{(I_{original})}) - 10 \cdot \log_{10}(\mathrm{mse}(I_{original},I_{simulated})),
 \end{equation}
 
-\textcolor{blue}{where $\mathrm{mse}$ denotes
-the mean-squared error between the simulated image and the corresponding
-original image. The median PSNR values for the simulated UVa dataset
-are noise:  20.7dB, nonlinearities: 29.9dB, and noise and nonlinearities:
-19.6dB.  Analogous values for the Dataverse dataset are noise:  19.8dB,
-nonlinearities: 26.6dB, and noise and nonlinearities: 19.4dB.}
+\textcolor{black}{where $\mathrm{mse}$ denotes the mean-squared error between the
+simulated image and the corresponding original image.  The median and interquartile range (IQR) PSNR
+values for the simulated UVa dataset are noise: 20.7dB (IQR: 8.5dB),
+nonlinearities: 29.9dB (IQR: 5.9dB), and noise and nonlinearities: 19.6dB (IQR:
+7.0dB). Analogous values for the Dataverse dataset are noise: 19.8dB (IQR:
+7.2dB), nonlinearities: 26.6dB (IQR: 6.5dB), and noise and nonlinearities:
+19.4dB (IQR: 6.3dB). }
 
 ## Algorithmic implementations
 
 In support of the discussion in the Introduction, we performed various
-experiments to compare the algorithms \textcolor{blue}{mentioned} previously,
+experiments to compare the algorithms \textcolor{black}{mentioned} previously,
 viz. linear binning [@He:2016aa], hierarchical k-means [@Kirby:2012aa], fuzzy
 spatial c-means [@Hughes:2018aa], GMM-MRF (specifically, ANTs-based _Atropos_
 tailored for functional lung imaging) [@Tustison:2011aa], and a trained CNN with
 roots in our earlier work [@Tustison:2019ac], which we have dubbed "El Bicho".
-\textcolor{blue}{Note that we consider the binary thresholding variants to be
+\textcolor{black}{Note that we consider the binary thresholding variants to be
 simplified versions of linear binning and, therefore, omit them from explicit
 consideration in this work.}  A fair and accurate comparison between algorithms
 necessitates several considerations which have been outlined previously
@@ -493,8 +495,8 @@ necessitates several considerations which have been outlined previously
 * All algorithms and evaluation scripts have been implemented using open-source
   tools by the first author and have been made available as part of the GitHub
   repository corresponding to this work (https://github.com/ntustison/Histograms).
-  \textcolor{blue}{Lung masks for the UVa data were created using segmentation
-  functionality described in} [@Tustison:2019ac] \textcolor{blue}{and
+  \textcolor{black}{Lung masks for the UVa data were created using segmentation
+  functionality described in} [@Tustison:2019ac] \textcolor{black}{and
   inspected/edited by one of the co-authors (M. H.).  The lung masks for the
   Harvard Dataverse 129Xe data are publicly available with the online image
   repository} [@He_dataverse:2018].
@@ -513,7 +515,7 @@ necessitates several considerations which have been outlined previously
   despite the issues raised previously since it qualitatively
   improves image appearance.  Another practical consideration for N4
   preprocessing was due to the parameters of the reference distribution required
-  by the linear binning algorithm (discussed in greater detail below).  \textcolor{blue}{However, for completeness,
+  by the linear binning algorithm (discussed in greater detail below).  \textcolor{black}{However, for completeness,
   we did run the same experiments detailed below using the uncorrected UVa
   images and the previously reported parameters for linear binning, and the
   results were similar.  These results can also be found in the GitHub repository
@@ -716,7 +718,7 @@ linear binning algorithm. We then incorporate the trained El Bicho model in
 exploring additional aspects of measurement variance based on simulating both MR
 noise and intensity nonlinearities.
 
-\textcolor{blue}{To summarize}, we performed the following evaluations/experiments:
+\textcolor{black}{To summarize}, we performed the following evaluations/experiments:
 
 * Global algorithmic bias (in the absence of ground truth)
 
@@ -759,8 +761,8 @@ predictive capabilities of corresponding binary random forest classifiers
 \end{equation}
 
 where $Volume_i$ is the volume of the $i^{th}$ cluster and $Total\,\,volume$ is total lung
-volume \textcolor{blue}{which is recognized as a multiple-cluster summation
-extension of the ventilation defect percentage.}  We used a training/testing split of 80/20.  Due to the small number
+volume \textcolor{black}{which is recognized as a multiple-cluster summation
+extension of the VDP.}  We used a training/testing split of 80/20.  Due to the small number
 of subjects, we combined the young and old healthy data into a single category.
 100 permutations were used where training/testing data were randomly assigned
 and the corresponding random forest model was constructed at each permutation.
@@ -769,12 +771,12 @@ and the corresponding random forest model was constructed at each permutation.
 
 The resulting receiver operating characteristic (ROC) curves for each algorithm
 and each diagnostic scenario are provided in Figure \ref{fig:DxPrediction}. All
-four algorithms perform significantly better than a random classifier. In the
+five algorithms perform significantly better than a random classifier. In the
 absence of ground truth, this type of evaluation does provide evidence that all
 these algorithms produce measurements which are clinically relevant although, it
 should be noted, that this is a very coarse assessment strategy given the global
 measures used (i.e., cluster volume percentage) and the general clinical
-categories employed.  \textcolor{blue}{This complicates attempts at additional
+categories employed.  \textcolor{black}{This complicates attempts at additional
 inferences concerning voxelwise bias performance with this type of evaluation strategy.}  In fact,
 even spirometry measures can be used to achieve highly accurate diagnostic
 predictions with machine learning techniques [@Badnjevic:2018aa].
@@ -843,7 +845,7 @@ non-empty set for that cluster.  This is consistent, though, with linear binning
 which does use N4 bias correction for preprocessing.  We also mention that the
 Harvard Dataverse images used were preprocessed using N4 [@He:2019aa]
 which provides a third reason for its use on the University of Virginia image
-dataset (to maximize cross cohort consistency).  In the case of the former
+dataset (i.e., to maximize cross cohort consistency).  In the case of the former
 image set, we did use the previously reported linear binning mean and standard
 deviation algorithm parameter values (i.e., $\mathcal{N}(0.52, 0.18)$).  This
 was the only parameter difference between analyzing the two image sets.
@@ -870,7 +872,7 @@ and looked at the resulting mean and standard deviation values.  As expected,
 there is significant variation for both mean and standard deviation values
 (see top portion of Figure \ref{fig:referenceVariance}) which are used to derive
 the cluster threshold values.  This directly impacts output measurements such as
-ventilation defect percentage. For the reference sets comprising eight or nine
+VDP. For the reference sets comprising eight or nine
 images, we compute the corresponding linear binning segmentation and
 estimate the volumetric percentage for each cluster.  Then, for each subject, we
 computed the min/max range for these values and plotted those results cluster-wise
@@ -884,13 +886,13 @@ significant measurement variation for the linear binning algorithm.
 \begin{figure}[!htb]
   \centering
   \includegraphics[width=0.75\linewidth]{Figures/DiceVarianceStudyVersion2a.pdf}
-  \caption{University of Virginia image cohort.  \textcolor{blue}{Box plots
+  \caption{University of Virginia image cohort.  Box plots
   illustrate the lack of segmentation overlap with reference segmentations
   caused by distortions produced by noise, histogram-based intensity
   nonlinearities, and their combination as measured by the Dice metric over all
   five algorithms.  We provide the results of the two pathologically relevant
   labels for comparison: ``ventilation defect'' (Cluster 1) and
-  ``hypo-ventilation'' (Cluster 2).  }
+  ``hypo-ventilation'' (Cluster 2).
   }
 \label{fig:simulations}
 \end{figure}
@@ -898,7 +900,7 @@ significant measurement variation for the linear binning algorithm.
 \begin{figure}[!htb]
   \centering
   \includegraphics[width=0.85\linewidth]{Figures/DiceVarianceStudyVersion2b.pdf}
-  \caption{University of Virginia image cohort.  \textcolor{blue}{(Left) Results
+  \caption{University of Virginia image cohort.  (Left) Results
   from Tukey's test following one-way ANOVA to compare the resulting overlaps
   between algorithms (cf Figure \ref{fig:simulations}). Higher positive values
   indicate increased robustness to simulated image distortions. A solid line indicates
@@ -908,7 +910,7 @@ significant measurement variation for the linear binning algorithm.
   provide connections illustrating relative performance between algorithms where
   the algorithms listed on the left have improved performance relative to their
   connected algorithms on the right with the width of the connection being
-  proportional to difference in performance.}
+  proportional to difference in performance.
   }
 \label{fig:simulations2}
 \end{figure}
@@ -925,13 +927,13 @@ perfect agreement between the segmentations and 0 is no agreement.
 \begin{figure}[!htb]
   \centering
   \includegraphics[width=0.75\linewidth]{FiguresDataverse/DiceVarianceStudyVersion2a.pdf}
-  \caption{Harvard Dataverse image cohort.  \textcolor{blue}{Box plots
+  \caption{Harvard Dataverse image cohort.  Box plots
   illustrate the lack of segmentation overlap with reference segmentations
   caused by distortions produced by noise, histogram-based intensity
   nonlinearities, and their combination as measured by the Dice metric over all
   five algorithms.  We provide the results of the two pathologically relevant
   labels for comparison: ``ventilation defect'' (Cluster 1) and
-  ``hypo-ventilation'' (Cluster 2).}
+  ``hypo-ventilation'' (Cluster 2).
   }
 \label{fig:simulationsDataverse}
 \end{figure}
@@ -939,7 +941,7 @@ perfect agreement between the segmentations and 0 is no agreement.
 \begin{figure}[!htb]
   \centering
   \includegraphics[width=0.85\linewidth]{FiguresDataverse/DiceVarianceStudyVersion2b.pdf}
-  \caption{Harvard Dataverse image cohort.  \textcolor{blue}{(Left) Results
+  \caption{Harvard Dataverse image cohort.  (Left) Results
   from Tukey's test following one-way ANOVA to compare the resulting overlaps
   between algorithms (cf Figure \ref{fig:simulationsDataverse}). Higher positive values
   indicate increased robustness to simulated image distortions. A solid line indicates
@@ -949,7 +951,7 @@ perfect agreement between the segmentations and 0 is no agreement.
   provide connections illustrating relative performance between algorithms where
   the algorithms listed on the left have improved performance relative to their
   connected algorithms on the right with the width of the connection being
-  proportional to difference in performance.}
+  proportional to difference in performance.
   }
   \label{fig:simulationsDataverse2}
 \end{figure}
@@ -969,7 +971,7 @@ which is summarized in Figures \ref{fig:simulations} and
 \ref{fig:simulationsDataverse}. The algorithms were then compared, on a
 per-cluster and per-artefact basis, using one-way ANOVA followed by Tukey's
 Honest Significant Difference (HSD) test in Figures \ref{fig:simulations2} and
-\ref{fig:simulationsDataverse2}.  \textcolor{blue}{The results of these tests
+\ref{fig:simulationsDataverse2}.  \textcolor{black}{The results of these tests
 are further visualized via simplified alluvial diagrams with the superior
 performing algorithms, in terms of Dice overlap,  listed on the
 left connecting to their worse performing counterparts on the right where the width of the
@@ -994,7 +996,7 @@ best performance across the specified clusters in the presence of MR-based image
 
 # Discussion
 
-\textcolor{blue}{
+\textcolor{black}{
 Over the past decade, multiple algorithms have been proposed for the
 segmentation of hyperpolarized gas images into clinically based functional
 categories.  These algorithms are optimized using the histogram information
@@ -1007,21 +1009,21 @@ underlying complexity of the segmentation problem, these algorithms are
 deficient in leveraging the general modelling principle of incorporating all
 available prior information to any solution method. In fact, this is a
 fundamental implication of the "No Free Lunch Theorem"}
-[@Wolpert:1997aa]\textcolor{blue}{---algorithmic performance hinges on available prior
+[@Wolpert:1997aa]\textcolor{black}{---algorithmic performance hinges on available prior
 information.}
 
-\textcolor{blue}{
+\textcolor{black}{
 As illustrated in Figure \ref{fig:similarity}, measures based on the human
 visual system seem to quantify what is understood intuitively; that image-based
 information is much more robust than its corresponding histogram-based
 information in the presence of image transformations, such as common MR
 artefacts.  This observation is not intended to imply that the histogram-based
-approaches are useless in performing research.  In fact, ventilation defect
-percentage is perhaps the most widely used clinical measurement reported in the
+approaches are useless in performing research.  In fact, VDP
+is perhaps the most widely used clinical measurement reported in the
 literature and it is easily quantified from the image histogram.  Thus, even
 relatively simple histogram-only segmentation algorithms will provide some
 utility which was observed in the measurement bias experiments employing a
-variant of ventilation defect percentage to predict diagnostic accuracy.
+variant of VDP to predict diagnostic accuracy.
 However, similar to the lossy relationship between the image and its
 corresponding histogram, such volumetric-based measures are lossy distillations
 of the segmentation information and might obscure important algorithmic
@@ -1029,7 +1031,7 @@ characteristics and relative differences as well as discard potentially useful
 spatial information which is why additional experimentation explored measurement
 precision in the presence of MR artefacts.}
 
-\textcolor{blue}{
+\textcolor{black}{
 Common MR artefacts of noise and intensity nonlinearities can produce
 quantifiable differences in the segmentation results and the degree of deviation
 (i.e., lack of measurement precision) largely corresponds to the algorithmic
@@ -1043,12 +1045,12 @@ neighborhood intensity information.  In addition, this network demonstrates site
 acquisition generalizability as these performance gains are also seen in the
 Harvard Dataverse dataset.}
 
-\textcolor{blue}{In addition to motivating a renewed assessment of current
+\textcolor{black}{In addition to motivating a renewed assessment of current
 algorithmic approaches to pulmonary hyperpolarized gas segmentation, there other
 avenues for further research.   El Bicho was developed in parallel with the
 writing of this manuscript merely to showcase the incredible potential that deep
 learning can have in the field of hyperpolarized gas imaging (as well as to
-update our earlier work }[@Tustison:2019ac]\textcolor{blue}{). We certainly
+update our earlier work }[@Tustison:2019ac]\textcolor{black}{). We certainly
 recognize and expect that alternative deep learning strategies (e.g.,
 hyperparameter choice, training data selection, data augmentation, etc.) would
 provide comparable and even superior performance to what was presented with El
@@ -1060,7 +1062,7 @@ Just as important, deep learning provides other avenues for research exploration
 and development. For example, given the relatively lower resolution of the
 acquisition image, exploration of the effects of deep learning-based
 super-resolution might prove worthy of application-specific investigation}
-[@Li:2020aa]\textcolor{blue}{. Also, with the same network software libraries,
+[@Li:2020aa]\textcolor{black}{. Also, with the same network software libraries,
 high-performing classification networks can be constructed and trained which
 might yield novel insights regarding image-based characterization of disease.
 One additional modification that we did not explore in this work, but is
@@ -1069,7 +1071,7 @@ be explored in-depth. With neural networks, such confounds can be handled as
 part of the training process or as an explicit network modification. Either
 would be important to consider for future work.}
 
-\textcolor{blue}{
+\textcolor{black}{
 Admittedly, this work was limited in its exploration of MR artefacts.  Noise
 variation was limited to a zero-mean Gaussian distribution and nonlinear
 intensity variation was explored strictly through smoothly varying histogram
@@ -1081,8 +1083,8 @@ simulation of bias fields which would also expand data augmentation and,
 significantly, in the spirit of algorithmic parsimony, could potentially remove
 the dependency of N4 bias correction as an unnecessary preprocessing step.}
 
-\textcolor{blue}{
-Finally, although ventilation defect percentage has proven to be a compelling quantity
+\textcolor{black}{
+Finally, although VDP has proven to be a compelling quantity
 for clinical studies, the results from the diagnostic prediction evaluation and
 the previous discussion implies that this popular measure does not fully
 leverage the spatial information of the segmentation information from any of
@@ -1091,7 +1093,7 @@ the need for rethinking algorithm innovation direction, also point to possibly
 investigating differentiating spatial patterns within the images as evidence of
 disease and/or growth and correlations with non-imaging data using sophisticated
 voxel-scale statistical techniques which intrinsically leverage spatial information (e.g.,
-similarity-driven multivariate linear reconstruction} [@Avants:2021un;@Stone:2020aa]\textcolor{blue}{).}
+similarity-driven multivariate linear reconstruction} [@Avants:2021un;@Stone:2020aa]\textcolor{black}{).}
 
 
 

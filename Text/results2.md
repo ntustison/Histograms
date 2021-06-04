@@ -30,7 +30,7 @@ linear binning algorithm. We then incorporate the trained El Bicho model in
 exploring additional aspects of measurement variance based on simulating both MR
 noise and intensity nonlinearities.
 
-\textcolor{blue}{To summarize}, we performed the following evaluations/experiments:
+\textcolor{black}{To summarize}, we performed the following evaluations/experiments:
 
 * Global algorithmic bias (in the absence of ground truth)
 
@@ -73,8 +73,8 @@ predictive capabilities of corresponding binary random forest classifiers
 \end{equation}
 
 where $Volume_i$ is the volume of the $i^{th}$ cluster and $Total\,\,volume$ is total lung
-volume \textcolor{blue}{which is recognized as a multiple-cluster summation
-extension of the ventilation defect percentage.}  We used a training/testing split of 80/20.  Due to the small number
+volume \textcolor{black}{which is recognized as a multiple-cluster summation
+extension of the VDP.}  We used a training/testing split of 80/20.  Due to the small number
 of subjects, we combined the young and old healthy data into a single category.
 100 permutations were used where training/testing data were randomly assigned
 and the corresponding random forest model was constructed at each permutation.
@@ -83,12 +83,12 @@ and the corresponding random forest model was constructed at each permutation.
 
 The resulting receiver operating characteristic (ROC) curves for each algorithm
 and each diagnostic scenario are provided in Figure \ref{fig:DxPrediction}. All
-four algorithms perform significantly better than a random classifier. In the
+five algorithms perform significantly better than a random classifier. In the
 absence of ground truth, this type of evaluation does provide evidence that all
 these algorithms produce measurements which are clinically relevant although, it
 should be noted, that this is a very coarse assessment strategy given the global
 measures used (i.e., cluster volume percentage) and the general clinical
-categories employed.  \textcolor{blue}{This complicates attempts at additional
+categories employed.  \textcolor{black}{This complicates attempts at additional
 inferences concerning voxelwise bias performance with this type of evaluation strategy.}  In fact,
 even spirometry measures can be used to achieve highly accurate diagnostic
 predictions with machine learning techniques [@Badnjevic:2018aa].
@@ -157,7 +157,7 @@ non-empty set for that cluster.  This is consistent, though, with linear binning
 which does use N4 bias correction for preprocessing.  We also mention that the
 Harvard Dataverse images used were preprocessed using N4 [@He:2019aa]
 which provides a third reason for its use on the University of Virginia image
-dataset (to maximize cross cohort consistency).  In the case of the former
+dataset (i.e., to maximize cross cohort consistency).  In the case of the former
 image set, we did use the previously reported linear binning mean and standard
 deviation algorithm parameter values (i.e., $\mathcal{N}(0.52, 0.18)$).  This
 was the only parameter difference between analyzing the two image sets.
@@ -184,7 +184,7 @@ and looked at the resulting mean and standard deviation values.  As expected,
 there is significant variation for both mean and standard deviation values
 (see top portion of Figure \ref{fig:referenceVariance}) which are used to derive
 the cluster threshold values.  This directly impacts output measurements such as
-ventilation defect percentage. For the reference sets comprising eight or nine
+VDP. For the reference sets comprising eight or nine
 images, we compute the corresponding linear binning segmentation and
 estimate the volumetric percentage for each cluster.  Then, for each subject, we
 computed the min/max range for these values and plotted those results cluster-wise
@@ -198,13 +198,13 @@ significant measurement variation for the linear binning algorithm.
 \begin{figure}[!htb]
   \centering
   \includegraphics[width=0.75\linewidth]{Figures/DiceVarianceStudyVersion2a.pdf}
-  \caption{University of Virginia image cohort.  \textcolor{blue}{Box plots
+  \caption{University of Virginia image cohort.  Box plots
   illustrate the lack of segmentation overlap with reference segmentations
   caused by distortions produced by noise, histogram-based intensity
   nonlinearities, and their combination as measured by the Dice metric over all
   five algorithms.  We provide the results of the two pathologically relevant
   labels for comparison: ``ventilation defect'' (Cluster 1) and
-  ``hypo-ventilation'' (Cluster 2).  }
+  ``hypo-ventilation'' (Cluster 2).
   }
 \label{fig:simulations}
 \end{figure}
@@ -212,7 +212,7 @@ significant measurement variation for the linear binning algorithm.
 \begin{figure}[!htb]
   \centering
   \includegraphics[width=0.85\linewidth]{Figures/DiceVarianceStudyVersion2b.pdf}
-  \caption{University of Virginia image cohort.  \textcolor{blue}{(Left) Results
+  \caption{University of Virginia image cohort.  (Left) Results
   from Tukey's test following one-way ANOVA to compare the resulting overlaps
   between algorithms (cf Figure \ref{fig:simulations}). Higher positive values
   indicate increased robustness to simulated image distortions. A solid line indicates
@@ -222,7 +222,7 @@ significant measurement variation for the linear binning algorithm.
   provide connections illustrating relative performance between algorithms where
   the algorithms listed on the left have improved performance relative to their
   connected algorithms on the right with the width of the connection being
-  proportional to difference in performance.}
+  proportional to difference in performance.
   }
 \label{fig:simulations2}
 \end{figure}
@@ -239,13 +239,13 @@ perfect agreement between the segmentations and 0 is no agreement.
 \begin{figure}[!htb]
   \centering
   \includegraphics[width=0.75\linewidth]{FiguresDataverse/DiceVarianceStudyVersion2a.pdf}
-  \caption{Harvard Dataverse image cohort.  \textcolor{blue}{Box plots
+  \caption{Harvard Dataverse image cohort.  Box plots
   illustrate the lack of segmentation overlap with reference segmentations
   caused by distortions produced by noise, histogram-based intensity
   nonlinearities, and their combination as measured by the Dice metric over all
   five algorithms.  We provide the results of the two pathologically relevant
   labels for comparison: ``ventilation defect'' (Cluster 1) and
-  ``hypo-ventilation'' (Cluster 2).}
+  ``hypo-ventilation'' (Cluster 2).
   }
 \label{fig:simulationsDataverse}
 \end{figure}
@@ -253,7 +253,7 @@ perfect agreement between the segmentations and 0 is no agreement.
 \begin{figure}[!htb]
   \centering
   \includegraphics[width=0.85\linewidth]{FiguresDataverse/DiceVarianceStudyVersion2b.pdf}
-  \caption{Harvard Dataverse image cohort.  \textcolor{blue}{(Left) Results
+  \caption{Harvard Dataverse image cohort.  (Left) Results
   from Tukey's test following one-way ANOVA to compare the resulting overlaps
   between algorithms (cf Figure \ref{fig:simulationsDataverse}). Higher positive values
   indicate increased robustness to simulated image distortions. A solid line indicates
@@ -263,7 +263,7 @@ perfect agreement between the segmentations and 0 is no agreement.
   provide connections illustrating relative performance between algorithms where
   the algorithms listed on the left have improved performance relative to their
   connected algorithms on the right with the width of the connection being
-  proportional to difference in performance.}
+  proportional to difference in performance.
   }
   \label{fig:simulationsDataverse2}
 \end{figure}
@@ -283,7 +283,7 @@ which is summarized in Figures \ref{fig:simulations} and
 \ref{fig:simulationsDataverse}. The algorithms were then compared, on a
 per-cluster and per-artefact basis, using one-way ANOVA followed by Tukey's
 Honest Significant Difference (HSD) test in Figures \ref{fig:simulations2} and
-\ref{fig:simulationsDataverse2}.  \textcolor{blue}{The results of these tests
+\ref{fig:simulationsDataverse2}.  \textcolor{black}{The results of these tests
 are further visualized via simplified alluvial diagrams with the superior
 performing algorithms, in terms of Dice overlap,  listed on the
 left connecting to their worse performing counterparts on the right where the width of the
